@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title></title>
 	<meta name="author" content="ファンタイフィ">
-	<meta name="description" content="">
+	<meta name="description" content="バレット課題制作">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -29,7 +29,17 @@
     </style>
 
 	<style>
-		#canvas {
+		#canvas-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh; /* Set the container height to fill the viewport */
+			background-color: #000;
+		}
+		#my-canvas {
+			width: 1280px; /* Set the canvas width */
+			height: 768px; /* Set the canvas height */
+			border: 1px solid black; /* Optional: Add a border for visualization */
 			background-color: #000;
 		}
 	</style>
@@ -42,7 +52,11 @@
 	<![endif]-->
 	<!-- page content -->
 	<!-- <div id="appScreen"> -->
-		<canvas id="canvas" width="400" height="400"></canvas>
+
+	<div id="canvas-container">
+		<canvas id="canvas" width="1280" height="768"></canvas>
+	</div>
+
 		<!-- <p class="title" id="out">・出題<br></p>
 		<p class="content">html5+jsで動作するオリジナルのゲームを提供素材を使い、<br>二週間以内、１人で作成してください。作成の際に参考にした資料名やWEBサイトのURL、作成に掛かった時間や感想を添えて作品を提出してください。また、素材も自由に追加して頂いて構いません。<br><br>
             例えば…<br>
