@@ -1,6 +1,5 @@
 // Get the canvas element and its 2D context
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+
 
 // Array of particle image paths
 var particleImages = [
@@ -10,8 +9,9 @@ var particleImages = [
 ];
 
 // Array to store preloaded particle images
-var particlesImages = [];
+var particleImageDatas = [];
 
+var particleState = 0;
 // Particle constructor
 function Particle(x, y, size, speedX, speedY, image) {
     this.x = x;
@@ -36,7 +36,7 @@ Particle.prototype.update = function() {
 
 // Draw method for Particle prototype
 Particle.prototype.draw = function() {
-    ctx.drawImage(this.image, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+    global.c2d.drawImage(this.image, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
 };
 
 // Array to store particles
@@ -60,22 +60,21 @@ function loadParticleImages(callback) {
         };
 
         // Add the loaded image to the array
-        particlesImages.push(image);
+        particleImageDatas.push(image);
     }
 }
 
 // Animation loop
 function animate() {
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(particleState < 2) return;
 
     // Create new particle
-    var x = Math.random() * canvas.width;
-    var y = Math.random() * canvas.height;
-    var size = Math.random() * 20 + 5;
+    var x = Math.random() * global.canvas.width;
+    var y = Math.random() * global.canvas.height;
+    var size = Math.random() * 20 + 15;
     var speedX = Math.random() * 2 - 1;
     var speedY = Math.random() * 2 - 1;
-    var image = particlesImages[Math.floor(Math.random() * particlesImages.length)];
+    var image = particleImageDatas[Math.floor(Math.random() * particleImageDatas.length)];
     particles.push(new Particle(x, y, size, speedX, speedY, image));
 
     // Update and draw particles
@@ -88,8 +87,17 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Wait for the particle images to load
-loadParticleImages(function() {
-    // Start the animation loop after all images are loaded
-    animate();
-});
+ // 0: unload, 1: stopped, 2: playing
+
+function playParticles() {
+    if(particleState === 2) return;
+    if(particleState) {
+        particleState = 2;
+        animate();
+    }
+};
+
+function stopParticles() {
+    particleState = 1;
+};
+
