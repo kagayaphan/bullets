@@ -26,7 +26,7 @@ function Particle(x, y, size, speedX, speedY, image) {
 Particle.prototype.update = function() {
     this.x += this.speedX;
     this.y += this.speedY;
-    this.size -= 0.1; // Shrink the particle size over time
+    this.size -= 0.01; // Shrink the particle size over time
 
     if (this.size <= 0) {
         // Remove the particle from the array
@@ -52,7 +52,6 @@ function loadParticleImages(callback) {
         image.src = particleImages[i];
         image.onload = function() {
             loadedCount++;
-
             // Check if all images are loaded
             if (loadedCount === particleImages.length) {
                 callback();
@@ -69,12 +68,12 @@ function animate() {
     if(particleState < 2) return;
 
     // Create new particle
-    var x = Math.random() * global.canvas.width;
-    var y = Math.random() * global.canvas.height;
-    var size = Math.random() * 20 + 15;
-    var speedX = Math.random() * 2 - 1;
-    var speedY = Math.random() * 2 - 1;
-    var image = particleImageDatas[Math.floor(Math.random() * particleImageDatas.length)];
+    const x = Math.random() * global.canvas.width;
+    const y = Math.random() * global.canvas.height;
+    const size = Math.random() * 20 + 25;
+    const speedX = Math.random() * 2 - 1;
+    const speedY = Math.random() * 2 - 1;
+    const image = particleImageDatas[Math.floor(Math.random() * particleImageDatas.length)];
     particles.push(new Particle(x, y, size, speedX, speedY, image));
 
     // Update and draw particles
