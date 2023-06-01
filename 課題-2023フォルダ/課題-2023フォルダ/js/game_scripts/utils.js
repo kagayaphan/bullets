@@ -2,32 +2,21 @@
 * Base Class And Tools Section
 */
 
-// Screen render control
-const Screen = {};
-Screen.centerW = global.canvas.width /2 ;
-Screen.centerH = global.canvas.height /2 ;
 
 
-const game_handlers = new Map([
+const game_button_handlers = new Map([
     ["playParticles", playParticles],
     ["stopParticles", stopParticles],
-    ["createEditors", createEditors],
 ]);
 
+
+
 // object debug parameter array
-var debugDragBar = [];
-function createEditors(obj){
-    debugDragBar.forEach(function(bar) {
-        bar.referencedObj = null;
-    });
-    debugDragBar = [];
-    const length = debugDragBar.length + 1;
-    debugDragBar.push(new DragBar(100, 50*length,255,255, obj));
-}
+var editorDragBars = [];
 
 // easy handling bar object
 class DragBar {
-    constructor(x, y, barWidth, maxParameterValue, referencedObj) {
+    constructor(x, y, barWidth, maxParameterValue, referencedObj, paramName) {
         this.canvas = global.canvas;
         this.ctx = global.c2d;
         this.x = x;
@@ -39,6 +28,7 @@ class DragBar {
         this.maxParameterValue = maxParameterValue;
 
         this.referencedObj = referencedObj;
+        this.paramName = paramName;
 
         this.mdHandler = this.handleMouseDown.bind(this);
         this.mmHandler = this.handleMouseMove.bind(this)
@@ -47,13 +37,32 @@ class DragBar {
         this.canvas.addEventListener('mousedown', this.mdHandler);
     }
 
+
+    destructor(){
+        this.dragBars = [];
+        this.referencedObj = null;
+        this.canvas.removeEventListener('mousedown', this.mdHandler);
+    }
+
     updateParameterValue() {
         this.parameterValue = Math.round((this.dragHandlePosition / (this.barWidth - this.dragHandleWidth)) * this.maxParameterValue);
         // console.log('Parameter value:', this.parameterValue);
 
         // Update the color object based on the parameter value
         if (this.referencedObj instanceof Button) {
-            this.referencedObj.red = this.parameterValue;
+            if(this.paramName == "red"){
+                this.referencedObj.red = this.parameterValue;
+            } else if(this.paramName == "green"){
+                this.referencedObj.green = this.parameterValue;
+            } else if(this.paramName == "blue"){
+                this.referencedObj.blue = this.parameterValue;
+            } else if(this.paramName == "opacity"){
+                this.referencedObj.opacity = this.parameterValue / 100.0;
+            } else if(this.paramName == "x"){
+                this.referencedObj.x = this.parameterValue ;
+            } else if(this.paramName == "y"){
+                this.referencedObj.y = this.parameterValue ;
+            }
         }
     }
 
@@ -90,21 +99,22 @@ class DragBar {
         const y = event.clientY - rect.top;
 
         // Check if the mouse is within the drag bar bounds
-        if (x >= this.x && x <= this.x + this.barWidth &&
-            y >= this.y && y <= this.y + 20) {
-            let newX = x - this.x - this.dragHandleWidth / 2;
+        // if (x >= this.x && x <= this.x + this.barWidth &&
+        //     y >= this.y && y <= this.y + 20) {
+            
+        // }
+        let newX = x - this.x - this.dragHandleWidth / 2;
 
-            // Restrict the handle within the bounds of the drag bar
-            if (newX < 0) {
-                newX = 0;
-            } else if (newX > this.barWidth - this.dragHandleWidth) {
-                newX = this.barWidth - this.dragHandleWidth;
-            }
-
-            this.dragHandlePosition = newX;
-            this.updateParameterValue();
-            this.draw();
+        // Restrict the handle within the bounds of the drag bar
+        if (newX < 0) {
+            newX = 0;
+        } else if (newX > this.barWidth - this.dragHandleWidth) {
+            newX = this.barWidth - this.dragHandleWidth;
         }
+
+        this.dragHandlePosition = newX;
+        this.updateParameterValue();
+            
     }
 
     handleMouseUp(event) {
@@ -118,61 +128,170 @@ class DragBar {
 
 // Button class
 class Button {
-    constructor(x, y, width, height, content, red, green, blue, clickHandler) {
-        this.x = x - width/2;
-        this.y = y - height/2;
+    constructor(x, y, width, height, content, fontFamily, fontSize, red, green, blue, opacity,clickHandler, cornerRadius) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.content = content;
-        this.fontFamily = "Arial";
-        this.fontSize = 18;
+        this.fontFamily = fontFamily;
+        this.fontSize = fontSize;
         this.red = red;
         this.green = green;
         this.blue = blue;
-        this.opacity = 1;
+        this.opacity = opacity;
         this.clickHandler = clickHandler;
-        this.cornerRadius = 15;
+        this.cornerRadius = cornerRadius;
+        this.scale = 1;
+        this.foregroundOver = "white";
+        this.foregroundOri = "black";
+        this.foreground = this.foregroundOri;
 
+    }
+
+    createEditor() {
+        editorDragBars.forEach(function(bar) {
+            bar.destructor();
+        });
+        editorDragBars = [];
+        let counter = 1;
+        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "red"));
+        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "green"));
+        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "blue"));
+        editorDragBars.push(new DragBar(100, 50*counter++,255,100, this, "opacity"));
+        editorDragBars.push(new DragBar(100, 50*counter++,255,1500, this, "x"));
+        editorDragBars.push(new DragBar(100, 50*counter++,255,1500, this, "y"));
+    }
+
+    update(){
+        const drawX = this.x - this.width/2;
+        const drawY = this.y - this.height/2;
+        var m = global.mouse.pos;
+        const x = m.x ;
+        const y = m.y ;
+
+        if (x >= drawX && x <= drawX + this.width &&
+            y >= drawY && y <= drawY + this.height) {
+            // if mouse over
+            if(this.opacity < 1) this.opacity += 0.01;
+            if(this.scale < 1.15) this.scale += 0.01;
+            this.foreground = this.foregroundOver;
+
+        } else {    
+            // if mouse leave
+            if(this.opacity > 0.9) this.opacity -= 0.01;            
+            if(this.scale > 1.0) this.scale -= 0.01;  
+            this.foreground = this.foregroundOri;
+
+        }
     }
 
     draw(ctx) {
-
-        // Code to draw button with soft edge
-        ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
+        const centerX = this.x;
+        const centerY = this.y;
+        const scaledWidth = this.width * this.scale;
+        const scaledHeight = this.height * this.scale;
+        const scaledCornerRadius = this.cornerRadius * this.scale;
+      
+        const drawX = centerX - scaledWidth / 2;
+        const drawY = centerY - scaledHeight / 2;
+      
+        // Draw button border
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "orange";
         ctx.beginPath();
-        ctx.moveTo(this.x + this.cornerRadius, this.y);
-        ctx.lineTo(this.x + this.width - this.cornerRadius, this.y);
-        ctx.arc(this.x + this.width - this.cornerRadius, this.y + this.cornerRadius, this.cornerRadius, 1.5 * Math.PI, 2 * Math.PI);
-        ctx.lineTo(this.x + this.width, this.y + this.height - this.cornerRadius);
-        ctx.arc(this.x + this.width - this.cornerRadius, this.y + this.height - this.cornerRadius, this.cornerRadius, 0, 0.5 * Math.PI);
-        ctx.lineTo(this.x + this.cornerRadius, this.y + this.height);
-        ctx.arc(this.x + this.cornerRadius, this.y + this.height - this.cornerRadius, this.cornerRadius, 0.5 * Math.PI, Math.PI);
-        ctx.lineTo(this.x, this.y + this.cornerRadius);
-        ctx.arc(this.x + this.cornerRadius, this.y + this.cornerRadius, this.cornerRadius, Math.PI, 1.5 * Math.PI);
+        ctx.moveTo(drawX + scaledCornerRadius, drawY);
+        ctx.lineTo(drawX + scaledWidth - scaledCornerRadius, drawY);
+        ctx.arc(
+          drawX + scaledWidth - scaledCornerRadius,
+          drawY + scaledCornerRadius,
+          scaledCornerRadius,
+          1.5 * Math.PI,
+          2 * Math.PI
+        );
+        ctx.lineTo(drawX + scaledWidth, drawY + scaledHeight - scaledCornerRadius);
+        ctx.arc(
+          drawX + scaledWidth - scaledCornerRadius,
+          drawY + scaledHeight - scaledCornerRadius,
+          scaledCornerRadius,
+          0,
+          0.5 * Math.PI
+        );
+        ctx.lineTo(drawX + scaledCornerRadius, drawY + scaledHeight);
+        ctx.arc(
+          drawX + scaledCornerRadius,
+          drawY + scaledHeight - scaledCornerRadius,
+          scaledCornerRadius,
+          0.5 * Math.PI,
+          Math.PI
+        );
+        ctx.lineTo(drawX, drawY + scaledCornerRadius);
+        ctx.arc(drawX + scaledCornerRadius, drawY + scaledCornerRadius, scaledCornerRadius, Math.PI, 1.5 * Math.PI);
         ctx.closePath();
+        ctx.stroke();
+      
+        // Draw button fill
+        ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
         ctx.fill();
-
+      
+        // Draw button content
         ctx.font = this.fontSize + "px " + this.fontFamily;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = this.foreground;
         ctx.textAlign = "center";
-        ctx.fillText(this.content, this.x + this.width / 2, this.y + (this.height + this.fontSize) / 2);
-
+        ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
     }
+      
+      
+      
+    // draw(ctx) {
+    //     const drawX = this.x - this.width/2;
+    //     const drawY = this.y - this.height/2;
+    //     // Code to draw button with soft edge
+    //     ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
+    //     ctx.beginPath();
+    //     ctx.moveTo(drawX + this.cornerRadius, drawY);
+    //     ctx.lineTo(drawX + this.width - this.cornerRadius, drawY);
+    //     ctx.arc(drawX + this.width - this.cornerRadius, drawY + this.cornerRadius, this.cornerRadius, 1.5 * Math.PI, 2 * Math.PI);
+    //     ctx.lineTo(drawX + this.width, drawY + this.height - this.cornerRadius);
+    //     ctx.arc(drawX + this.width - this.cornerRadius, drawY + this.height - this.cornerRadius, this.cornerRadius, 0, 0.5 * Math.PI);
+    //     ctx.lineTo(drawX + this.cornerRadius, drawY + this.height);
+    //     ctx.arc(drawX + this.cornerRadius, drawY + this.height - this.cornerRadius, this.cornerRadius, 0.5 * Math.PI, Math.PI);
+    //     ctx.lineTo(drawX, drawY + this.cornerRadius);
+    //     ctx.arc(drawX + this.cornerRadius, drawY + this.cornerRadius, this.cornerRadius, Math.PI, 1.5 * Math.PI);
+    //     ctx.closePath();
+    //     ctx.fill();
 
+    //     ctx.font = this.fontSize + "px " + this.fontFamily;
+    //     ctx.fillStyle = "white";
+    //     ctx.textAlign = "center";
+    //     ctx.fillText(this.content, this.x, this.y + (this.fontSize) / 2);
+
+    // }
+
+    // when user click on button process
     handleClick(event) {
 
         const rect = canvas.getBoundingClientRect();
+        const drawX = this.x - this.width/2;
+        const drawY = this.y - this.height/2;
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        if (x >= this.x && x <= this.x + this.width &&
-            y >= this.y && y <= this.y + this.height) {
-            console.log("Button clicked!");
-            this.clickHandler(this);
+        if (x >= drawX && x <= drawX + this.width &&
+            y >= drawY && y <= drawY + this.height) {
+            if(_DEBUG) this.createEditor();
+            // console.log("Button clicked!");
+            const handler = game_button_handlers.get(this.clickHandler);
+            handler();
+
         }
     }
+
+
+    
 }
 
+// Text display base class
 class GameText {
     constructor(content, size, x, y, color) {
         this.content = content;
@@ -193,6 +312,7 @@ class GameText {
     }
 }
 
+// flicker effect text class
 class FlickerText extends GameText {
 
     constructor(content, size, x, y, color, duration, interval) {

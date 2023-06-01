@@ -2,57 +2,54 @@
 * User Interface Management Section
 */
 
+//----------- Game UI Design Here --------------
 
-
-const title_buttons_data = [
-    { x: 600, y: 250, width: 120, height: 50, content: "Start Game", red: 135, green: 156, blue: 255, handler: "createEditors"},
-    { x: 600, y: 310, width: 120, height: 50, content: "Play Intro", red: 135, green: 156, blue: 255, handler: "createEditors"},
-    { x: 600, y: 370, width: 120, height: 50, content: "Credits",    red: 135, green: 156, blue: 255, handler: "createEditors"},
-];
-
-function saveObject() {
-    const data = JSON.stringify(title_buttons_data);
-    localStorage.setItem('title_buttons_data', data);
-}
-
-function loadObject() {
-    const data = localStorage.getItem('title_buttons_data');
-    if (data) {
-        title_buttons_data.length = 0; // Clear existing data in title_buttons_data array
-        const loadedData = JSON.parse(data);
-        Array.prototype.push.apply(title_buttons_data, loadedData);
-        console.log(title_buttons_data);
-    }
-}
+// UI object container
+var flickerTexts = []; // flicker text container
+var title_buttons = []; // flicker text container
 
 function initHUD() {
-    // load data object json from localStorage
-    // loadObject();
-
-    // push all button to list
-    createButton();
+    // create button array with json data
+    createTittleButtons();
 
     // push all flicker text to list
-    createFlickerTxt("カニ鍋",25, Screen.centerW, Screen.centerH, "255, 0, 0", 99999, 1000);
+    createFlickerTxt("カニ鍋",45, Screen.centerW, 60, "255, 0, 0", 99999, 5000);
+    createFlickerTxt("Press Any Button",15, Screen.centerW, global.canvas.height - 20, "0, 0, 0", 99999, 1000);
 }
 
+function exportObject(title_buttons) {
+    const data = JSON.stringify(title_buttons);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'title_buttons_data.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  
 
 
 
 function drawHUD() {
+    title_buttons.forEach(function(button) {
+        button.update();
+    });
     drawTexts();
     drawButtons();
 
-    if(debugDragBar) {
-        debugDragBar.forEach(function(bar) {
+    if(editorDragBars) {
+        editorDragBars.forEach(function(bar) {
             bar.draw();
         });
-
     }
-
     flickerTexts.forEach(function(text) {
         if(!text.visible) flickerTexts.remove(text);
     });
+
+
+    
+
     // Stop flickering after 5 seconds for testing
     // setTimeout(() => {
     //     flickerTexts = [];
@@ -72,34 +69,42 @@ function drawTexts() {
 
 
 // Function to create a new button and add it to the list
-function createButton() {
-    buttons = [];
-    title_buttons_data.forEach(function(data) {
-        const handler = game_handlers.get(data.handler);
-        const button = new Button(data.x, data.y, data.width, data.height, data.content, data.red , data.green, data.blue, handler);
-        buttons.push(button);
-    });
+function createTittleButtons() {
+    // loop though json format data to create button js object
+    for (let i = 0; i < title_buttons_data.length; i++) {
+        const data = title_buttons_data[i];        
+        title_buttons.push(new Button(
+            data.x, data.y, data.width, data.height,
+            data.content, data.fontFamily, data.fontSize,
+            data.red, data.green, data.blue, data.opacity,
+            data.clickHandler, data.cornerRadius
+          ));
+      }    
 }
 
 // Draw all the buttons in the list
 function drawButtons() {
-    buttons.forEach(function(button) {
+    title_buttons.forEach(function(button) {
         button.draw(global.c2d);
     });
 }
 
 // Handle button click
-function handleClick(event) {
-    buttons.forEach(function(button) {
+function handleClickOnButtons(event) {
+    title_buttons.forEach(function(button) {
         button.handleClick(event);
+
     });
 }
 
+// function handleOverOnButtons(event) {
+//     title_buttons.forEach(function(button) {
+//         button.handleMouseOver(event);
+//     });
+// }
+
+
 // Add event listener for button click
-global.canvas.addEventListener("click", handleClick);
+global.canvas.addEventListener("click", handleClickOnButtons);
 
-//----------- Game UI Design Here --------------
 
-// UI object container
-var buttons = []; // button container
-var flickerTexts = []; // flicker text container

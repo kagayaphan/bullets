@@ -35,8 +35,8 @@ p.copyright {
     text-align: right;
 }
 div#appScreen {
-    width:  800px;
-    height: 450px;
+    width:  1366px;
+    height: 600px;
     margin: 0 auto;
     text-align: left;
 	border: 1px solid #505050;

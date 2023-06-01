@@ -35,12 +35,6 @@ function title_seq()
 
             // Start UI Update
             drawHUD()
-            // var timePassed = Date.now() - start;
-            // var opacity = Math.sin((timePassed % duration) / duration * Math.PI);
-            // global.c2d.fillStyle = "rgba(0, 0, 0, " + opacity + ")";
-            // global.c2d.fillText("カニ鍋", Screen.centerW, Screen.centerH);
-            // const flickerText = new FlickerText("Flicker", 100, 100, "red", 2000);
-            // flickerText.draw();
             break;
     }
     app.scaleBase=1.0+0.1*Math.sin(global.frameCount/15);

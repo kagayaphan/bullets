@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title></title>
-	<meta name="author" content="Your name.">
-	<meta name="description" content="">
+	<meta name="author" content="ファンタイフィ">
+	<meta name="パレット課題" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -21,17 +21,23 @@
 	<![endif]-->
 	<!-- page content -->
 	<div id="appScreen">
-		<canvas id="canvas" width="800" height="450"></canvas>
+		<canvas id="canvas" width="1366" height="600"></canvas>
 		<p class="title" id="out">・出題<br></p>
 	</div>
-	<button onclick="saveObject()">Save Object</button>
-	<button onclick="loadObject()">Load Object</button>
+	<!-- <button onclick="saveConfig()">Save Object</button> -->
+	<!-- <button onclick="loadConfig()">Load Object</button> -->
+
+	<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
+	<button onclick="exportObject(title_buttons)">Export Title's Buttons</button>
 </body>
 
 <!--Adding Script-->
+<script type="text/javascript" src="js/system.js"></script>
+<script type="text/javascript" src="js/game_scripts/game_json.js"></script>
 <script type="text/javascript" src="js/list.js"></script>
 <script type="text/javascript" src="js/tlib.js"></script>
 <script type="text/javascript" src="js/game_scripts/effects/particles.js"></script>
+<script type="text/javascript" src="js/game_scripts/effects/scene_effect.js"></script>
 <script type="text/javascript" src="js/game_scripts/scene_title.js"></script>
 <script type="text/javascript" src="js/game_scripts/scene_main.js"></script>
 <script type="text/javascript" src="js/game_scripts/utils.js"></script>

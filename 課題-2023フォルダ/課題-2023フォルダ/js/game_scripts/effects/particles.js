@@ -97,6 +97,7 @@ function playParticles() {
 };
 
 function stopParticles() {
+    // fadeOut();
     particleState = 1;
 };
 

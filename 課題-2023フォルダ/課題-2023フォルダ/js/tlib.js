@@ -7,6 +7,13 @@
 	global.frameUpdateFunc = function(){};
 	global.appScreen       = $("appScreen");
 
+// 画面レンダリングパラメータ
+	const Screen = {};
+	Screen.width	= global.canvas.width;
+	Screen.height	= global.canvas.height;
+	Screen.centerW 	= global.canvas.width  /2 ;
+	Screen.centerH 	= global.canvas.height /2 ;
+
 //! IDからエレメントの参照を取得する
 	function $( id )
 	{
