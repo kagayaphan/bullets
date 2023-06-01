@@ -6,9 +6,9 @@ function title_seq()
     {
         case 0:
             var ready = true;
-            for(var i= 0, c=app.images.length ; i<c ; i++ )
+            for(var i= 0, c= GameImages.length ; i<c ; i++ )
             {
-                ready = ready && app.images[i].IsReady();
+                ready = ready && GameImages.IsReady();
             }
             if( ready )
             {

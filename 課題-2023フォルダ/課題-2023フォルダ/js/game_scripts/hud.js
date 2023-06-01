@@ -32,6 +32,9 @@ function exportObject(title_buttons) {
 
 
 function drawHUD() {
+
+    // GameImages.nabe.Draw()
+
     title_buttons.forEach(function(button) {
         button.update();
     });

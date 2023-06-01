@@ -3,9 +3,9 @@
 
 // Array of particle image paths
 var particleImages = [
-    "image/texture00.png",
-    "image/texture01.png",
-    "image/texture02.png",
+    "image/crab.png",
+    "image/octopus.png",
+    "image/squid.png",
 ];
 
 // Array to store preloaded particle images
@@ -13,6 +13,21 @@ var particleImageDatas = [];
 
 var particleState = 0;
 // Particle constructor
+// class Particle{
+//     constructor(x, y, size, speedX, speedY, image) {
+//         this.x = x;
+//         this.y = y;
+//         this.size = size;
+//         this.speedX = speedX;
+//         this.speedY = speedY;
+//         this.image = image;
+//
+//     }
+//     draw(){
+//         this.image.Draw(this.x,this.y,true);
+//     }
+//
+// }
 function Particle(x, y, size, speedX, speedY, image) {
     this.x = x;
     this.y = y;
@@ -20,6 +35,7 @@ function Particle(x, y, size, speedX, speedY, image) {
     this.speedX = speedX;
     this.speedY = speedY;
     this.image = image;
+
 }
 
 // Update method for Particle prototype
@@ -36,7 +52,8 @@ Particle.prototype.update = function() {
 
 // Draw method for Particle prototype
 Particle.prototype.draw = function() {
-    global.c2d.drawImage(this.image, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+    // global.c2d.drawImage(this.image, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+    this.image.Draw(this.x,this.y,true );
 };
 
 // Array to store particles
@@ -44,23 +61,29 @@ var particles = [];
 
 // Load particle images
 function loadParticleImages(callback) {
-    var loadedCount = 0;
+    particleImageDatas.push(GameImages.crab);
+    particleImageDatas.push(GameImages.octopus);
+    particleImageDatas.push(GameImages.squid);
+
+    // var loadedCount = 0;
 
     // Preload each particle image
-    for (var i = 0; i < particleImages.length; i++) {
-        var image = new Image();
-        image.src = particleImages[i];
-        image.onload = function() {
-            loadedCount++;
-            // Check if all images are loaded
-            if (loadedCount === particleImages.length) {
-                callback();
-            }
-        };
+    // for (var i = 0; i < particleImages.length; i++) {
+    //     var image = new Image();
+    //     image.src = particleImages[i];
+    //     image.onload = function() {
+    //         loadedCount++;
+    //         // Check if all images are loaded
+    //         if (loadedCount === particleImages.length) {
+    //             callback();
+    //         }
+    //     };
+    //
+    //     // Add the loaded image to the array
+    //     particleImageDatas.push(image);
+    // }
 
-        // Add the loaded image to the array
-        particleImageDatas.push(image);
-    }
+
 }
 
 // Animation loop
