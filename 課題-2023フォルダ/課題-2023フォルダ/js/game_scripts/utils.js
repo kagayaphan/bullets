@@ -128,7 +128,10 @@ class DragBar {
 
 // Button class
 class Button {
-    constructor(x, y, width, height, content, fontFamily, fontSize, red, green, blue, opacity,clickHandler, cornerRadius) {
+    constructor(x, y, width, height, 
+        content, fontFamily, fontSize, foregroundOri, foregroundOver, 
+        red, green, blue, opacity,
+        clickHandler, cornerRadius) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -142,10 +145,12 @@ class Button {
         this.opacity = opacity;
         this.clickHandler = clickHandler;
         this.cornerRadius = cornerRadius;
-        this.scale = 1;
-        this.foregroundOver = "white";
-        this.foregroundOri = "black";
-        this.foreground = this.foregroundOri;
+        this.foregroundOri = foregroundOri;
+        this.foregroundOver = foregroundOver;
+        this._foreground = foregroundOri;
+        this._opacityOri = opacity;
+        this._scale = 1;
+
 
     }
 
@@ -174,14 +179,14 @@ class Button {
             y >= drawY && y <= drawY + this.height) {
             // if mouse over
             if(this.opacity < 1) this.opacity += 0.01;
-            if(this.scale < 1.15) this.scale += 0.01;
-            this.foreground = this.foregroundOver;
+            if(this._scale < 1.15) this._scale += 0.01;
+            this._foreground = this.foregroundOver;
 
         } else {    
             // if mouse leave
-            if(this.opacity > 0.9) this.opacity -= 0.01;            
-            if(this.scale > 1.0) this.scale -= 0.01;  
-            this.foreground = this.foregroundOri;
+            if(this.opacity > this._opacityOri) this.opacity -= 0.01;            
+            if(this._scale > 1.0) this._scale -= 0.01;  
+            this._foreground = this.foregroundOri;
 
         }
     }
@@ -189,9 +194,9 @@ class Button {
     draw(ctx) {
         const centerX = this.x;
         const centerY = this.y;
-        const scaledWidth = this.width * this.scale;
-        const scaledHeight = this.height * this.scale;
-        const scaledCornerRadius = this.cornerRadius * this.scale;
+        const scaledWidth = this.width * this._scale;
+        const scaledHeight = this.height * this._scale;
+        const scaledCornerRadius = this.cornerRadius * this._scale;
       
         const drawX = centerX - scaledWidth / 2;
         const drawY = centerY - scaledHeight / 2;
@@ -236,7 +241,7 @@ class Button {
       
         // Draw button content
         ctx.font = this.fontSize + "px " + this.fontFamily;
-        ctx.fillStyle = this.foreground;
+        ctx.fillStyle = this._foreground;
         ctx.textAlign = "center";
         ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
     }
@@ -305,11 +310,11 @@ class GameText {
     setFontFamily(font){
         this.family = font;
     }
-    draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.font = this.size + this.family;
-        ctx.fillText(this.content, this.x, this.y);
-    }
+    // draw(ctx) {
+    //     ctx.fillStyle = this.color;
+    //     ctx.font = this.size + this.family;
+    //     ctx.fillText(this.content, this.x, this.y);
+    // }
 }
 
 // flicker effect text class

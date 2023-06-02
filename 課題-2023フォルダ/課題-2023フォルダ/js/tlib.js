@@ -322,33 +322,58 @@
 		Image : function() {
 			return this.img;
 		},
-		Draw : function( x, y, bCenter ) {
-			this.canv.globalAlpha = ClampZeroOne( this.alpha );
-			if( this.canv.globalAlpha > 0.0 )
-			{
-				var iwidth  = this.img.width;
-				var iheight = this.img.height;
-				if( this.scale != 1 )
-				{
-					iwidth  *= this.scale;
-					iheight *= this.scale;
-					if( bCenter )
-					{
-						this.canv.drawImage( this.img, x-iwidth/2, y-iheight/2, iwidth, iheight );
-					}else{
-						this.canv.drawImage( this.img, x, y, iwidth, iheight );
-					}
-				}else{
-					if( bCenter )
-					{
-						this.canv.drawImage( this.img, x-this.img.width/2, y-this.img.height/2 );
-					}else{
-						this.canv.drawImage( this.img, x, y );
-					}
+		// Draw : function( x, y, bCenter ) {
+		// 	this.canv.globalAlpha = ClampZeroOne( this.alpha );
+		// 	if( this.canv.globalAlpha > 0.0 )
+		// 	{
+		// 		var iwidth  = this.img.width;
+		// 		var iheight = this.img.height;
+		// 		if( this.scale != 1 )
+		// 		{
+		// 			iwidth  *= this.scale;
+		// 			iheight *= this.scale;
+		// 			if( bCenter )
+		// 			{
+		// 				this.canv.drawImage( this.img, x-iwidth/2, y-iheight/2, iwidth, iheight );
+		// 			}else{
+		// 				this.canv.drawImage( this.img, x, y, iwidth, iheight );
+		// 			}
+		// 		}else{
+		// 			if( bCenter )
+		// 			{
+		// 				this.canv.drawImage( this.img, x-this.img.width/2, y-this.img.height/2 );
+		// 			}else{
+		// 				this.canv.drawImage( this.img, x, y );
+		// 			}
+		// 		}
+		// 	}
+		// 	this.canv.globalAlpha = 1.0;
+		// }
+
+		Draw: function(x, y, bCenter, scale) {
+			// scale = 0.5;
+			this.canv.globalAlpha = ClampZeroOne(this.alpha);
+			if (this.canv.globalAlpha > 0.0) {
+			  var iwidth = this.img.width;
+			  var iheight = this.img.height;
+			  if (scale !== undefined && scale !== 1) {
+				iwidth *= scale;
+				iheight *= scale;
+				if (bCenter) {
+				  this.canv.drawImage(this.img, x - iwidth / 2, y - iheight / 2, iwidth, iheight);
+				} else {
+				  this.canv.drawImage(this.img, x, y, iwidth, iheight);
 				}
+			  } else {
+				if (bCenter) {
+				  this.canv.drawImage(this.img, x - this.img.width / 2, y - this.img.height / 2);
+				} else {
+				  this.canv.drawImage(this.img, x, y);
+				}
+			  }
 			}
 			this.canv.globalAlpha = 1.0;
-		}
+		  }
 	}
 
 //! イメージを中央基点で描画

@@ -1,4 +1,58 @@
 
+// GameImages.crab.Draw(object.x, object.y, true, 0.3);
+
+const screen = {
+    width: 800, // Adjust screen width as needed
+    height: 600 // Adjust screen height as needed
+  };
+  
+  const object = {
+    x: 0,
+    y: 0
+  };
+  
+  const movementDistance = 50; // Adjust the desired movement distance
+  
+  function drawObject() {
+    // Replace the following line with your code to display the object image
+    GameImages.crab.Draw(object.x, object.y, true, 0.3);
+  }
+  
+  function moveObject() {
+    const startX = object.x;
+    const startY = object.y;
+  
+    const endX = Math.min(startX + movementDistance, screen.width); // Move until reaching the right edge of the screen
+  
+    const duration = Math.abs(endX - startX) * 5; // Adjust the speed of the movement
+  
+    const startTime = Date.now();
+  
+    function updatePosition() {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+      const progress = elapsed / duration;
+  
+      object.x = startX + (endX - startX) * progress;
+      object.y = startY;
+  
+      // Display current position
+    //   console.log(`Current position: x=${object.x}, y=${object.y}`);
+        drawObject()
+        requestAnimationFrame(updatePosition);
+    //   if (progress < 1) {
+    //     requestAnimationFrame(updatePosition);
+    //   } else {
+    //     drawObject();
+    //   }
+    }
+  
+    requestAnimationFrame(updatePosition);
+  }
+  
+  moveObject();
+  
+  
 
 function title_seq()
 {
@@ -8,7 +62,7 @@ function title_seq()
             var ready = true;
             for(var i= 0, c= GameImages.length ; i<c ; i++ )
             {
-                ready = ready && GameImages.IsReady();
+                ready = ready && GameImages[i].IsReady();
             }
             if( ready )
             {
@@ -16,22 +70,11 @@ function title_seq()
             }
             break;
         case 1:
-            // var y = 64*3, s = global.frameCount * 0.05;
-            // var iIdx= 0;
-            // app.images[4].Draw( Screen.centerW , 350, true );
-            // for(var i=1, c=app.images.length-1 ; i<c ; i++ )
-            // {
-            //     var x = Screen.centerW + Math.sin( s ) * 16;
-            //     app.images[i].scale=app.scaleBase;
-            //     app.images[i].Draw( x , y, true );
-            //     y += app.images[i].img.height/2;
-            //     s += 0.5;
-            // }
-            // app.images[0].Draw( Screen.centerW, 96+Math.sin(s)*16, true );
-            // if( global.mouse.click )
-            // {
-            //     this.sequence = main_seq;
-            // }
+            // Draw title background
+            GameImages.title_bg.Draw(0,50,false);
+            
+
+
 
             // Start UI Update
             drawHUD()

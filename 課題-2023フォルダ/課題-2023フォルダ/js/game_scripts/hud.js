@@ -13,27 +13,19 @@ function initHUD() {
     createTittleButtons();
 
     // push all flicker text to list
-    createFlickerTxt("カニ鍋",45, Screen.centerW, 60, "255, 0, 0", 99999, 5000);
-    createFlickerTxt("Press Any Button",15, Screen.centerW, global.canvas.height - 20, "0, 0, 0", 99999, 1000);
+    createFlickerTxt("カニ鍋",90, Screen.centerW, 90, "255, 0, 0", 99999, 9000);
+    createFlickerTxt("Press Any Button",15, Screen.centerW, global.canvas.height - 15, "255, 255,255", 9999, 1000);
 }
 
-function exportObject(title_buttons) {
-    const data = JSON.stringify(title_buttons);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'title_buttons_data.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+
   
 
 
 
 function drawHUD() {
 
-    // GameImages.nabe.Draw()
+    GameImages.nabe.Draw(global.canvas.width / 2 , 256, true ,0.3);
+    GameImages.nabefuta.Draw(global.canvas.width / 2 , 218, true ,0.3);
 
     title_buttons.forEach(function(button) {
         button.update();
@@ -46,6 +38,7 @@ function drawHUD() {
             bar.draw();
         });
     }
+
     flickerTexts.forEach(function(text) {
         if(!text.visible) flickerTexts.remove(text);
     });
@@ -78,7 +71,7 @@ function createTittleButtons() {
         const data = title_buttons_data[i];        
         title_buttons.push(new Button(
             data.x, data.y, data.width, data.height,
-            data.content, data.fontFamily, data.fontSize,
+            data.content, data.fontFamily, data.fontSize, data.foregroundOri, data.foregroundOver,
             data.red, data.green, data.blue, data.opacity,
             data.clickHandler, data.cornerRadius
           ));
