@@ -64,7 +64,7 @@ function animate() {
     particles.push(new Particle(x, y, scale, speedX, speedY, image));
 
     // Update and draw particles
-    for (var i = 0; i < particles.length; i++) {
+    for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
     }
@@ -76,12 +76,11 @@ function animate() {
  // 0: unload, 1: stopped, 2: playing
 
 function playParticles() {
-    app.sequence = main_seq;
-    // if(particleState === 2) return;
-    // if(particleState) {
-    //     particleState = 2;
-    //     animate();
-    // }
+    if(particleState === 2) return;
+    if(particleState) {
+        particleState = 2;
+        animate();
+    }
 };
 
 function stopParticles() {

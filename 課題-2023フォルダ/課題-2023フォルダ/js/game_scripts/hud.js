@@ -5,29 +5,24 @@
 //----------- Game UI Design Here --------------
 
 // UI object container
-var flickerTexts = []; // flicker text container
-var title_buttons = []; // flicker text container
+let flickerTexts = []; // flicker text container
+let buttons = []; // flicker text container
 
-function initHUD() {
-    // create button array with json data
-    createTittleButtons();
-
-    // push all flicker text to list
-    createFlickerTxt("カニ鍋",90, Screen.centerW, 90, "255, 0, 0", 99999, 9000);
-    createFlickerTxt("Press Any Button",15, Screen.centerW, global.canvas.height - 15, "255, 255,255", 9999, 1000);
+function deInitHUD(){
+    flickerTexts = [];
+    buttons = [];
 }
 
+function initTitleHUD() {
+    // create button array with json data
+    createTittleButtons();
+    // push all flicker text to list
+    createFlickerTxt("! ようこそ !",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
+}
 
-  
+function drawTitleHUD() {
 
-
-
-function drawHUD() {
-
-    GameImages.nabe.Draw(global.canvas.width / 2 , 256, true ,0.3);
-    GameImages.nabefuta.Draw(global.canvas.width / 2 , 218, true ,0.3);
-
-    title_buttons.forEach(function(button) {
+    buttons.forEach(function(button) {
         button.update();
     });
     drawTexts();
@@ -69,7 +64,7 @@ function createTittleButtons() {
     // loop though json format data to create button js object
     for (let i = 0; i < title_buttons_data.length; i++) {
         const data = title_buttons_data[i];        
-        title_buttons.push(new Button(
+        buttons.push(new Button(
             data.x, data.y, data.width, data.height,
             data.content, data.fontFamily, data.fontSize, data.foregroundOri, data.foregroundOver,
             data.red, data.green, data.blue, data.opacity,
@@ -80,16 +75,15 @@ function createTittleButtons() {
 
 // Draw all the buttons in the list
 function drawButtons() {
-    title_buttons.forEach(function(button) {
+    buttons.forEach(function(button) {
         button.draw(global.c2d);
     });
 }
 
 // Handle button click
 function handleClickOnButtons(event) {
-    title_buttons.forEach(function(button) {
+    buttons.forEach(function(button) {
         button.handleClick(event);
-
     });
 }
 

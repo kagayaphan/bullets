@@ -2,17 +2,18 @@
 * Base Class And Tools Section
 */
 
-
-
+// Function Pointer Map
 const game_button_handlers = new Map([
     ["playParticles", playParticles],
     ["stopParticles", stopParticles],
+    ["gotoTitle", gotoTitle],
+    ["gotoMainScene", gotoMainScene],
 ]);
 
 
 
 // object debug parameter array
-var editorDragBars = [];
+let editorDragBars = [];
 
 // easy handling bar object
 class DragBar {
@@ -50,17 +51,17 @@ class DragBar {
 
         // Update the color object based on the parameter value
         if (this.referencedObj instanceof Button) {
-            if(this.paramName == "red"){
+            if(this.paramName === "red"){
                 this.referencedObj.red = this.parameterValue;
-            } else if(this.paramName == "green"){
+            } else if(this.paramName === "green"){
                 this.referencedObj.green = this.parameterValue;
-            } else if(this.paramName == "blue"){
+            } else if(this.paramName === "blue"){
                 this.referencedObj.blue = this.parameterValue;
-            } else if(this.paramName == "opacity"){
+            } else if(this.paramName === "opacity"){
                 this.referencedObj.opacity = this.parameterValue / 100.0;
-            } else if(this.paramName == "x"){
+            } else if(this.paramName === "x"){
                 this.referencedObj.x = this.parameterValue ;
-            } else if(this.paramName == "y"){
+            } else if(this.paramName === "y"){
                 this.referencedObj.y = this.parameterValue ;
             }
         }
@@ -89,8 +90,6 @@ class DragBar {
             global.canvas.addEventListener('mousemove', mmHandler);
             global.canvas.addEventListener('mouseup', muHandler);
         }
-
-
     }
 
     handleMouseMove(event) {
@@ -171,7 +170,7 @@ class Button {
     update(){
         const drawX = this.x - this.width/2;
         const drawY = this.y - this.height/2;
-        var m = global.mouse.pos;
+        let m = global.mouse.pos;
         const x = m.x ;
         const y = m.y ;
 
@@ -304,17 +303,19 @@ class GameText {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.opacity = 1;
         this.family = "px Arial";
+    }
+
+    draw(){
+        global.c2d.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+        global.c2d.font = this.size + this.family;
+        global.c2d.fillText(this.content, this.x, this.y);
     }
 
     setFontFamily(font){
         this.family = font;
     }
-    // draw(ctx) {
-    //     ctx.fillStyle = this.color;
-    //     ctx.font = this.size + this.family;
-    //     ctx.fillText(this.content, this.x, this.y);
-    // }
 }
 
 // flicker effect text class
@@ -336,10 +337,9 @@ class FlickerText extends GameText {
             this.visible = false;
             return;
         }
-        const opacity = Math.sin((timePassed % this.interval) / this.interval * Math.PI);
-        global.c2d.fillStyle = `rgba(${this.color}, ${opacity})`;
-        global.c2d.font = this.size + this.family;
-        global.c2d.fillText(this.content, this.x, this.y);
+        this.opacity = Math.sin((timePassed % this.interval) / this.interval * Math.PI);
+        super.draw();
+
 
     }
 

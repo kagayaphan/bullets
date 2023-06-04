@@ -167,6 +167,7 @@
 	var Mouse          = function() {
 		this.pos       = new Point(-100);
 		this.click     = false;
+		this.up		   = false;
 		this.dblclick  = false;
 		this.down      = false;
 		this.down_pos  = new Point();
@@ -218,6 +219,7 @@
 			return str;
 		},
 		FlagClear : function() {
+			this.up		 = false;
 			this.click   = false;
 			this.dblclick= false;
 			this.flick   = false;
@@ -236,6 +238,7 @@
 		global.mouse.dblclick = true;
 	}
 	function MouseDown(e) {
+		// console.log('mouse down')
 		global.mouse.down    = true;
 		global.mouse.down_pos.x = e.clientX-global.appScreen.offsetLeft;
 		global.mouse.down_pos.y = e.clientY;
@@ -256,6 +259,8 @@
 		global.mouse.stop_cnt = 0;
 	}
 	function MouseUp(e) {
+		// console.log('mouse up')
+		global.mouse.up = true;
 		global.mouse.up_pos.x = e.clientX-global.appScreen.offsetLeft;
 		global.mouse.up_pos.y = e.clientY;
 		MouseOut(e);
@@ -322,58 +327,34 @@
 		Image : function() {
 			return this.img;
 		},
-		// Draw : function( x, y, bCenter ) {
-		// 	this.canv.globalAlpha = ClampZeroOne( this.alpha );
-		// 	if( this.canv.globalAlpha > 0.0 )
-		// 	{
-		// 		var iwidth  = this.img.width;
-		// 		var iheight = this.img.height;
-		// 		if( this.scale != 1 )
-		// 		{
-		// 			iwidth  *= this.scale;
-		// 			iheight *= this.scale;
-		// 			if( bCenter )
-		// 			{
-		// 				this.canv.drawImage( this.img, x-iwidth/2, y-iheight/2, iwidth, iheight );
-		// 			}else{
-		// 				this.canv.drawImage( this.img, x, y, iwidth, iheight );
-		// 			}
-		// 		}else{
-		// 			if( bCenter )
-		// 			{
-		// 				this.canv.drawImage( this.img, x-this.img.width/2, y-this.img.height/2 );
-		// 			}else{
-		// 				this.canv.drawImage( this.img, x, y );
-		// 			}
-		// 		}
-		// 	}
-		// 	this.canv.globalAlpha = 1.0;
-		// }
 
-		Draw: function(x, y, bCenter, scale) {
-			// scale = 0.5;
+		Draw: function(x, y, bCenter, size, angle) {
+			let scaleX = 1;
+			let scaleY = 1;
+			if(size !== undefined) {
+				scaleX = size.x;
+				scaleY = size.y;
+			}
 			this.canv.globalAlpha = ClampZeroOne(this.alpha);
 			if (this.canv.globalAlpha > 0.0) {
-			  var iwidth = this.img.width;
-			  var iheight = this.img.height;
-			  if (scale !== undefined && scale !== 1) {
-				iwidth *= scale;
-				iheight *= scale;
-				if (bCenter) {
-				  this.canv.drawImage(this.img, x - iwidth / 2, y - iheight / 2, iwidth, iheight);
-				} else {
-				  this.canv.drawImage(this.img, x, y, iwidth, iheight);
+				let iwidth = this.img.width;
+				let iheight = this.img.height;
+				iwidth *= scaleX;
+				iheight *= scaleY;
+				this.canv.save();
+				this.canv.translate(x, y);
+				if (angle !== undefined) {
+					this.canv.rotate(angle * Math.PI / 180);
 				}
-			  } else {
 				if (bCenter) {
-				  this.canv.drawImage(this.img, x - this.img.width / 2, y - this.img.height / 2);
+					this.canv.drawImage(this.img, -iwidth / 2, -iheight / 2, iwidth, iheight);
 				} else {
-				  this.canv.drawImage(this.img, x, y);
+					this.canv.drawImage(this.img, 0, 0, iwidth, iheight);
 				}
-			  }
+				this.canv.restore();
 			}
 			this.canv.globalAlpha = 1.0;
-		  }
+		}
 	}
 
 //! イメージを中央基点で描画
