@@ -38,8 +38,14 @@ function frameUpdate()
     // Start Scene Update
     if(app.sequence) app.sequence();
 
+    // print debug output need to update rapidly so put it here instead of toggle
+    if(_DEBUG) {
+        // mouse value
+        $("mouseOut").innerHTML = global.mouse.ToString();
 
-
-    // print debug output
-    if(_DEBUG) $("out").innerHTML = global.mouse.ToString();
+        // monster list        
+        $("monsterList").innerHTML = stage_manager.current.ToString();
+        // var onCheckingValue = document.getElementById("onCheckingValue");
+        // onCheckingValue.textContent = "Value: " ;
+    } 
 }

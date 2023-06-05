@@ -13,15 +13,45 @@ class Stage01 extends Stage {
             posY : 150,
             color: '0,0,100',
         }
+        this.crabSpawnTimer = 0;
+        this.crabNextSpawnTime = 0;
+
+        this.octSpawnTimer = 0;
+        this.octNextSpawnTime = 0;
+    }
+
+    spawnOctopus(){
+        this.octSpawnTimer += deltaTime;
+        if(this.octSpawnTimer > this.octNextSpawnTime){
+            this.octNextSpawnTime = randomNumber(100,100);
+            this.octSpawnTimer = 0;         
+
+        }
+    }
+
+    spawnCrab(){
+        this.crabSpawnTimer += deltaTime;
+        if(this.crabSpawnTimer > this.crabNextSpawnTime){
+            console.log("Crab Spawned")
+            this.crabNextSpawnTime = randomNumber(1,3);
+            this.crabSpawnTimer = 0;
+            this.monsterList.push(new Crab( new Point(-50,480), 0.3)); 
+        }
+
+    }
+
+    spawnMonsters (){
+        this.spawnCrab();
+        this.spawnOctopus();
     }
 
     createMonsters (){
         this.monsterList = [];
-        for (let i = 0; i < 30; i++) {
-            const monster = new Crab( new Point(-50,480), 0.3);
-            monster._nextDeployTime = randomNumber(6,25) * this.monsterList.length;
-            this.monsterList.push(monster);
-        }
+        // for (let i = 0; i < 30; i++) {
+        //     const monster = new Crab( new Point(-50,480), 0.3);
+        //     monster._nextDeployTime = randomNumber(6,25) * this.monsterList.length;
+        //     this.monsterList.push(monster);
+        // }
     }
 
     drawMonster(){
@@ -33,6 +63,7 @@ class Stage01 extends Stage {
         }
 
     }
+
 }
 
 // let stage01 = new Stage01();

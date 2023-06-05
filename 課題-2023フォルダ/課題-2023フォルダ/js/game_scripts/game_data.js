@@ -8,6 +8,14 @@ var title_buttons_data =
 	{"x":700,"y":415,"width":120,"height":50,"content":"Credits","fontFamily":"Arial","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"}
 ]
 
+
+var game_buttons_data = 
+[
+	{"x":25,"y":20,"width":18,"height":18,"content":"icon_toTitle","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":2,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"playParticles","cornerRadius":6,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"showRestaurant","cornerRadius":6,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+]
+
 const GameImages = {
     nabe        : new LoadImage(global.c2d, "image/nabe.png"),
     nabefuta    : new LoadImage(global.c2d, "image/nabefuta.png"),
@@ -22,4 +30,16 @@ const GameImages = {
 
     // Player relate
     player_net  : new LoadImage(global.c2d, "image/weapon_net.png"),
+
+    // button icons
+    icon_nabe       : new LoadImage(global.c2d, "image/icon_nabe.png"),
+    icon_crab       : new LoadImage(global.c2d, "image/icon_crab.png"),
+    icon_oct        : new LoadImage(global.c2d, "image/icon_oct.png"),
+    icon_squid      : new LoadImage(global.c2d, "image/icon_squid.png"),
+    icon_toTitle    : new LoadImage(global.c2d, "image/icon_toTitle.png"),
+    icon_setting    : new LoadImage(global.c2d, "image/icon_setting.png"),
+    icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
 }
+
+
+

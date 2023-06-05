@@ -26,7 +26,24 @@ class Stage {
         this.drawMonster();
     }
 
+    countMonster(type) {
+        let counter = 0;
+        for(const monster of this.monsterList){
+            if(monster.type === type) counter++;
+        }
+        return counter;
+    }
 
+    ToString(){
+        var str  = "Monster List:" 					                    + "<br>";
+			str += "---Crab Num :" + this.countMonster("crab")          + "<br>";
+			str += "---Oct  Num :" + this.countMonster("oct")           + "<br>";
+			str += "---Squid Num :" + this.countMonster("squid")        + "<br>";
+        return str;
+    }
+
+    // interface
+    spawnMonsters(){}
     createMonsters(){}
     drawMonster(){}
 }

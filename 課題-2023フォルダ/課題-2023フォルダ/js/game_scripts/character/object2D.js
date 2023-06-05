@@ -2,6 +2,11 @@
 * Game Display Character Class
 * */
 
+let d_globalEnemySpeedMultiplier = 1;
+
+const g_mob_move_destinationRadius = 2;
+
+const g_object2D_default_speed = 100;
 // 2D image object
 class Object2D {
     constructor(sprite, scale) {
@@ -12,13 +17,13 @@ class Object2D {
         this._state = "stop";
 
         this._scaleOri = new Point(scale, scale);
-        this._speed = 1;
+        this._speed = g_object2D_default_speed;
         this.sprite = sprite;
         this._collider = null;
     }
 
     update(){
-        this._velo.Mul(this._speed);
+        this._velo.Mul(this._speed * deltaTime);
         this._pos.Add(this._velo);
     }
 
@@ -36,6 +41,8 @@ class Object2D {
 class Monster extends Object2D{
     constructor(sprite, scale) {
         super(sprite,scale);
+        // monster type init by specify derrived class
+        this.type = "";
         // score that reward player when killed
         this.reward = 0;
         // moving pattern list, one monster should have lots of pattern to random
@@ -92,7 +99,8 @@ class Monster extends Object2D{
         // console.log(this._pos);
         // console.log("range");
         // Check if reached location
-        if(nextTarget.Length(this._pos) < 1) {
+        // TODO CCD collider check maybe need here with super fast movement speed
+        if(nextTarget.Length(this._pos) < g_mob_move_destinationRadius * d_globalEnemySpeedMultiplier) {
             // console.log("doi pattern");
             this._patIndex++; // move to next pattern
             this._patSpeed = randomNumber(0, 100) * 0.01;
@@ -110,7 +118,7 @@ class Monster extends Object2D{
         nextTarget.Sub(this._pos);
         nextTarget.Normalize();
         this._velo = nextTarget;
-        this._velo.Mul(this._patSpeed);
+        this._velo.Mul(this._patSpeed * d_globalEnemySpeedMultiplier);
         // this._velo.Mul(0);
 
         super.update();

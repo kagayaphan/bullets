@@ -5,7 +5,7 @@ Object Collider
 // this game only circle collider
 class Collider {
     constructor(owner) {
-        this._collideWith = null;
+        // this._collideWith = null;
         this._owner = owner;
     }
 
@@ -20,15 +20,18 @@ class CircleCollider extends Collider{
     }
 
     collideWith(object2D){
-        const objCol = object2D._collider;
-        const objOwner = objCol._owner;
+        const targetCol = object2D._collider;
+        const targetObj2D = targetCol._owner;
 
-        const objOwnerPos = objOwner._pos;
-        const r = this._radius + objCol._radius;
-        if(objOwnerPos.Length(this._owner._pos) < r) {
-            objCol._collideWith = this;
-            this._collideWith = objCol;
+        const targetPos = targetObj2D._pos;
+        const r = this._radius + targetCol._radius;
+        if(targetPos.Length(this._owner._pos) < r) {
+            // objCol._collideWith = this;
+            // this._collideWith = objCol;
+            return true;
         }
+
+        return false;
     }
 }
 

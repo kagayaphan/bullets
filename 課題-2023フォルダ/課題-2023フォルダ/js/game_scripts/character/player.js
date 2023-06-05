@@ -8,13 +8,20 @@ class Player extends Object2D {
         this._reward = 0;
         this.speed = 1;
         this._animTimer = 0;
+        this.restaurant = new Restaurant();
         // -- Weaponry
         this._weapon = null;
         this._bulletPrototypes = [];
     }
 
+    notifyRestaurant(caughtMonsters){
+        for(const caughtObj of caughtMonsters){
+            this.restaurant.updateStock(caughtObj);
+            caughtObj.remove();
+        }
+    }
+
     assignWeapon(selectedWeapon){
-        if(this._weapon) this._weapon.unload();
         this._weapon = selectedWeapon;
     }
 
@@ -48,7 +55,7 @@ class Player extends Object2D {
 
 
     animate(){
-        // TODO co kha nang khong the tro lai vi tri can bang va thuyen se bi lat
+        // give boat a little bit move to make it look like floating on the wave
         let randVar = randomNumber(0,4) * Math.PI / 180;
         let step = Math.sin(Date.now() * 0.001)
         this._angle += randVar *  step;
@@ -57,14 +64,17 @@ class Player extends Object2D {
 
     resetState(){
         player._pos = stage_manager.current.playerPos;
-        player._angle = 0;
+        player._angle = 0;        
+        this._bulletPrototypes = []
     }
 
     draw(){
         for(const bullet of this._bulletPrototypes){
             bullet.draw();
-        }
+        }        
         super.draw();
+
+        this.restaurant.draw();
     }
 }
 
@@ -107,27 +117,23 @@ class Bullet extends Object2D {
         this._target = target;
         this._state = "shot";
         // Calculate angle between bullet position and target position
-        const deltaX = this._target.x - this._pos.x;
-        const deltaY = this._target.y - this._pos.y;
-
-        this._angle = (Math.atan2(deltaY, deltaX)) * (180 / Math.PI) ; // angle must be set to degree
+        this._angle = this._pos.Angle(this._target) * (180 / Math.PI) ;// angle must be set to degree
+   
     }
 
     update(){
         const target = new Point(this._target.x, this._target.y); // copy pointer value;
 
         if(target.Length(this._pos) < 1) {
-            // console.log("Bullet Dead");
-            // this._state = "dead";
-            // return;
             if(this._state === "shot") {
+                // moving forward state done
                 this._state = "retrieve";
                 this._target = this._initPos;
-            } else {
+            } else { 
+                // moving back state done
                 this.remove();
-                for(const caughtObj of this._caughtObj){
-                    caughtObj.remove();
-                }
+                player.notifyRestaurant(this._caughtObj);
+                
                 return;
             }
 
@@ -149,7 +155,7 @@ class Bullet extends Object2D {
 class NetBullet extends Bullet {
     constructor(sprite, scale) {
         super(sprite, scale);
-        this._speed = 1;
+        this._speed = 10;
 
     }
 
@@ -169,8 +175,10 @@ class NetBullet extends Bullet {
         } else {
             // moving back scale rate decrease overtime
             // need to keep the net not turn to very small
-            this._scale.x -= 0.0001;
-            this._scale.y -= 0.0001;
+            const shrinkSpd = 0.015 * deltaTime;
+            
+            this._scale.x -= shrinkSpd;
+            this._scale.y -= shrinkSpd ;
             if(this._collider){
                 for(const caughtObj of this._caughtObj){
                     if(caughtObj){
@@ -207,9 +215,8 @@ class NetBullet extends Bullet {
             if(monster._state !== "move") continue;
             const collider = monster._collider;
             if(collider){
-                this._collider.collideWith(monster);
                 // if collideWith obj was exists it mean we got a crab
-                if(this._collider._collideWith){
+                if(this._collider.collideWith(monster)){
                     if(_DEBUG) console.log("GOT CRAB");
                     this._caughtObj.push(monster);
                     monster.gotCaught();
@@ -233,4 +240,6 @@ class WeaponNet {
         player._bulletPrototypes.push(clonedBullet);
     }
 }
+
+
 

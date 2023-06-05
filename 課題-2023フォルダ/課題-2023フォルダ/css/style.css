@@ -54,3 +54,7 @@ div#appScreen {
 	border-radius: 5px;
 	padding: 10px 20px;
 }
+
+.hidden {
+	display: none;
+  }

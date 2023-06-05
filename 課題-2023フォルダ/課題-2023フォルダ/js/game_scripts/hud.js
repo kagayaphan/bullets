@@ -13,6 +13,50 @@ function deInitHUD(){
     buttons = [];
 }
 
+
+
+function initGameHud(){
+    // create button array with json data
+    createGameButtons();
+}
+
+function drawGameHud(){
+    buttons.forEach(function(button) {
+        button.update();
+    });
+    drawTexts();
+    drawButtons();
+
+    if(_DEBUG){
+        if(editorDragBars) {
+            editorDragBars.forEach(function(bar) {
+                bar.draw();
+            });
+        }
+    }
+    
+
+    flickerTexts.forEach(function(text) {
+        if(!text.visible) flickerTexts.remove(text);
+    });
+}
+
+function createGameButtons(){
+  // loop though json format data to create button js object
+  for (let i = 0; i < game_buttons_data.length; i++) {
+    const data = game_buttons_data[i];        
+    buttons.push(new Button(
+        data.x, data.y, data.width, data.height,
+        data.content, data.fontFamily, data.fontSize, data.foregroundOri, data.foregroundOver,
+        data.red, data.green, data.blue, data.opacity, data.scale,
+        data.clickHandler, data.cornerRadius
+    ));
+}  
+}
+
+
+
+
 function initTitleHUD() {
     // create button array with json data
     createTittleButtons();
@@ -67,10 +111,10 @@ function createTittleButtons() {
         buttons.push(new Button(
             data.x, data.y, data.width, data.height,
             data.content, data.fontFamily, data.fontSize, data.foregroundOri, data.foregroundOver,
-            data.red, data.green, data.blue, data.opacity,
+            data.red, data.green, data.blue, data.opacity, data.scale,
             data.clickHandler, data.cornerRadius
-          ));
-      }    
+        ));
+    }    
 }
 
 // Draw all the buttons in the list
@@ -86,13 +130,6 @@ function handleClickOnButtons(event) {
         button.handleClick(event);
     });
 }
-
-// function handleOverOnButtons(event) {
-//     title_buttons.forEach(function(button) {
-//         button.handleMouseOver(event);
-//     });
-// }
-
 
 // Add event listener for button click
 global.canvas.addEventListener("click", handleClickOnButtons);

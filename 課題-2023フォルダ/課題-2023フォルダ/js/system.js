@@ -1,7 +1,48 @@
-// TODO: change this to false when submit
-// const _DEBUG = false;
-const _DEBUG = true;
+let _DEBUG = false;
 
+
+function toggleDebugMode(){
+  _DEBUG = !_DEBUG;
+  var textBoxContainer = document.getElementById("textBoxContainer");
+  var paragraphMouse = document.getElementById("mouseOut");
+  var paragraphMonster = document.getElementById("monsterList");
+  var buttons = document.getElementsByClassName("myButton");
+
+  
+
+  
+
+  if(_DEBUG){
+    textBoxContainer.classList.remove("hidden");
+    paragraphMouse.classList.remove("hidden");
+    paragraphMonster.classList.remove("hidden");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove("hidden");
+    }
+  } else {
+
+    // clear editor bar handler
+    editorDragBars.forEach(function(bar) {
+      bar.destructor();
+    });
+    editorDragBars = [];
+
+    // set hidden property to html tag
+    textBoxContainer.classList.add("hidden");
+    paragraphMouse.classList.add("hidden");
+    paragraphMonster.classList.add("hidden");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.add("hidden");
+    }
+  }
+}
+
+function updateDebugValue(){
+  var textBox = document.getElementById("myTextBox");
+  var newValue = textBox.value;
+  
+  d_globalEnemySpeedMultiplier = newValue;
+}
 
 // export object to json file and print to console log to copy back to data file
 function exportObject(title_buttons) {

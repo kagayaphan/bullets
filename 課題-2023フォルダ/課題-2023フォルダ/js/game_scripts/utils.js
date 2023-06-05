@@ -8,8 +8,21 @@ const game_button_handlers = new Map([
     ["stopParticles", stopParticles],
     ["gotoTitle", gotoTitle],
     ["gotoMainScene", gotoMainScene],
+    ["showRestaurant", showRestaurant],
 ]);
 
+
+const icon_images = new Map([
+    ["icon_nabe",       GameImages.icon_nabe],
+    ["icon_crab",       GameImages.icon_crab],
+    ["icon_octopus",    GameImages.icon_crab],
+    ["icon_squid",      GameImages.icon_crab],
+    ["icon_net",        GameImages.icon_crab],
+    ["icon_toTitle",        GameImages.icon_toTitle],
+    ["icon_setting",        GameImages.icon_setting],
+    ["icon_inventory",        GameImages.icon_inventory],
+
+]);
 
 
 // object debug parameter array
@@ -129,7 +142,7 @@ class DragBar {
 class Button {
     constructor(x, y, width, height, 
         content, fontFamily, fontSize, foregroundOri, foregroundOver, 
-        red, green, blue, opacity,
+        red, green, blue, opacity, scale,
         clickHandler, cornerRadius) {
         this.x = x;
         this.y = y;
@@ -148,7 +161,7 @@ class Button {
         this.foregroundOver = foregroundOver;
         this._foreground = foregroundOri;
         this._opacityOri = opacity;
-        this._scale = 1;
+        this._scale = scale;
 
 
     }
@@ -242,36 +255,19 @@ class Button {
         ctx.font = this.fontSize + "px " + this.fontFamily;
         ctx.fillStyle = this._foreground;
         ctx.textAlign = "center";
-        ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
+
+        if (this.content.includes("icon")) {
+            // if this is icon button draw icon image
+            icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale));
+        } else {
+            // if not just draw text content
+            ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
+        }    
+
+        
     }
       
-      
-      
-    // draw(ctx) {
-    //     const drawX = this.x - this.width/2;
-    //     const drawY = this.y - this.height/2;
-    //     // Code to draw button with soft edge
-    //     ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
-    //     ctx.beginPath();
-    //     ctx.moveTo(drawX + this.cornerRadius, drawY);
-    //     ctx.lineTo(drawX + this.width - this.cornerRadius, drawY);
-    //     ctx.arc(drawX + this.width - this.cornerRadius, drawY + this.cornerRadius, this.cornerRadius, 1.5 * Math.PI, 2 * Math.PI);
-    //     ctx.lineTo(drawX + this.width, drawY + this.height - this.cornerRadius);
-    //     ctx.arc(drawX + this.width - this.cornerRadius, drawY + this.height - this.cornerRadius, this.cornerRadius, 0, 0.5 * Math.PI);
-    //     ctx.lineTo(drawX + this.cornerRadius, drawY + this.height);
-    //     ctx.arc(drawX + this.cornerRadius, drawY + this.height - this.cornerRadius, this.cornerRadius, 0.5 * Math.PI, Math.PI);
-    //     ctx.lineTo(drawX, drawY + this.cornerRadius);
-    //     ctx.arc(drawX + this.cornerRadius, drawY + this.cornerRadius, this.cornerRadius, Math.PI, 1.5 * Math.PI);
-    //     ctx.closePath();
-    //     ctx.fill();
-
-    //     ctx.font = this.fontSize + "px " + this.fontFamily;
-    //     ctx.fillStyle = "white";
-    //     ctx.textAlign = "center";
-    //     ctx.fillText(this.content, this.x, this.y + (this.fontSize) / 2);
-
-    // }
-
+    
     // when user click on button process
     handleClick(event) {
 

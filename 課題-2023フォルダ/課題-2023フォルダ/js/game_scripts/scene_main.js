@@ -6,6 +6,9 @@ let player = new Player(GameImages.boat, 1);
 
 function main_seq()
 {
+
+    const mouse = global.mouse;
+
     switch( app.sequence_step )
     {
         case 0:
@@ -16,18 +19,26 @@ function main_seq()
             // TODO remove this line when release player need to buy weapon
             player.assignWeapon(new WeaponNet());
             app.sequence_step++;
+
+            initGameHud();
             break;
         case 1:
-            stage_manager.current.draw();
-            const mouse = global.mouse;
+            
             if( mouse.up )
             {
-                const point = new Point(global.mouse.up_pos.x,global.mouse.up_pos.y);
-                player.initShot(point);
+                const point = new Point(mouse.up_pos.x,mouse.up_pos.y);
+                // make sure player wont shot when click on UI 
+                if(point.y > player._pos.y) player.initShot(point);
             }
+            // update stage monster behaviors
+            stage_manager.current.spawnMonsters();
+            stage_manager.current.draw();
+
+            // update user's player behavior
             player.update();
             player.draw();
-            // detectCollisions();
+
+            drawGameHud();
 
             break;
     }

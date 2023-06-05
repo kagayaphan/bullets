@@ -2,15 +2,17 @@
 Monster Crab class
  */
 
+
 class Crab extends Monster{
     constructor(spawnAt, scale) {
         super(GameImages.crab,scale);
+        this.type = "crab";
         this.reward = 1000;
         this._movePattern = this.createMovePattern(spawnAt);
         this._pos = this._movePattern[0];
         // TODO remove debug
         // this._pos = new Point(400,400);
-        super._collider = new CircleCollider(this,30);
+        this._collider = new CircleCollider(this,30);
     }
 
     update(){

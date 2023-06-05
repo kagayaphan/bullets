@@ -185,18 +185,19 @@
 	}
 	Mouse.prototype = {
 		ToString : function() {
-			var str  = "pos       =" + this.pos.ToString() + "<br>";
-				str += "click     =" + this.click          + "<br>";
-				str += "dblclick  =" + this.dblclick       + "<br>";
-				str += "down      =" + this.down           + "<br>";
-				str += "down_pos  =" + this.down_pos.ToString() + "<br>";
-				str += "up_pos    =" + this.up_pos.ToString() + "<br>";
-				str += "flick     =" + this.flick          + "<br>";
-				str += "flick_vec =" + this.flick_vec.ToString() + "<br>";
-				str += "drag      =" + this.drag           + "<br>";
-				str += "count     =" + this.count          + "<br>";
-				str += "point     =" + this.point          + "<br>";
-				str += "xbuf      =";
+			var str  = "Mouse:	   " 					   + "<br>";
+				str += "------pos       :" + this.pos.ToString() + "<br>";
+				str += "------click     :" + this.click          + "<br>";
+				str += "------dblclick  :" + this.dblclick       + "<br>";
+				str += "------down      :" + this.down           + "<br>";
+				str += "------down_pos  :" + this.down_pos.ToString() + "<br>";
+				str += "------up_pos    :" + this.up_pos.ToString() + "<br>";
+				str += "------flick     :" + this.flick          + "<br>";
+				str += "------flick_vec :" + this.flick_vec.ToString() + "<br>";
+				str += "------drag      :" + this.drag           + "<br>";
+				str += "------count     :" + this.count          + "<br>";
+				str += "------point     :" + this.point          + "<br>";
+				str += "------xbuf      :";
 			for( var i = 0 ; i<this.buf_num ; i++ )
 			{
 				if( i != this.buf_num-1 )
