@@ -23,11 +23,15 @@ class Stage01 extends Stage {
     spawnOctopus(){
         this.octSpawnTimer += deltaTime;
         if(this.octSpawnTimer > this.octNextSpawnTime){
-            this.octNextSpawnTime = randomNumber(100,100);
-            this.octSpawnTimer = 0;         
+            console.log("Octopus Spawned")
+            this.octNextSpawnTime = randomNumber(2,4);
+            this.octSpawnTimer = 0;
 
+            let scaleRandom = randomNumber(2,4) * 0.1;
+            this.monsterList.push(new Octopus( new Point(-50,290), scaleRandom));
         }
     }
+
 
     spawnCrab(){
         this.crabSpawnTimer += deltaTime;
@@ -35,7 +39,8 @@ class Stage01 extends Stage {
             console.log("Crab Spawned")
             this.crabNextSpawnTime = randomNumber(1,3);
             this.crabSpawnTimer = 0;
-            this.monsterList.push(new Crab( new Point(-50,480), 0.3)); 
+            let scaleRandom = randomNumber(2,3) * 0.1;
+            this.monsterList.push(new Crab( new Point(-50,480), scaleRandom));
         }
 
     }

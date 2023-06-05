@@ -5,30 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20b162d5-1969-4f31-a04e-363f7107c06e" name="Changes" comment="Created Editor bar/ button">
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/character/collider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/character/crab.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/character/object2D.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/character/player.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/math.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_01.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_title.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/game_scripts/character/octopus.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/challenge_01.html" beforeDir="false" afterPath="$PROJECT_DIR$/challenge_01.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/title_bg.png" beforeDir="false" afterPath="$PROJECT_DIR$/image/title_bg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/title_bg2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/title_bg3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/app_entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/app_entry.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/effects/particles.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/effects/particles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/effects/scene_effect.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/effects/scene_effect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/game_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/game_data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/hud.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/hud.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/scene_main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/scene_main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/scene_title.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/scene_title.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/system.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/system.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/tlib.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/tlib.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/game_scripts/character/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/character/player.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_01.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_01.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +75,7 @@
       <workItem from="1685775300677" duration="20887000" />
       <workItem from="1685825033930" duration="5350000" />
       <workItem from="1685857456666" duration="40740000" />
+      <workItem from="1685954490400" duration="1149000" />
     </task>
     <task id="LOCAL-00001" summary="Created Canvas">
       <created>1685474983511</created>
@@ -126,6 +108,18 @@
     <MESSAGE value="Created Canvas" />
     <MESSAGE value="Created Editor bar/ button" />
     <option name="LAST_COMMIT_MESSAGE" value="Created Editor bar/ button" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/game_scripts/character/player.js</url>
+          <line>82</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/_2023$Kaninabe.dat" NAME="Kaninabe Coverage Results" MODIFIED="1685888078160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="WipCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

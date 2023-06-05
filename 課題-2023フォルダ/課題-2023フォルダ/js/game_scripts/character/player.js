@@ -63,8 +63,8 @@ class Player extends Object2D {
     }
 
     resetState(){
-        player._pos = stage_manager.current.playerPos;
-        player._angle = 0;        
+        this._pos = stage_manager.current.playerPos;
+        this._angle = 0;
         this._bulletPrototypes = []
     }
 
@@ -171,22 +171,30 @@ class NetBullet extends Bullet {
             const rate = travel_cur / travel_max_distance;
             this._scale.x = rate * this._scaleOri.x;
             this._scale.y = rate * this._scaleOri.y;
-            this.checkCollide();
+
+
         } else {
+            this.checkCollide();
             // moving back scale rate decrease overtime
             // need to keep the net not turn to very small
             const shrinkSpd = 0.015 * deltaTime;
-            
+
             this._scale.x -= shrinkSpd;
             this._scale.y -= shrinkSpd ;
-            if(this._collider){
-                for(const caughtObj of this._caughtObj){
-                    if(caughtObj){
-                        caughtObj._pos = this._pos;
-                    }
-                }
-            }
+            // if(this._collider){
+            //     for(const caughtObj of this._caughtObj){
+            //         if(caughtObj){
+            //             caughtObj._pos = this._pos;
+            //         }
+            //     }
+            // }
         }
+        for(const caughtObj of this._caughtObj){
+            caughtObj._pos = this._pos;
+        }
+
+
+
     }
 
     draw() {
@@ -210,6 +218,8 @@ class NetBullet extends Bullet {
     }
 
     checkCollide(){
+        if(!this._collider) return;
+
         for(const monster of stage_manager.current.monsterList){
             // skip monster that been caught
             if(monster._state !== "move") continue;
