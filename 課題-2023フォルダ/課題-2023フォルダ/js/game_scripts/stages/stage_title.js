@@ -6,14 +6,12 @@ class StageTitle extends Stage {
     constructor() {
         super();
         this.background = GameImages.title_bg;
-
     }
 
     createMonsters (){
         this.monsterList = [];
         for (let i = 0; i <= 10; i++) {
             const monster = new Crab( new Point(-50,420), 0.3);
-            // monster.speed = 2; // test speed
             monster._nextDeployTime = randomNumber(1,6) * this.monsterList.length;
             this.monsterList.push(monster);
         }
@@ -37,7 +35,6 @@ class StageTitle extends Stage {
     }
 }
 
-// let stageTitle = new StageTitle();
 
 
 

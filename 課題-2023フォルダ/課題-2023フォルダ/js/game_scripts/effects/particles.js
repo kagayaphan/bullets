@@ -1,22 +1,17 @@
-// Get the canvas element and its 2D context
+/*
+* Particles game effect
+*/
 
-
-// Array of particle image paths
-var particleImages = [
-    "image/crab.png",
-    "image/octopus.png",
-    "image/squid.png",
-];
 
 // Array to store preloaded particle images
-var particleImageDatas = [
+let particleImagesData = [
     GameImages.crab,
     GameImages.octopus,
     GameImages.squid
 
 ];
 
-var particleState = 0;
+let particleState = false;
 
 
 class Particle{
@@ -48,11 +43,11 @@ class Particle{
 
 
 // Array to store particles
-var particles = [];
+let particles = [];
 
 // Animation loop
 function animate() {
-    if(particleState < 2) return;
+    if(!particleState) return;
 
     // Create new particle
     const x = Math.random() * global.canvas.width;
@@ -60,7 +55,7 @@ function animate() {
     const scale = (Math.random() * 20 + 25) * 0.01;
     const speedX = Math.random() * 2 - 1;
     const speedY = Math.random() * 2 - 1;
-    const image = particleImageDatas[Math.floor(Math.random() * particleImageDatas.length)];
+    const image = particleImagesData[Math.floor(Math.random() * particleImagesData.length)];
     particles.push(new Particle(x, y, scale, speedX, speedY, image));
 
     // Update and draw particles
@@ -73,18 +68,12 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
- // 0: unload, 1: stopped, 2: playing
-
-function playParticles() {
-    if(particleState === 2) return;
+// turn particles on or off
+function toggleParticles() {
+    particleState = !particleState;
     if(particleState) {
-        particleState = 2;
         animate();
     }
 };
 
-function stopParticles() {
-    // fadeOut();
-    particleState = 1;
-};
 

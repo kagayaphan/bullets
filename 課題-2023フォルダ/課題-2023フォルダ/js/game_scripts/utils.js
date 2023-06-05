@@ -4,11 +4,11 @@
 
 // Function Pointer Map
 const game_button_handlers = new Map([
-    ["playParticles", playParticles],
-    ["stopParticles", stopParticles],
+    ["toggleParticles", toggleParticles],
     ["gotoTitle", gotoTitle],
     ["gotoMainScene", gotoMainScene],
     ["showRestaurant", showRestaurant],
+    ["openInventory", openInventory],
 ]);
 
 
@@ -212,40 +212,43 @@ class Button {
       
         const drawX = centerX - scaledWidth / 2;
         const drawY = centerY - scaledHeight / 2;
-      
+
         // Draw button border
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "orange";
-        ctx.beginPath();
-        ctx.moveTo(drawX + scaledCornerRadius, drawY);
-        ctx.lineTo(drawX + scaledWidth - scaledCornerRadius, drawY);
-        ctx.arc(
-          drawX + scaledWidth - scaledCornerRadius,
-          drawY + scaledCornerRadius,
-          scaledCornerRadius,
-          1.5 * Math.PI,
-          2 * Math.PI
-        );
-        ctx.lineTo(drawX + scaledWidth, drawY + scaledHeight - scaledCornerRadius);
-        ctx.arc(
-          drawX + scaledWidth - scaledCornerRadius,
-          drawY + scaledHeight - scaledCornerRadius,
-          scaledCornerRadius,
-          0,
-          0.5 * Math.PI
-        );
-        ctx.lineTo(drawX + scaledCornerRadius, drawY + scaledHeight);
-        ctx.arc(
-          drawX + scaledCornerRadius,
-          drawY + scaledHeight - scaledCornerRadius,
-          scaledCornerRadius,
-          0.5 * Math.PI,
-          Math.PI
-        );
-        ctx.lineTo(drawX, drawY + scaledCornerRadius);
-        ctx.arc(drawX + scaledCornerRadius, drawY + scaledCornerRadius, scaledCornerRadius, Math.PI, 1.5 * Math.PI);
-        ctx.closePath();
-        ctx.stroke();
+        if(this.cornerRadius !== 0) {
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "orange";
+            ctx.beginPath();
+            ctx.moveTo(drawX + scaledCornerRadius, drawY);
+            ctx.lineTo(drawX + scaledWidth - scaledCornerRadius, drawY);
+            ctx.arc(
+                drawX + scaledWidth - scaledCornerRadius,
+                drawY + scaledCornerRadius,
+                scaledCornerRadius,
+                1.5 * Math.PI,
+                2 * Math.PI
+            );
+            ctx.lineTo(drawX + scaledWidth, drawY + scaledHeight - scaledCornerRadius);
+            ctx.arc(
+                drawX + scaledWidth - scaledCornerRadius,
+                drawY + scaledHeight - scaledCornerRadius,
+                scaledCornerRadius,
+                0,
+                0.5 * Math.PI
+            );
+            ctx.lineTo(drawX + scaledCornerRadius, drawY + scaledHeight);
+            ctx.arc(
+                drawX + scaledCornerRadius,
+                drawY + scaledHeight - scaledCornerRadius,
+                scaledCornerRadius,
+                0.5 * Math.PI,
+                Math.PI
+            );
+            ctx.lineTo(drawX, drawY + scaledCornerRadius);
+            ctx.arc(drawX + scaledCornerRadius, drawY + scaledCornerRadius, scaledCornerRadius, Math.PI, 1.5 * Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
       
         // Draw button fill
         ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;

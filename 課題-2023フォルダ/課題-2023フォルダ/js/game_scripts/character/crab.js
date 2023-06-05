@@ -12,7 +12,7 @@ class Crab extends Monster{
         this._pos = this._movePattern[0];
         // TODO remove debug
         // this._pos = new Point(400,400);
-        this._collider = new CircleCollider(this,30);
+        this._collider = new CircleCollider(this,20);
     }
 
     update(){

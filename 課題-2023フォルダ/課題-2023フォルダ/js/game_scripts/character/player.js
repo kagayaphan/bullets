@@ -105,12 +105,13 @@ class Bullet extends Object2D {
         super(sprite, scale);
         this._initPos = null;
         this._target = null; // mouse click on target
+        this._headPos = new Point(0,0); // param to set caught monster at the right place
         this._caughtObj = [];
     }
 
     initShot(target){
         this._caughtObj = [];
-        this._collider = new CircleCollider(this, 30);
+        this._collider = new CircleCollider(this, 20);
         this._scale = new Point(0.1,0.1);
         this._pos = new Point(player._pos.x + 20,player._pos.y + 50);
         this._initPos = new Point(player._pos.x + 20,player._pos.y + 50);
@@ -129,14 +130,12 @@ class Bullet extends Object2D {
                 // moving forward state done
                 this._state = "retrieve";
                 this._target = this._initPos;
-            } else { 
+            } else {
                 // moving back state done
                 this.remove();
                 player.notifyRestaurant(this._caughtObj);
-                
                 return;
             }
-
         }
 
         target.Sub(this._pos);
@@ -147,54 +146,58 @@ class Bullet extends Object2D {
         super.update();
     }
 
-    draw() {
-        super.draw();
-    }
 }
 
 class NetBullet extends Bullet {
     constructor(sprite, scale) {
         super(sprite, scale);
         this._speed = 10;
-
     }
 
     update() {
-        super.update();
 
         // compare traveled distance with target's travel distance to get scale ratio
         // to enlarge the size of net to make a simple animation
-
         if(this._state === "shot"){
             const travel_max_distance = this._target.Length(this._initPos);
             const travel_cur = this._pos.Length(this._initPos);
             const rate = travel_cur / travel_max_distance;
             this._scale.x = rate * this._scaleOri.x;
             this._scale.y = rate * this._scaleOri.y;
-
-
         } else {
             this.checkCollide();
             // moving back scale rate decrease overtime
-            // need to keep the net not turn to very small
+            // need to keep the net not turn into very small
             const shrinkSpd = 0.015 * deltaTime;
 
             this._scale.x -= shrinkSpd;
             this._scale.y -= shrinkSpd ;
-            // if(this._collider){
-            //     for(const caughtObj of this._caughtObj){
-            //         if(caughtObj){
-            //             caughtObj._pos = this._pos;
-            //         }
-            //     }
-            // }
+
+            // update head position but with reverse vector
+            const movingVec = new Point(this._target.x, this._target.y);
+            movingVec.Sub(this._pos);
+            movingVec.NormalizeScale(100);
+            movingVec.Neg();
+            this._headPos.x = this._pos.x + movingVec.x;
+            this._headPos.y = this._pos.y + movingVec.y;
+            this._collider._pos = this._headPos;
         }
+
         for(const caughtObj of this._caughtObj){
-            caughtObj._pos = this._pos;
+            if(caughtObj._state !== "caught") continue;
+            // Set mobs randomly stay on the net position
+            let randomPos = new Point(this._headPos.x,this._headPos.y);
+            // Convert angle from degrees to radians
+            let angleInRadians = (caughtObj._randAngle * Math.PI) / 180;
+            // Calculate the new point
+            let offsetX = Math.cos(angleInRadians) * caughtObj._randDistance;
+            let offsetY = Math.sin(angleInRadians) * caughtObj._randDistance;
+            // assign new offset to obj
+            caughtObj._pos = new Point(randomPos.x + offsetX, randomPos.y + offsetY);
+
         }
 
-
-
+        super.update();
     }
 
     draw() {
@@ -236,20 +239,7 @@ class NetBullet extends Bullet {
     }
 }
 
-class WeaponNet {
-    constructor() {
-        this._bullet = new NetBullet(GameImages.player_net, 0.3);
-        this._ammo = 100; // when this <= 0 player can not use this weapon
-        this._cdTimer = 0;
-        this._cdMax = 0.5;
-    }
 
-    initShot(target){
-        const clonedBullet = Object.assign(Object.create(Object.getPrototypeOf(this._bullet)), this._bullet);
-        clonedBullet.initShot(target);
-        player._bulletPrototypes.push(clonedBullet);
-    }
-}
 
 
 

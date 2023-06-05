@@ -17,8 +17,13 @@ time, mark, audio, video {
 	outline:0;
 	font-size:100%;
 	vertical-align:baseline;
-	background:transparent;
+	background:black;
+	color:white;
+	justify-content: center;
+	align-items: center;
 }
+
+/*body { min-height: 100vh; display: flex; flex-direction: column; justify-content: center}*/
 
 canvas#canvas {
 }

@@ -7,6 +7,7 @@ class Collider {
     constructor(owner) {
         // this._collideWith = null;
         this._owner = owner;
+        this._pos = new Point(0,0);
     }
 
     collideWith(object2D){}
@@ -25,13 +26,7 @@ class CircleCollider extends Collider{
 
         const targetPos = targetObj2D._pos;
         const r = this._radius + targetCol._radius;
-        if(targetPos.Length(this._owner._pos) < r) {
-            // objCol._collideWith = this;
-            // this._collideWith = objCol;
-            return true;
-        }
-
-        return false;
+        return targetPos.Length(this._pos) < r;
     }
 }
 

@@ -37,7 +37,7 @@ class Stage {
     ToString(){
         var str  = "Monster List:" 					                    + "<br>";
 			str += "---Crab Num :" + this.countMonster("crab")          + "<br>";
-			str += "---Oct  Num :" + this.countMonster("oct")           + "<br>";
+			str += "---Oct  Num :" + this.countMonster("octopus")       + "<br>";
 			str += "---Squid Num :" + this.countMonster("squid")        + "<br>";
         return str;
     }

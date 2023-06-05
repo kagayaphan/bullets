@@ -4,7 +4,7 @@
 var title_buttons_data = 
 [
 	{"x":700,"y":274,"width":120,"height":50,"content":"Start Game","fontFamily":"Arial","fontSize":18,"red":255,"green":89,"blue":65,"opacity":0.5,"clickHandler":"gotoMainScene","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":700,"y":345,"width":120,"height":50,"content":"Play Intro","fontFamily":"Arial","fontSize":18,"red":135,"green":135,"blue":255,"opacity":0.9,"clickHandler":"playParticles","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":700,"y":345,"width":120,"height":50,"content":"Play Intro","fontFamily":"Arial","fontSize":18,"red":135,"green":135,"blue":255,"opacity":0.9,"clickHandler":"toggleParticles","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 	{"x":700,"y":415,"width":120,"height":50,"content":"Credits","fontFamily":"Arial","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"}
 ]
 
@@ -12,7 +12,7 @@ var title_buttons_data =
 var game_buttons_data = 
 [
 	{"x":25,"y":20,"width":18,"height":18,"content":"icon_toTitle","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":2,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"playParticles","cornerRadius":6,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0,"clickHandler":"openInventory","cornerRadius":0,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"showRestaurant","cornerRadius":6,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 ]
 

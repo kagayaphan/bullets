@@ -1,26 +1,25 @@
+/*
+* Application System Unit Test
+*/
+
 let _DEBUG = false;
 
 
 function toggleDebugMode(){
   _DEBUG = !_DEBUG;
-  var textBoxContainer = document.getElementById("textBoxContainer");
-  var paragraphMouse = document.getElementById("mouseOut");
-  var paragraphMonster = document.getElementById("monsterList");
-  var buttons = document.getElementsByClassName("myButton");
-
-  
-
-  
+  const textBoxContainer = document.getElementById("textBoxContainer");
+  const paragraphMouse = document.getElementById("mouseOut");
+  const paragraphMonster = document.getElementById("monsterList");
+  const buttons = document.getElementsByClassName("myButton");
 
   if(_DEBUG){
     textBoxContainer.classList.remove("hidden");
     paragraphMouse.classList.remove("hidden");
     paragraphMonster.classList.remove("hidden");
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove("hidden");
     }
   } else {
-
     // clear editor bar handler
     editorDragBars.forEach(function(bar) {
       bar.destructor();
@@ -31,17 +30,15 @@ function toggleDebugMode(){
     textBoxContainer.classList.add("hidden");
     paragraphMouse.classList.add("hidden");
     paragraphMonster.classList.add("hidden");
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
       buttons[i].classList.add("hidden");
     }
   }
 }
 
 function updateDebugValue(){
-  var textBox = document.getElementById("myTextBox");
-  var newValue = textBox.value;
-  
-  d_globalEnemySpeedMultiplier = newValue;
+    const textBox = document.getElementById("myTextBox");
+    d_globalEnemySpeedMultiplier = textBox.value;
 }
 
 // export object to json file and print to console log to copy back to data file
@@ -75,7 +72,7 @@ function exportObject(title_buttons) {
     URL.revokeObjectURL(url);
 }
 
-// Initialize variables
+// Initialize time variables
 let previousTime = Date.now();
 let deltaTime = 0;
 // Update function

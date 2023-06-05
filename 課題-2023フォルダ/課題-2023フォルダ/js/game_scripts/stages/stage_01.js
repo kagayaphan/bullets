@@ -24,11 +24,11 @@ class Stage01 extends Stage {
         this.octSpawnTimer += deltaTime;
         if(this.octSpawnTimer > this.octNextSpawnTime){
             console.log("Octopus Spawned")
-            this.octNextSpawnTime = randomNumber(2,4);
+            this.octNextSpawnTime = randomNumber(5,20);
             this.octSpawnTimer = 0;
 
             let scaleRandom = randomNumber(2,4) * 0.1;
-            this.monsterList.push(new Octopus( new Point(-50,290), scaleRandom));
+            this.monsterList.push(new Octopus( new Point(-50,300), scaleRandom));
         }
     }
 
@@ -60,11 +60,24 @@ class Stage01 extends Stage {
     }
 
     drawMonster(){
+        let deadMobs = [];
+
         for (const monster of this.monsterList) {
-            const a = deltaTime;
             monster.update();
+            if(monster._state === "dead") {
+                deadMobs.push(monster);
+                continue;
+            }
             // only draw monster is on the move
-            if(monster._state === "move" || monster._state === "caught")  monster.draw();
+            if(monster._state !== "stop")  monster.draw();
+        }
+
+        for (const dead of deadMobs) {
+            const index = this.monsterList.indexOf(dead);
+            if (index !== -1) {
+                // console.log("REMOVED");
+                this.monsterList.splice(index, 1);
+            }
         }
 
     }

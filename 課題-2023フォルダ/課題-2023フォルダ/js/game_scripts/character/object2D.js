@@ -59,6 +59,9 @@ class Monster extends Object2D{
         this._deployTimer = 0;
         // next deploy time
         this._nextDeployTime = 0;
+        // being caught use params
+        this._randAngle = randomNumber(0,360);
+        this._randDistance = randomNumber(0,15);
     }
 
     gotCaught(){

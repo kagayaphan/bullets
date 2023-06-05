@@ -26,7 +26,6 @@
 		
 	</div>
 	<div>
-		<p>
 			<label for="toggleBox">Debug Mode:</label>
 			<input type="checkbox" id="toggleBox" onchange="toggleDebugMode()" />
 
@@ -34,16 +33,14 @@
 				<label for="myTextBox">Hooking up value:</label>
 				<input type="text" id="myTextBox" oninput="updateDebugValue()" value="1" />
 			</div>
-		</p>
-		<p>
+
 			<p id="checkingValue"></p>
-		</p>
-		<p>
+
 			<div id="monsterList" class="hidden"></div>
-		</p>
-		<p>
+
+
 			<div id="mouseOut" class="hidden"></div>
-		</p>
+
 		<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
 		<button class="myButton hidden" onclick="exportObject(buttons)">Export Title's Buttons</button>
 	</div>
@@ -60,6 +57,7 @@
 <script type="text/javascript" src="js/game_scripts/character/collider.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/object2D.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/restaurant.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/inventory.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/player.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/crab.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/octopus.js"></script>
