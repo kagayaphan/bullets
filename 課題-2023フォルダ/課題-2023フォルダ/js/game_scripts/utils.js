@@ -12,11 +12,33 @@ const icon_images = new Map([
     ["icon_squid",      GameImages.icon_squid],
     ["icon_net",        GameImages.icon_net],
     ["icon_toTitle",    GameImages.icon_toTitle],
-    ["icon_setting",    GameImages.icon_setting],
     ["icon_inventory",  GameImages.icon_inventory],
     ["icon_mapLocator", GameImages.icon_mapLocator],
 ]);
 
+function drawLine(from, to, size, color){
+    // Draw Line
+    const ctx = global.c2d;
+    // Start the path
+    ctx.beginPath();
+    // Set the starting point
+    ctx.moveTo(from.x, from.y);
+    // Set the end point and draw the Line
+    ctx.lineTo(to.x, to.y);
+    // Set Line style properties
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size;
+    // Draw Rope
+    ctx.stroke();
+}
+
+function drawCircle(pos, radius){
+    const ctx = global.c2d;
+    // Draw the circle
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, radius, 0, 2 * Math.PI);
+    ctx.stroke();
+}
 
 // object debug parameter array
 let editorDragBars = [];

@@ -2,24 +2,25 @@
 * Game Display Character Class
 * */
 
-let d_globalEnemySpeedMultiplier = 1;
+let d_globalEnemySpeedMultiplier = 1; // debug param use to speed up enemy movement speed
 
-const g_mob_move_destinationRadius = 2;
+const g_mob_move_destinationRadius = 2; // monster target collider radius
 
-const g_object2D_default_speed = 100;
+const g_object2D_default_speed = 100; // monster movement speed when state is normal
 // 2D image object
 class Object2D {
     constructor(sprite, scale) {
         this._pos = new Point(0,0);
         this._velo = new Point(0,0);
+        this._movingVec = new Point(0,0);
         this._scale = new Point(scale, scale);
         this._angle = 0;
         this._state = "stop";
 
         this._scaleOri = new Point(scale, scale);
-        this._speed = g_object2D_default_speed;
-        this.sprite = sprite;
-        this._collider = null;
+        this._speed = g_object2D_default_speed; // use this to effect the movement of monster
+        this.sprite = sprite; // image
+        this._collider = null; // box collider
     }
 
     update(){
@@ -41,7 +42,7 @@ class Object2D {
 class Monster extends Object2D{
     constructor(sprite, scale) {
         super(sprite,scale);
-        // monster type init by specify derrived class
+        // monster type init by specify derived class
         this.type = "";
         // score that reward player when killed
         this.reward = 0;
@@ -122,7 +123,6 @@ class Monster extends Object2D{
         nextTarget.Normalize();
         this._velo = nextTarget;
         this._velo.Mul(this._patSpeed * d_globalEnemySpeedMultiplier);
-        // this._velo.Mul(0);
 
         super.update();
 

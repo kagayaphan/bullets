@@ -21,7 +21,6 @@ class App {
         this.nextSequence = title_seq;
         this.sequence_step = 0;
         this.scaleBase = 1.0;
-        particleState = 1;
         fadeOut();
     }
 }

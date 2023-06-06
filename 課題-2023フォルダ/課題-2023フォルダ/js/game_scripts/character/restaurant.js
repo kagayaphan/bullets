@@ -72,7 +72,7 @@ class Restaurant {
         GameImages.icon_crab.Draw(          x, y, true);        
         global.c2d.fillText(this.crabStock, x, y + yPosModifier);
 
-        GameImages.icon_oct.Draw(           x + xPosModifier, y, true);
+        GameImages.icon_octopus.Draw(           x + xPosModifier, y, true);
         global.c2d.fillStyle = oct_color;        
         global.c2d.fillText(this.octStock,  x + xPosModifier, y + yPosModifier);
 

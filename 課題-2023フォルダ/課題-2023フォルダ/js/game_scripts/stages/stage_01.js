@@ -22,12 +22,14 @@ class Stage01 extends Stage {
     }
 
     init(){
+        // change to game menu
         hud_manager.changeMenu(hud_manager.game);
+        // display wave animation
         makeWaveEffect(stage_manager.current.wave);
+        // set all params to default value
         player.resetState();
-        //ODO remove this line when release player need to buy weapon
-        player.assignWeapon(new WeaponNet());
-
+        // assign default weapon
+        player.inventory.selectWeapon("bomb");
     }
 
     draw(){

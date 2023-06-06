@@ -4,7 +4,7 @@
 var title_buttons_data = 
 [
 	{"x":700,"y":274,"width":120,"height":50,"content":"Start Game","fontFamily":"Arial","fontSize":18,"red":255,"green":89,"blue":65,"opacity":0.5,"clickHandler":"gotoMainScene","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":700,"y":345,"width":120,"height":50,"content":"Play Intro","fontFamily":"Arial","fontSize":18,"red":135,"green":135,"blue":255,"opacity":0.9,"clickHandler":"toggleParticles","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":700,"y":345,"width":120,"height":50,"content":"Play Intro","fontFamily":"Arial","fontSize":18,"red":135,"green":135,"blue":255,"opacity":0.9,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 	{"x":700,"y":415,"width":120,"height":50,"content":"Credits","fontFamily":"Arial","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"}
 ]
 
@@ -43,18 +43,28 @@ const GameImages = {
     stage02_bg  : new LoadImage(global.c2d, "image/stage_02.png"),
     title_logo  : new LoadImage(global.c2d, "image/title_logo.png"),
 
-    // Player relate
-    player_net  : new LoadImage(global.c2d, "image/weapon_net.png"),
+    // Player weapon
+    player_net      : new LoadImage(global.c2d, "image/weapon_net.png"),
+    player_harpoon  : new LoadImage(global.c2d, "image/harpoon.png"),
+    player_bomb     : new LoadImage(global.c2d, "image/bomb.png"),
 
-    // button icons
+    // --- icon ---
+    // restaurant icons
     icon_nabe       : new LoadImage(global.c2d, "image/icon_nabe.png"),
     icon_crab       : new LoadImage(global.c2d, "image/icon_crab.png"),
-    icon_oct        : new LoadImage(global.c2d, "image/icon_oct.png"),
+    icon_octopus    : new LoadImage(global.c2d, "image/icon_octopus.png"),
     icon_squid      : new LoadImage(global.c2d, "image/icon_squid.png"),
+    // button
     icon_toTitle    : new LoadImage(global.c2d, "image/icon_toTitle.png"),
-    icon_setting    : new LoadImage(global.c2d, "image/icon_setting.png"),
     icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
     icon_mapLocator : new LoadImage(global.c2d, "image/icon_mapLocator.png"),
+    // weapon
+    icon_net        : new LoadImage(global.c2d, "image/icon_net.png"),
+    icon_harpoon    : new LoadImage(global.c2d, "image/icon_harpoon.png"),
+    icon_bomb       : new LoadImage(global.c2d, "image/icon_bomb.png"),
+
+
+
 }
 
 

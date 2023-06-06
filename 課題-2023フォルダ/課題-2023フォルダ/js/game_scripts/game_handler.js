@@ -50,7 +50,6 @@ function closeInventory(){
 
 // Function Pointer Map
 const game_button_handlers = new Map([
-    ["toggleParticles", toggleParticles],
     ["gotoTitle", gotoTitle],
     ["gotoHome", gotoHome],
     ["gotoStage01", gotoStage01],
