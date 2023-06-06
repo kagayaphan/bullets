@@ -2,9 +2,7 @@
 * Player Inventory Class content weapon, item, etc...
 * */
 
-function openInventory(){
 
-}
 
 class Weapon{
     constructor() {

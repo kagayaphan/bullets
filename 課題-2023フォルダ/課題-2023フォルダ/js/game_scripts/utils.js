@@ -2,33 +2,26 @@
 * Base Class And Tools Section
 */
 
-// Function Pointer Map
-const game_button_handlers = new Map([
-    ["toggleParticles", toggleParticles],
-    ["gotoTitle", gotoTitle],
-    ["gotoMainScene", gotoMainScene],
-    ["showRestaurant", showRestaurant],
-    ["openInventory", openInventory],
-]);
+
 
 
 const icon_images = new Map([
     ["icon_nabe",       GameImages.icon_nabe],
     ["icon_crab",       GameImages.icon_crab],
-    ["icon_octopus",    GameImages.icon_crab],
-    ["icon_squid",      GameImages.icon_crab],
-    ["icon_net",        GameImages.icon_crab],
-    ["icon_toTitle",        GameImages.icon_toTitle],
-    ["icon_setting",        GameImages.icon_setting],
-    ["icon_inventory",        GameImages.icon_inventory],
-
+    ["icon_octopus",    GameImages.icon_octopus],
+    ["icon_squid",      GameImages.icon_squid],
+    ["icon_net",        GameImages.icon_net],
+    ["icon_toTitle",    GameImages.icon_toTitle],
+    ["icon_setting",    GameImages.icon_setting],
+    ["icon_inventory",  GameImages.icon_inventory],
+    ["icon_mapLocator", GameImages.icon_mapLocator],
 ]);
 
 
 // object debug parameter array
 let editorDragBars = [];
 
-// easy handling bar object
+// easy handling bar object temmporary use only for UI design
 class DragBar {
     constructor(x, y, barWidth, maxParameterValue, referencedObj, paramName) {
         this.canvas = global.canvas;
@@ -159,11 +152,11 @@ class Button {
         this.cornerRadius = cornerRadius;
         this.foregroundOri = foregroundOri;
         this.foregroundOver = foregroundOver;
+        this.scale = scale;
         this._foreground = foregroundOri;
         this._opacityOri = opacity;
         this._scale = scale;
-
-
+        this._angle = 1;
     }
 
     createEditor() {
@@ -213,7 +206,7 @@ class Button {
         const drawX = centerX - scaledWidth / 2;
         const drawY = centerY - scaledHeight / 2;
 
-        // Draw button border
+        // Draw button border if cornerRadius # 0
         if(this.cornerRadius !== 0) {
             ctx.lineWidth = 2;
             ctx.strokeStyle = "orange";
@@ -250,19 +243,20 @@ class Button {
         }
 
       
-        // Draw button fill
-        ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
-        ctx.fill();
-      
-        // Draw button content
-        ctx.font = this.fontSize + "px " + this.fontFamily;
-        ctx.fillStyle = this._foreground;
-        ctx.textAlign = "center";
-
+           
+        
+        // If this button content is icon i dont want it to be draw background
         if (this.content.includes("icon")) {
             // if this is icon button draw icon image
-            icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale));
+            icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale),this._angle);
         } else {
+            // fill button background
+            ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
+            ctx.fill();   
+            // Draw button text content
+            ctx.font = this.fontSize + "px " + this.fontFamily;
+            ctx.fillStyle = this._foreground;
+            ctx.textAlign = "center";
             // if not just draw text content
             ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
         }    
@@ -282,8 +276,7 @@ class Button {
 
         if (x >= drawX && x <= drawX + this.width &&
             y >= drawY && y <= drawY + this.height) {
-            if(_DEBUG) this.createEditor();
-            // console.log("Button clicked!");
+            if(_DEBUG && _LEFTCTRL) {this.createEditor(); return}
             const handler = game_button_handlers.get(this.clickHandler);
             handler();
 

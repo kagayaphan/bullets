@@ -2,14 +2,17 @@
 * App Entry Point
 */
 let stage_manager = {
-    current : null,
-    title : new StageTitle(),
-    stage01 : new Stage01()
+    current : null,    
+    nextStage : null,
+
+    title   : new StageTitle(),
+    home    : new StageHome(),
+    stage01 : new Stage01(),
+    pause   : false
 };
 
-function startup(){
 
-}
+
 //! アプリのプロパティー
 class App {
     constructor() {
@@ -38,6 +41,10 @@ function frameUpdate()
     // Start Scene Update
     if(app.sequence) app.sequence();
 
+    if(hud_manager.current) {
+        hud_manager.current.update();
+        hud_manager.current.draw();
+    }
     // print debug output need to update rapidly so put it here instead of toggle
     if(_DEBUG) {
         // mouse value
@@ -45,7 +52,6 @@ function frameUpdate()
 
         // monster list        
         $("monsterList").innerHTML = stage_manager.current.ToString();
-        // var onCheckingValue = document.getElementById("onCheckingValue");
-        // onCheckingValue.textContent = "Value: " ;
+        
     } 
 }

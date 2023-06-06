@@ -8,8 +8,9 @@ class Player extends Object2D {
         this._reward = 0;
         this.speed = 1;
         this._animTimer = 0;
-        this.restaurant = new Restaurant();
+        this.restaurant = new Restaurant(this);
         // -- Weaponry
+        this.inventory = new Inventory(this);
         this._weapon = null;
         this._bulletPrototypes = [];
     }

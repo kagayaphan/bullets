@@ -11,10 +11,24 @@ var title_buttons_data =
 
 var game_buttons_data = 
 [
-	{"x":25,"y":20,"width":18,"height":18,"content":"icon_toTitle","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":2,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":25,"y":20,"width":18,"height":18,"content":"icon_toTitle","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0,     "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0,"clickHandler":"openInventory","cornerRadius":0,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"showRestaurant","cornerRadius":6,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"showRestaurant","cornerRadius":0,    "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 ]
+
+var home_buttons_data = 
+[
+	{"x":290,"y":48,"width":100,"height":100,"content":"icon_mapLocator","fontFamily":"Arial", "fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"gotoStage01","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
+	{"x":463,"y":169,"width":100,"height":100,"content":"icon_mapLocator","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"gotoStage01","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
+	{"x":303,"y":367,"width":100,"height":100,"content":"icon_mapLocator","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"gotoStage01","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"}
+]
+
+var inventory_buttons_data = 
+[
+	{"x":450,"y":250,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Arial","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0,"clickHandler":"closeInventory","cornerRadius":0,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+]
+
+
 
 const GameImages = {
     nabe        : new LoadImage(global.c2d, "image/nabe.png"),
@@ -24,6 +38,7 @@ const GameImages = {
     squid       : new LoadImage(global.c2d, "image/squid.png"),
     title_bg    : new LoadImage(global.c2d, "image/title_bg.png"),
     boat        : new LoadImage(global.c2d, "image/boat.png"),
+    world_map   : new LoadImage(global.c2d, "image/world_map.png"),
     stage01_bg  : new LoadImage(global.c2d, "image/stage_01.png"),
     stage02_bg  : new LoadImage(global.c2d, "image/stage_02.png"),
     title_logo  : new LoadImage(global.c2d, "image/title_logo.png"),
@@ -39,6 +54,7 @@ const GameImages = {
     icon_toTitle    : new LoadImage(global.c2d, "image/icon_toTitle.png"),
     icon_setting    : new LoadImage(global.c2d, "image/icon_setting.png"),
     icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
+    icon_mapLocator : new LoadImage(global.c2d, "image/icon_mapLocator.png"),
 }
 
 

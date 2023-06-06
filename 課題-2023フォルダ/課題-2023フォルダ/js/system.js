@@ -42,9 +42,8 @@ function updateDebugValue(){
 }
 
 // export object to json file and print to console log to copy back to data file
-function exportObject(title_buttons) {
-    // const json = JSON.stringify(title_buttons);
-    const json = JSON.stringify(title_buttons, (key, value) => {
+function exportObject() {
+    const json = JSON.stringify(hud_manager.current.buttons, (key, value) => {
         if (key.startsWith('_')) {
           return undefined; // Exclude properties with a prefix underscore
         }
@@ -63,11 +62,11 @@ function exportObject(title_buttons) {
     formattedJson = formattedJson.replace(closingBracketRegex, '}\n]');
 
     console.log(formattedJson);
-    const blob = new Blob([json], { type: 'application/json' });
+    const blob = new Blob([formattedJson], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'title_buttons_data.json';
+    a.download = 'buttons_data.json';
     a.click();
     URL.revokeObjectURL(url);
 }

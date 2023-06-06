@@ -11,10 +11,10 @@ function  makeWaveEffect(att){
     canvas.height = att.height;
     // document.body.appendChild(canvas);
 
-// Get the 2D rendering context
+    // Get the 2D rendering context
     const ctx = canvas.getContext('2d');
 
-// Wave parameters
+    // Wave parameters
     const amplitude = 60; // Wave amplitude
     const frequency = 0.02; // Wave frequency
     const phase = 0; // Wave phase shift
@@ -23,7 +23,7 @@ function  makeWaveEffect(att){
     const waveSpeed = 0.02; // Wave speed
     const fadeOutDistance = att.height; // Distance over which the wave fades out
 
-// Animation loop
+    // Animation loop
     function animate() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -98,8 +98,8 @@ function applyBlurEffect(blurRadius) {
 let scene_fade_alpha = 0;
 
 // fade speed value
-const fadeOutSpeed = 0.02;
-const fadeInSpeed = 0.005;
+const fadeOutSpeed = 0.05;
+const fadeInSpeed = 0.01;
 
 // starting to fade out
 function fadeOut() {
@@ -114,11 +114,22 @@ function fadeOut() {
     // If the alpha is still smaller than 1, continue fading out
     requestAnimationFrame(fadeOut);
   } else {
+    // deInitHUD();
+    if(app.nextSequence){
+        app.sequence = app.nextSequence;
+        app.sequence_step = 0;
+        app.nextSequence = null;
+        if(stage_manager.current)   stage_manager.current.deInit();
+        
+    } else {
+        stage_manager.current.deInit();
+        stage_manager.current = stage_manager.nextStage;
+        stage_manager.current.init();
+        stage_manager.nextStage = null;        
+    }
+    // Starting to fade in with new scene Info
     fadeIn();
-    app.sequence = app.nextSequence;
-    app.sequence_step = 0;
-    if(stage_manager.current)   stage_manager.current.deInit();
-    deInitHUD();
+    
   }
 }
 

@@ -1,6 +1,0 @@
-[
-    { "x": 600, "y": 250, "width": 120, "height": 50, "content": "Start Game", "red": 135, "green": 156, "blue": 255, "handler": "createEditors"},
-    { "x": 600, "y": 310, "width": 120, "height": 50, "content": "Play Intro", "red": 135, "green": 156, "blue": 255, "handler": "createEditors"},
-    { "x": 600, "y": 370, "width": 120, "height": 50, "content": "Credits", "red": 135, "green": 156, "blue": 255, "handler": "createEditors"}
-  ]
-  

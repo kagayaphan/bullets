@@ -18,6 +18,25 @@ class Stage01 extends Stage {
 
         this.octSpawnTimer = 0;
         this.octNextSpawnTime = 0;
+
+    }
+
+    init(){
+        initGameMenu();
+        makeWaveEffect(stage_manager.current.wave);
+        player.resetState();
+        //ODO remove this line when release player need to buy weapon
+        player.assignWeapon(new WeaponNet());
+
+    }
+
+    draw(){
+        super.draw();
+        player.draw();
+        if(this.effect_timer > 0){
+            if(this.effect_timer < 3)  this.effect_timer += deltaTime * 4;
+            applyBlurEffect(this.effect_timer);
+        }
     }
 
     spawnOctopus(){
@@ -59,7 +78,22 @@ class Stage01 extends Stage {
         // }
     }
 
-    drawMonster(){
+    update(){
+        // update stage monster behaviors
+        stage_manager.current.spawnMonsters();
+        stage_manager.current.updateMonsters();
+        // update user's player behavior
+        player.update();
+        const mouse = global.mouse;
+        if( mouse.up )
+        {
+            const point = new Point(mouse.up_pos.x,mouse.up_pos.y);
+            // make sure player wont shot when click on UI 
+            if(point.y > player._pos.y) player.initShot(point);
+        }
+    }
+
+    updateMonsters(){
         let deadMobs = [];
 
         for (const monster of this.monsterList) {
@@ -68,8 +102,6 @@ class Stage01 extends Stage {
                 deadMobs.push(monster);
                 continue;
             }
-            // only draw monster is on the move
-            if(monster._state !== "stop")  monster.draw();
         }
 
         for (const dead of deadMobs) {
@@ -80,6 +112,14 @@ class Stage01 extends Stage {
             }
         }
 
+    }
+
+
+    drawMonster(){
+        for (const monster of this.monsterList) {            
+            // only draw monster is on the move
+            if(monster._state !== "stop")  monster.draw();
+        } 
     }
 
 }

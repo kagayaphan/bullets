@@ -7,7 +7,8 @@ class Stage {
         this.monsterList = [];
         this.background = null;
         this.wave = null;
-        this.init();
+        this.effect_timer = 0;
+
     }
 
     init(){
@@ -24,6 +25,8 @@ class Stage {
     draw(){
         this.background.Draw(global.canvas.width / 2 , 246.5, true);
         this.drawMonster();
+        
+
     }
 
     countMonster(type) {
@@ -42,7 +45,11 @@ class Stage {
         return str;
     }
 
+    
+
     // interface
+    update(){}
+    updateMonsters(){}
     spawnMonsters(){}
     createMonsters(){}
     drawMonster(){}

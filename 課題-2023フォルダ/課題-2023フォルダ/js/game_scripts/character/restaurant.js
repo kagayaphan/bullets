@@ -3,7 +3,10 @@ Player's Restaurant Properties
 */
 
 class Restaurant {
-    constructor(){
+    constructor(owner){
+        this.owner = owner;
+        this.level = 1;
+        
         this.crabStock = 0;
         this.octStock = 0;
         this.squidStock = 0;
@@ -12,6 +15,12 @@ class Restaurant {
         this.octSales = 0;
         this.squidSales = 0;
 
+        this._crabSellTimer = 0;
+        this._octSellTimer = 0;
+        this._squidSellTimer = 0;
+
+        
+
         this._crabNotifyEffectTimer = 1;
         this._octNotifyEffectTimer = 1;
         this._squidNotifyEffectTimer = 1;
@@ -19,15 +28,15 @@ class Restaurant {
 
     updateStock(monster){
         const type = monster.type;
-        if     (type == "crab")  {
+        if     (type === "crab")  {
             this. _crabNotifyEffectTimer = 0;
             this.crabStock++;
         }   
-        else if(type == "octopus") { 
+        else if(type === "octopus") { 
             this. _octNotifyEffectTimer = 0;
             this.octStock++;
         }
-        else if(type == "quid")     {
+        else if(type === "quid")     {
             this. _squidNotifyEffectTimer = 0;
             this.squidStock++;
         }
@@ -75,6 +84,3 @@ class Restaurant {
     }
 }
 
-function showRestaurant(){
-
-}

@@ -2,10 +2,7 @@
 * Scene Game Title Logic
 * */
 
-function gotoTitle() {
-    app.nextSequence = title_seq;
-    fadeOut();
-}
+
 
 function title_seq()
 {
@@ -21,7 +18,7 @@ function title_seq()
             {
                 stage_manager.current = stage_manager.title;
                 app.sequence_step++;
-                initTitleHUD();
+                initTitleMenu();
             }
             break;
         case 1:
@@ -42,11 +39,7 @@ function title_seq()
             // Display Title Icon
             let s = global.frameCount * 0.05;
             GameImages.title_logo.Draw(Screen.centerW + Math.sin( s ) * 8, 125 , true);
-            // Display Title Text
-            // let gameTitleTxt = new GameText("カニ鍋",90, Screen.centerW, 90, "255, 0, 0");
-            // gameTitleTxt.draw();
-            // Start UI Update
-            drawTitleHUD()
+            
             break;
     }
     app.scaleBase=1.0+0.1*Math.sin(global.frameCount/15);
