@@ -22,7 +22,7 @@ class Stage01 extends Stage {
     }
 
     init(){
-        initGameMenu();
+        hud_manager.changeMenu(hud_manager.game);
         makeWaveEffect(stage_manager.current.wave);
         player.resetState();
         //ODO remove this line when release player need to buy weapon

@@ -18,7 +18,7 @@ function title_seq()
             {
                 stage_manager.current = stage_manager.title;
                 app.sequence_step++;
-                initTitleMenu();
+                hud_manager.changeMenu(hud_manager.title);
             }
             break;
         case 1:

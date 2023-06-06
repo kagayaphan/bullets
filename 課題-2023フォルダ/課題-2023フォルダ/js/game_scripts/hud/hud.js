@@ -5,17 +5,7 @@
 //----------- Game UI Design Here --------------
 
 
-
-
-
-// function deInitHUD(){
-//     if(hud_manager.current) {
-//         hud_manager.current.deInit();
-//         hud_manager.current = null;
-//     }
-// }
-
-// UI object container
+// Base Menu Context
 class Menu {
     constructor(buttons_data){
         this.buttons = [];
@@ -103,29 +93,13 @@ hud_manager = {
     },
 }
 
+hud_manager.title.createFlickerTxt("! ようこそ !",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
 
 
 
 
-function initTitleMenu() {
-    hud_manager.title.createFlickerTxt("! ようこそ !",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
 
-    hud_manager.changeMenu(hud_manager.title);
-}
 
-function initGameMenu(){
-    hud_manager.changeMenu(hud_manager.game);
-}
-
-function initHomeMenu(){
-    hud_manager.changeMenu(hud_manager.home);
-
-}
-
-function initInventoryMenu(){
-    hud_manager.changeMenu(hud_manager.inventory);
-    
-}
 
 let _LEFTCTRL = false;
 // Handle button click

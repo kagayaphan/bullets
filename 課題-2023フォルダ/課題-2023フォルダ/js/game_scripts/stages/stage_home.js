@@ -12,7 +12,7 @@ class StageHome extends Stage {
     } 
 
     init(){
-        initHomeMenu();
+        hud_manager.changeMenu(hud_manager.home);
     }
     
     update(){
