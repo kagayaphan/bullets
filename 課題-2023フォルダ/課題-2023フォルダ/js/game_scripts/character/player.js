@@ -14,6 +14,15 @@ class Player extends Object2D {
         this._bulletPrototypes = [];
     }
 
+    resetState(){
+        let initInfo = stage_manager.current.playerInitInfo;
+        g_mapScale = stage_manager.current.mapScale;
+        this._pos = initInfo.pos;
+        this._scale.x = initInfo.scale; this._scale.y = Math.abs(initInfo.scale);
+        this._angle = 0;
+        this._bulletPrototypes = [];
+    }
+
     notifyRestaurant(caughtMonsters){
         for(const caughtObj of caughtMonsters){
             this.restaurant.updateStock(caughtObj);
@@ -28,6 +37,8 @@ class Player extends Object2D {
     update() {
         this.animate();
         this.weaponUpdate();
+        this.restaurant.update();
+        this.inventory.update();
         super.update();
     }
 
@@ -62,11 +73,7 @@ class Player extends Object2D {
         this._pos.x += step * randVar * 2;
     }
 
-    resetState(){
-        this._pos = stage_manager.current.playerPos;
-        this._angle = 0;
-        this._bulletPrototypes = []
-    }
+
 
     draw(){
         for(const bullet of this._bulletPrototypes){
@@ -75,30 +82,33 @@ class Player extends Object2D {
         super.draw();
 
         this.restaurant.draw();
+
     }
 }
 
 
 // --- Bullet Base Class
 class Bullet extends Object2D {
-    constructor(sprite, scale) {
+    constructor(sprite, scale, speed, range) {
         super(sprite, scale);
         this._type = "";
         this._initPos = null;
         this._target = null; // mouse click on target
         this._headPos = new Point(0,0); // param to set caught monster at the right place
         this._caughtObj = [];
+        this._colliderRadius = range; // get this info from weapon
+        this._speed = speed;    // get this info from weapon
     }
 
     initShot(target){
         // make sure nothing inside caught object array
         this._caughtObj = [];
         // create collider
-        this._collider  = new CircleCollider(this, 20);
+        this._collider  = new CircleCollider(this, this._colliderRadius);
         // set offset position with boat's position
-        this._pos       = new Point(player._pos.x + 20,player._pos.y + 50);
+        this._pos       = new Point(player._pos.x + 20 * g_mapScale,player._pos.y + 50  * g_mapScale);
         // remember init position
-        this._initPos   = new Point(player._pos.x + 20,player._pos.y + 50);
+        this._initPos   = new Point(this._pos.x,this._pos.y);
         // remember target position
         this._target    = target;
         // change state to shot
@@ -106,6 +116,11 @@ class Bullet extends Object2D {
         // Calculate angle between bullet position and target position in degree
         this._angle     = this._pos.Angle(this._target) * (180 / Math.PI) ;
    
+    }
+
+    retrieveInit(){
+        this._state = "retrieve";
+        this._target = this._initPos;
     }
 
     update(){
@@ -120,12 +135,11 @@ class Bullet extends Object2D {
         if(target.Length(this._pos) < g_mob_move_destinationRadius * 2) {
             if(this._state === "shot") {
                 if(this._type === "bomb") {
-                    // dont stop moving forward if this is bomb
+                    // keep moving forward if this is bomb
                     return;
                 }
                 // ending moving forward => moving back now
-                this._state = "retrieve";
-                this._target = this._initPos;
+                this.retrieveInit();
             } else {
                 // moving back state done object ready to be destructed
                 player.notifyRestaurant(this._caughtObj);
@@ -138,10 +152,13 @@ class Bullet extends Object2D {
         target.Normalize();
         this._velo = target;
 
-        // super.update();
+        super.update();
     }
 
     remove(){
+        // return ammo to weapon
+        player.inventory.bulletRetrieve(this._type);
+
         for(const obj of this._caughtObj){
             obj.remove();
         }
@@ -151,18 +168,29 @@ class Bullet extends Object2D {
 
 }
 
+
+//--- Weapon Net use to catch a mobs only active collider while returning to the player
 class NetBullet extends Bullet {
-    constructor(sprite, scale) {
-        super(sprite, scale);
+    constructor(sprite, scale, speed, range) {
+        super(sprite, scale, speed, range);
         this._type = "net";
-        this._speed = 10;
         this._ropeColor = "rgb(204, 85, 0)";
     }
 
     initShot(target) {
         // assign scale size at minimum to enlarge it when move
-        this._scale     = new Point(0.1,0.1);
+        this._scale     = new Point(0.001,0.001);
         super.initShot(target);
+    }
+
+    retrieveInit(){
+        // get the distance that net has been moved from the init position (player pos)
+        const traveled_distance = this._pos.Length(this._initPos);
+        // get the rate from that position with canvas width/2 compare with global map scale
+        let rate = traveled_distance / (global.canvas.width/2* g_mapScale);
+        // change the collider size to fit with new rate
+        this._collider._radius *= rate;
+        super.retrieveInit();
     }
 
     update() {
@@ -186,11 +214,18 @@ class NetBullet extends Bullet {
             this._movingVec.x = this._target.x;
             this._movingVec.y = this._target.y;
             this._movingVec.Sub(this._pos);
-            this._movingVec.NormalizeScale(100);
+            const spriteW = this.sprite.img.width/4 *this._scaleOri.x;
+            const headPosLength =  spriteW + spriteW * this._scale.x;
+            // console.log(headPosLength);
+            this._movingVec.NormalizeScale(headPosLength);
             this._movingVec.Neg();
             this._headPos.x = this._pos.x + this._movingVec.x;
             this._headPos.y = this._pos.y + this._movingVec.y;
+            // update collider
             this._collider._pos = this._headPos;
+            this._collider._radius -= shrinkSpd * 500;
+            if(this._collider._radius < 0) this._collider._radius = 1;
+            // console.log("collider radius: " + this._collider._radius);
 
         }
 
@@ -214,7 +249,7 @@ class NetBullet extends Bullet {
     draw() {
         super.draw();
 
-        drawLine(this._initPos, this._pos, 2, this._ropeColor);
+        drawLine(this._initPos, this._pos, 2 * g_mapScale, this._ropeColor);
 
         if(_DEBUG) {
             if(this._collider) this._collider.draw();
@@ -232,7 +267,7 @@ class NetBullet extends Bullet {
             if(collider){
                 // if collideWith obj was exists it mean we got a crab
                 if(this._collider.collideWith(monster)){
-                    if(_DEBUG) console.log("GOT CRAB");
+                    // if(_DEBUG) console.log("GOT CRAB");
                     this._caughtObj.push(monster);
                     monster.gotCaught();
                 }
@@ -241,20 +276,20 @@ class NetBullet extends Bullet {
     }
 }
 
+
+//--- Very fast moving weapon use to kill some annoy fish that have no value
 class HarpoonBullet extends Bullet {
-    constructor(sprite, scale) {
-        super(sprite, scale);
+    constructor(sprite, scale, speed, range) {
+        super(sprite, scale, speed, range);
         this._type = "harpoon";
-        this._speed = 20;
-        this._ropeColor = "rgb(255,255,255)";
+        this._ropeColor = "rgb(255,50,50)";
     }
 
     update() {
-        // this._movingVec = new Point(this._target.x, this._target.y);
         this._movingVec.x = this._target.x;
         this._movingVec.y = this._target.y;
         this._movingVec.Sub(this._pos);
-        this._movingVec.NormalizeScale(this.sprite.img.width/2);
+        this._movingVec.NormalizeScale(this.sprite.img.width/2 * g_mapScale);
         if(this._state === "shot"){
 
             this._headPos.x = this._pos.x + this._movingVec.x;
@@ -321,11 +356,11 @@ class HarpoonBullet extends Bullet {
     }
 }
 
+//--- Drop the bomb to stun mobs to catch or kill
 class BombBullet extends Bullet {
-    constructor(sprite, scale) {
-        super(sprite, scale);
+    constructor(sprite, scale, speed, range) {
+        super(sprite, scale, speed, range);
         this._type = "bomb";
-        this._speed = 0.5;
         this._acceleration  = 5;
     }
 
@@ -353,8 +388,6 @@ class BombBullet extends Bullet {
 
     draw() {
         super.draw();
-
-
         if(_DEBUG) {
             if(this._collider) this._collider.draw();
         }

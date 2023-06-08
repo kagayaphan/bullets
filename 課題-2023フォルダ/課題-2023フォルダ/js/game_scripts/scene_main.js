@@ -3,9 +3,6 @@ let player = new Player(GameImages.boat, 1);
 
 function main_seq()
 {
-
-    
-
     switch( app.sequence_step )
     {
         case 0:
@@ -13,8 +10,6 @@ function main_seq()
             stage_manager.current.init();
             
             app.sequence_step++;
-
-            
             break;
         case 1:
             // if stage not on pause state update it

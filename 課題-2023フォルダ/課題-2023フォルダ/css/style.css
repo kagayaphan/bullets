@@ -21,6 +21,7 @@ time, mark, audio, video {
 	color:white;
 	justify-content: center;
 	align-items: center;
+	font-family: "Roboto Light", sans-serif; /* Example font family */
 }
 
 /*body { min-height: 100vh; display: flex; flex-direction: column; justify-content: center}*/

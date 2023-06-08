@@ -40,6 +40,223 @@ function drawCircle(pos, radius){
     ctx.stroke();
 }
 
+function drawRoundedRectangle(x, y, width, height, cornerRadius, backgroundColor, borderColor) {
+    global.c2d.beginPath();
+    global.c2d.moveTo(x + cornerRadius, y);
+    global.c2d.lineTo(x + width - cornerRadius, y);
+    global.c2d.quadraticCurveTo(x + width, y, x + width, y + cornerRadius);
+    global.c2d.lineTo(x + width, y + height - cornerRadius);
+    global.c2d.quadraticCurveTo(x + width, y + height, x + width - cornerRadius, y + height);
+    global.c2d.lineTo(x + cornerRadius, y + height);
+    global.c2d.quadraticCurveTo(x, y + height, x, y + height - cornerRadius);
+    global.c2d.lineTo(x, y + cornerRadius);
+    global.c2d.quadraticCurveTo(x, y, x + cornerRadius, y);
+    global.c2d.closePath();
+
+    global.c2d.fillStyle = backgroundColor;
+    global.c2d.fill();
+
+    global.c2d.strokeStyle = borderColor;
+    global.c2d.lineWidth = 2;
+    global.c2d.stroke();
+}
+
+function drawBoard(x, y, width, height, opacity) {
+    // Calculate the actual width and height based on the maximum limits
+    const actualWidth = width;
+    const actualHeight = height;
+
+    // Draw the board rectangle with the specified opacity
+    global.c2d.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+    global.c2d.fillRect(x, y, actualWidth, actualHeight);
+
+    // Add any additional drawing or customization here
+
+    // Example: Draw a border with the specified opacity
+    global.c2d.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+    global.c2d.lineWidth = 2;
+    global.c2d.strokeRect(x, y, actualWidth, actualHeight);
+}
+
+function drawBlackBoard(x, y, width, height, textArray) {
+    // Create a temporary canvas element dynamically
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = global.canvas.width;
+    tempCanvas.height = global.canvas.height;
+
+    // Get the 2D rendering context
+    const ctx = tempCanvas.getContext('2d');
+    // Draw the black board
+    global.c2d.fillStyle = 'black';
+    global.c2d.fillRect(x, y, width, height);
+
+    // Draw the curved border
+    const cornerRadius = 20;
+    global.c2d.lineWidth = 2;
+    global.c2d.strokeStyle = 'white';
+    global.c2d.beginPath();
+    global.c2d.moveTo(x + cornerRadius, y);
+    global.c2d.arcTo(x + width, y, x + width, y + height, cornerRadius);
+    global.c2d.arcTo(x + width, y + height, x, y + height, cornerRadius);
+    global.c2d.arcTo(x, y + height, x, y, cornerRadius);
+    global.c2d.arcTo(x, y, x + width, y, cornerRadius);
+    global.c2d.closePath();
+    global.c2d.stroke();
+
+    // Calculate the maximum font size that fits the text inside the board
+    let fontSize = 20;
+    let lineHeight = 32; // modify this to make the spacing larger
+    let textHeight = lineHeight * textArray.length;
+    while (textHeight > height - 20) {
+        fontSize--;
+        lineHeight--;
+        textHeight = lineHeight * textArray.length;
+    }
+
+    // Draw the text inside the board
+    global.c2d.fillStyle = 'white';
+    global.c2d.textAlign = 'center';
+
+    for (let i = 0; i < textArray.length; i++) {
+        const text = textArray[i];
+        const textY = y + 25 + i * lineHeight + (lineHeight - fontSize) / 2;
+        global.c2d.fillText(text, x + width / 2, textY);
+    }
+}
+
+function drawGridBoard(x, y, width, height, col, row, opacity) {
+    const borderRadius = 8;
+    const columnCount = col;
+    const columnLineWidth = 2;
+
+
+    // Calculate the starting x-coordinate based on the width and x position
+    const startX = x - width;
+
+    // Draw the black board with border radius and opacity
+    const boardColor = `rgba(55, 55, 55, ${opacity})`;
+
+    global.c2d.fillStyle = boardColor;
+    global.c2d.strokeStyle = boardColor;
+    global.c2d.lineWidth = borderRadius;
+    global.c2d.beginPath();
+    global.c2d.moveTo(startX + borderRadius, y);
+    global.c2d.lineTo(startX + width - borderRadius, y);
+    global.c2d.quadraticCurveTo(startX + width, y, startX + width, y + borderRadius);
+    global.c2d.lineTo(startX + width, y + height - borderRadius);
+    global.c2d.quadraticCurveTo(startX + width, y + height, startX + width - borderRadius, y + height);
+    global.c2d.lineTo(startX + borderRadius, y + height);
+    global.c2d.quadraticCurveTo(startX, y + height, startX, y + height - borderRadius);
+    global.c2d.lineTo(startX, y + borderRadius);
+    global.c2d.quadraticCurveTo(startX, y, startX + borderRadius, y);
+    global.c2d.closePath();
+    global.c2d.fill();
+
+    // Draw the column lines with opacity
+    const columnLineColor = `rgba(255, 255, 255, ${opacity})`;
+
+    global.c2d.lineWidth = columnLineWidth;
+    global.c2d.strokeStyle = columnLineColor;
+    const columnWidth = width / columnCount;
+    for (let i = 1; i < columnCount; i++) {
+        const columnX = startX + i * columnWidth;
+        global.c2d.beginPath();
+        global.c2d.moveTo(columnX, y + height * 0.2);
+        global.c2d.lineTo(columnX, y + height * 0.8);
+        global.c2d.stroke();
+    }
+}
+
+
+function drawTextArray(x, y, textArray, fontSize) {
+    global.c2d.font = `${fontSize}px "Roboto Light", sans-serif`;
+    global.c2d.fillStyle = "white";
+    global.c2d.textAlign = "left";
+    const spacing = fontSize + 5; // Adjust spacing between lines
+
+    for (let i = 0; i < textArray.length; i++) {
+        global.c2d.fillText(textArray[i], x, y + i * spacing);
+    }
+}
+
+
+function drawClockCircle(x, y, radius, percent) {
+    percent = Math.round(percent);
+    const startAngle = -Math.PI / 2; // Start angle at the top
+    const endAngle = startAngle + (2 * Math.PI * percent) / 100; // Calculate end angle based on percentage
+    const cooldownColor = "rgba(0, 0, 0, 0.1)"; // Background cool down color
+    const fillColor = "rgba(0, 0, 0, 0.4)"; // Circle fill color
+    const cooldownLineWidth = radius * 0.9; // Cool down line width
+    const fontSize = 14; // Font size for the percentage text
+
+    // Draw cool down background
+    global.c2d.lineWidth = cooldownLineWidth;
+    global.c2d.strokeStyle = cooldownColor;
+    global.c2d.beginPath();
+    global.c2d.arc(x, y, radius, 0, 2 * Math.PI);
+    global.c2d.stroke();
+
+    // Draw the filled portion based on percentage
+    global.c2d.lineWidth = cooldownLineWidth;
+    global.c2d.strokeStyle = fillColor;
+    global.c2d.beginPath();
+    global.c2d.arc(x, y, radius, startAngle, endAngle);
+    global.c2d.stroke();
+
+    // Draw the percentage text at the center of the circle
+    const text = percent + "%";
+    global.c2d.font = `${fontSize}px Roboto`;
+    if(percent < 50){
+        global.c2d.fillStyle = "white";
+    } else if(percent < 85){
+        global.c2d.fillStyle = "yellow";
+    } else {
+        global.c2d.fillStyle = "red";
+
+    }
+    global.c2d.textAlign = "center";
+    global.c2d.fillText(text, x, y);
+}
+
+
+function animateBoardExpansion(x, y, targetWidth, targetHeight) {
+    const maxWidth = 200;
+    const maxHeight = 100;
+
+    let currentWidth = 0;
+    let currentHeight = 0;
+
+    function updateBoard() {
+        // Calculate the increment for width and height
+        const widthIncrement = Math.ceil(targetWidth / 30);  // Adjust the increment as desired
+        const heightIncrement = Math.ceil(targetHeight / 30); // Adjust the increment as desired
+
+        // Update the current dimensions
+        currentWidth = Math.min(currentWidth + widthIncrement, targetWidth, maxWidth);
+        currentHeight = Math.min(currentHeight + heightIncrement, targetHeight, maxHeight);
+
+        // Draw the board rectangle
+        global.c2d.fillStyle = "black";
+        global.c2d.fillRect(x, y, currentWidth, currentHeight);
+
+        // Add any additional drawing or customization here
+
+        // Example: Draw a border
+        global.c2d.strokeStyle = "white";
+        global.c2d.lineWidth = 2;
+        global.c2d.strokeRect(x, y, currentWidth, currentHeight);
+
+        // Request the next animation frame
+        if (currentWidth < targetWidth || currentHeight < targetHeight) {
+            requestAnimationFrame(updateBoard);
+        }
+    }
+
+    // Start the animation
+    updateBoard();
+}
+
+
 // object debug parameter array
 let editorDragBars = [];
 
@@ -153,210 +370,6 @@ class DragBar {
 
 
 
-// Button class
-class Button {
-    constructor(x, y, width, height, 
-        content, fontFamily, fontSize, foregroundOri, foregroundOver, 
-        red, green, blue, opacity, scale,
-        clickHandler, cornerRadius) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.content = content;
-        this.fontFamily = fontFamily;
-        this.fontSize = fontSize;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.opacity = opacity;
-        this.clickHandler = clickHandler;
-        this.cornerRadius = cornerRadius;
-        this.foregroundOri = foregroundOri;
-        this.foregroundOver = foregroundOver;
-        this.scale = scale;
-        this._foreground = foregroundOri;
-        this._opacityOri = opacity;
-        this._scale = scale;
-        this._angle = 1;
-    }
 
-    createEditor() {
-        editorDragBars.forEach(function(bar) {
-            bar.destructor();
-        });
-        editorDragBars = [];
-        let counter = 1;
-        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "red"));
-        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "green"));
-        editorDragBars.push(new DragBar(100, 50*counter++,255,255, this, "blue"));
-        editorDragBars.push(new DragBar(100, 50*counter++,255,100, this, "opacity"));
-        editorDragBars.push(new DragBar(100, 50*counter++,255,1500, this, "x"));
-        editorDragBars.push(new DragBar(100, 50*counter++,255,1500, this, "y"));
-    }
-
-    update(){
-        const drawX = this.x - this.width/2;
-        const drawY = this.y - this.height/2;
-        let m = global.mouse.pos;
-        const x = m.x ;
-        const y = m.y ;
-
-        if (x >= drawX && x <= drawX + this.width &&
-            y >= drawY && y <= drawY + this.height) {
-            // if mouse over
-            if(this.opacity < 1) this.opacity += 0.01;
-            if(this._scale < 1.15) this._scale += 0.01;
-            this._foreground = this.foregroundOver;
-
-        } else {    
-            // if mouse leave
-            if(this.opacity > this._opacityOri) this.opacity -= 0.01;            
-            if(this._scale > 1.0) this._scale -= 0.01;  
-            this._foreground = this.foregroundOri;
-
-        }
-    }
-
-    draw(ctx) {
-        const centerX = this.x;
-        const centerY = this.y;
-        const scaledWidth = this.width * this._scale;
-        const scaledHeight = this.height * this._scale;
-        const scaledCornerRadius = this.cornerRadius * this._scale;
-      
-        const drawX = centerX - scaledWidth / 2;
-        const drawY = centerY - scaledHeight / 2;
-
-        // Draw button border if cornerRadius # 0
-        if(this.cornerRadius !== 0) {
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "orange";
-            ctx.beginPath();
-            ctx.moveTo(drawX + scaledCornerRadius, drawY);
-            ctx.lineTo(drawX + scaledWidth - scaledCornerRadius, drawY);
-            ctx.arc(
-                drawX + scaledWidth - scaledCornerRadius,
-                drawY + scaledCornerRadius,
-                scaledCornerRadius,
-                1.5 * Math.PI,
-                2 * Math.PI
-            );
-            ctx.lineTo(drawX + scaledWidth, drawY + scaledHeight - scaledCornerRadius);
-            ctx.arc(
-                drawX + scaledWidth - scaledCornerRadius,
-                drawY + scaledHeight - scaledCornerRadius,
-                scaledCornerRadius,
-                0,
-                0.5 * Math.PI
-            );
-            ctx.lineTo(drawX + scaledCornerRadius, drawY + scaledHeight);
-            ctx.arc(
-                drawX + scaledCornerRadius,
-                drawY + scaledHeight - scaledCornerRadius,
-                scaledCornerRadius,
-                0.5 * Math.PI,
-                Math.PI
-            );
-            ctx.lineTo(drawX, drawY + scaledCornerRadius);
-            ctx.arc(drawX + scaledCornerRadius, drawY + scaledCornerRadius, scaledCornerRadius, Math.PI, 1.5 * Math.PI);
-            ctx.closePath();
-            ctx.stroke();
-        }
-
-      
-           
-        
-        // If this button content is icon i dont want it to be draw background
-        if (this.content.includes("icon")) {
-            // if this is icon button draw icon image
-            icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale),this._angle);
-        } else {
-            // fill button background
-            ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
-            ctx.fill();   
-            // Draw button text content
-            ctx.font = this.fontSize + "px " + this.fontFamily;
-            ctx.fillStyle = this._foreground;
-            ctx.textAlign = "center";
-            // if not just draw text content
-            ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
-        }    
-
-        
-    }
-      
-    
-    // when user click on button process
-    handleClick(event) {
-
-        const rect = canvas.getBoundingClientRect();
-        const drawX = this.x - this.width/2;
-        const drawY = this.y - this.height/2;
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        if (x >= drawX && x <= drawX + this.width &&
-            y >= drawY && y <= drawY + this.height) {
-            if(_DEBUG && _LEFTCTRL) {this.createEditor(); return}
-            const handler = game_button_handlers.get(this.clickHandler);
-            handler();
-
-        }
-    }
-
-
-    
-}
-
-// Text display base class
-class GameText {
-    constructor(content, size, x, y, color) {
-        this.content = content;
-        this.size = size;
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.opacity = 1;
-        this.family = "px Arial";
-    }
-
-    draw(){
-        global.c2d.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-        global.c2d.font = this.size + this.family;
-        global.c2d.fillText(this.content, this.x, this.y);
-    }
-
-    setFontFamily(font){
-        this.family = font;
-    }
-}
-
-// flicker effect text class
-class FlickerText extends GameText {
-
-    constructor(content, size, x, y, color, duration, interval) {
-        super(content, size, x, y, color);
-        this.duration = duration;
-        this.visible = true;
-        this.interval = interval;  // Interval between opacity changes in milliseconds
-        this.start = Date.now(); // Get the start time
-    }
-
-    draw(){
-        if(!this.visible) return;
-        // validate
-        const timePassed = Date.now() - this.start;
-        if(timePassed > this.duration * 1000) {
-            this.visible = false;
-            return;
-        }
-        this.opacity = Math.sin((timePassed % this.interval) / this.interval * Math.PI);
-        super.draw();
-
-
-    }
-
-}
 
 

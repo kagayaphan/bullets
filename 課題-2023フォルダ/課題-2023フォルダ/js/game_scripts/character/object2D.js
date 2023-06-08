@@ -2,6 +2,8 @@
 * Game Display Character Class
 * */
 
+let g_mapScale = 1;
+
 let d_globalEnemySpeedMultiplier = 1; // debug param use to speed up enemy movement speed
 
 const g_mob_move_destinationRadius = 2; // monster target collider radius
@@ -14,6 +16,8 @@ class Object2D {
         this._velo = new Point(0,0);
         this._movingVec = new Point(0,0);
         this._scale = new Point(scale, scale);
+        this._scale.Mul(g_mapScale);
+
         this._angle = 0;
         this._state = "stop";
 
@@ -91,17 +95,12 @@ class Monster extends Object2D{
         // check if all move pattern done
         if (this._patIndex === this._movePattern.length) {
             this.remove();
-            // this._state = "dead";
             return;
         }
 
         const nextTargetPtr = this._movePattern[this._patIndex]; //pointer of current pattern point
         const nextTarget = new Point(nextTargetPtr.x, nextTargetPtr.y); // copy pointer value;
-        // console.log("nexttarget");
-        // console.log(nextTarget);
-        // console.log("currentpos");
-        // console.log(this._pos);
-        // console.log("range");
+
         // Check if reached location
         // TODO CCD collider check maybe need here with super fast movement speed
         if(nextTarget.Length(this._pos) < g_mob_move_destinationRadius * d_globalEnemySpeedMultiplier) {
@@ -111,6 +110,7 @@ class Monster extends Object2D{
             this._patTimer = 0;
         }
 
+        // prevent stay too long in 1 pattern
         if(this._patTimer > 2.5) {
             this._patIndex++; // move to next pattern
             this._patSpeed = randomNumber(0, 100) * 0.01;
@@ -118,15 +118,25 @@ class Monster extends Object2D{
         } else {
             this._patTimer += deltaTime;
         }
-
+        // get next target vector
         nextTarget.Sub(this._pos);
+        if(this.type === "squid"){
+            // this._angle = (nextTarget.Angle() * 180) / Math.PI;
+            let targetAngle = (nextTarget.Angle() * 180) / Math.PI;
+
+            let angleDiff = targetAngle - this._angle;
+
+            const turnSpeed = 5;
+            angleDiff *= deltaTime * turnSpeed ;
+
+            this._angle += angleDiff;
+        }
         nextTarget.Normalize();
         this._velo = nextTarget;
         this._velo.Mul(this._patSpeed * d_globalEnemySpeedMultiplier);
 
+
         super.update();
-
-
     }
 
 }

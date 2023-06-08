@@ -5,14 +5,22 @@
 class Stage01 extends Stage {
     constructor() {
         super();
+        this.stageNavHandler = gotoStage01;
+        this.infoArray = stageDescription.stage01;
         this.background = GameImages.stage01_bg;
-        this.playerPos = new Point(100,140);
+        this.playerInitInfo = {
+            pos : new Point(100,140),
+            scale : 1
+        }
         this.wave = {
             height :120,
             posX: 0,
-            posY : 150,
+            posY : this.playerInitInfo.pos.y + 10,
             color: '0,0,100',
         }
+
+        this.harvest_time = 90;
+
         this.crabSpawnTimer = 0;
         this.crabNextSpawnTime = 0;
 
@@ -21,7 +29,27 @@ class Stage01 extends Stage {
 
     }
 
+    update() {
+        super.update();
+        this.updateTimer();
+    }
+
+    draw(){
+        // this.stage_timer += deltaTime * 200;
+        // render layer 1
+        super.draw();
+        // render layer 2
+        player.draw();
+        drawClockCircle(550,25,16,this.stage_timer/this.harvest_time * 100);
+        // draw effect upon rendered layer
+        this.applyScreenEffect();
+        // draw inventory layer
+        player.inventory.draw();
+
+    }
+
     init(){
+        this.stage_timer = 0;
         // change to game menu
         hud_manager.changeMenu(hud_manager.game);
         // display wave animation
@@ -29,23 +57,17 @@ class Stage01 extends Stage {
         // set all params to default value
         player.resetState();
         // assign default weapon
-        player.inventory.selectWeapon("bomb");
-    }
-
-    draw(){
-        super.draw();
-        player.draw();
-        if(this.effect_timer > 0){
-            if(this.effect_timer < 3)  this.effect_timer += deltaTime * 4;
-            applyBlurEffect(this.effect_timer);
-        }
+        player.inventory.selectWeapon("harpoon");
     }
 
     spawnOctopus(){
         this.octSpawnTimer += deltaTime;
         if(this.octSpawnTimer > this.octNextSpawnTime){
-            console.log("Octopus Spawned")
-            this.octNextSpawnTime = randomNumber(5,20);
+            // console.log("Octopus Spawned")
+            const minRand = 5;
+            let maxRand = 20 - player.restaurant.level * 0.2;
+            maxRand = Math.max(minRand,maxRand);
+            this.octNextSpawnTime = randomNumber(minRand,maxRand);
             this.octSpawnTimer = 0;
 
             let scaleRandom = randomNumber(2,4) * 0.1;
@@ -57,13 +79,15 @@ class Stage01 extends Stage {
     spawnCrab(){
         this.crabSpawnTimer += deltaTime;
         if(this.crabSpawnTimer > this.crabNextSpawnTime){
-            console.log("Crab Spawned")
-            this.crabNextSpawnTime = randomNumber(1,3);
+            // console.log("Crab Spawned")
+            const minRand = 1;
+            let maxRand = 3 - player.restaurant.level * 0.5;
+            maxRand = Math.max(minRand,maxRand);
+            this.crabNextSpawnTime = randomNumber(1, maxRand);
             this.crabSpawnTimer = 0;
             let scaleRandom = randomNumber(2,3) * 0.1;
             this.monsterList.push(new Crab( new Point(-50,480), scaleRandom));
         }
-
     }
 
     spawnMonsters (){
@@ -73,60 +97,10 @@ class Stage01 extends Stage {
 
     createMonsters (){
         this.monsterList = [];
-        // for (let i = 0; i < 30; i++) {
-        //     const monster = new Crab( new Point(-50,480), 0.3);
-        //     monster._nextDeployTime = randomNumber(6,25) * this.monsterList.length;
-        //     this.monsterList.push(monster);
-        // }
-    }
-
-    update(){
-        // update stage monster behaviors
-        stage_manager.current.spawnMonsters();
-        stage_manager.current.updateMonsters();
-        // update user's player behavior
-        player.update();
-        const mouse = global.mouse;
-        if( mouse.up )
-        {
-            const point = new Point(mouse.up_pos.x,mouse.up_pos.y);
-            // make sure player wont shot when click on UI 
-            if(point.y > player._pos.y) player.initShot(point);
-        }
-    }
-
-    updateMonsters(){
-        let deadMobs = [];
-
-        for (const monster of this.monsterList) {
-            monster.update();
-            if(monster._state === "dead") {
-                deadMobs.push(monster);
-                continue;
-            }
-        }
-
-        for (const dead of deadMobs) {
-            const index = this.monsterList.indexOf(dead);
-            if (index !== -1) {
-                // console.log("REMOVED");
-                this.monsterList.splice(index, 1);
-            }
-        }
-
-    }
-
-
-    drawMonster(){
-        for (const monster of this.monsterList) {            
-            // only draw monster is on the move
-            if(monster._state !== "stop")  monster.draw();
-        } 
     }
 
 }
 
-// let stage01 = new Stage01();
 
 
 

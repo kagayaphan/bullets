@@ -17,7 +17,7 @@ class Collider {
 class CircleCollider extends Collider{
     constructor(owner, radius) {
         super(owner);
-        this._radius = radius;
+        this._radius = radius * g_mapScale;
     }
 
     collideWith(object2D){

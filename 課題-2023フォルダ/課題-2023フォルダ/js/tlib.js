@@ -332,30 +332,50 @@
 		Draw: function(x, y, bCenter, size, angle) {
 			let scaleX = 1;
 			let scaleY = 1;
-			if(size !== undefined) {
+			if (size !== undefined) {
 				scaleX = size.x;
 				scaleY = size.y;
 			}
+
+			// Check if image needs to be flipped horizontally
+			const flipHorizontal = scaleX < 0;
+
+			// Check if image needs to be flipped vertically
+			const flipVertical = scaleY < 0;
+
 			this.canv.globalAlpha = ClampZeroOne(this.alpha);
 			if (this.canv.globalAlpha > 0.0) {
 				let iwidth = this.img.width;
 				let iheight = this.img.height;
-				iwidth *= scaleX;
-				iheight *= scaleY;
+				iwidth *= Math.abs(scaleX);
+				iheight *= Math.abs(scaleY);
+
 				this.canv.save();
 				this.canv.translate(x, y);
 				if (angle !== undefined) {
 					this.canv.rotate(angle * Math.PI / 180);
 				}
+
+				if (flipHorizontal) {
+					this.canv.scale(-1, 1); // Flip horizontally
+				}
+
+				if (flipVertical) {
+					this.canv.scale(1, -1); // Flip vertically
+				}
+
 				if (bCenter) {
 					this.canv.drawImage(this.img, -iwidth / 2, -iheight / 2, iwidth, iheight);
 				} else {
 					this.canv.drawImage(this.img, 0, 0, iwidth, iheight);
 				}
+
 				this.canv.restore();
 			}
 			this.canv.globalAlpha = 1.0;
 		}
+
+
 	}
 
 //! イメージを中央基点で描画

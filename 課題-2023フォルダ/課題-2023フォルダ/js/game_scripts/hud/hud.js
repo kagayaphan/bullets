@@ -14,8 +14,6 @@ class Menu {
         this.init(buttons_data);
     }
 
-    
-
     deInit(){
         this.buttons = [];
         this.flickerTexts = [];
@@ -65,6 +63,7 @@ class Menu {
     }
     
     drawTexts() {
+        global.c2d.textAlign = "center";
         this.flickerTexts.forEach(function(text) {
             text.draw(global.c2d);
         });
@@ -87,19 +86,49 @@ hud_manager = {
     game        :   new Menu(game_buttons_data),
     home        :   new Menu(home_buttons_data),
     inventory   :   new Menu(inventory_buttons_data),
-    
+
+    // player message
+    message     : "",
+    message_timer : 0,
+    message_in  : true,
+
+    showMessage : function (x,y,size){
+        if(this.message){
+            if(this.message_in) {
+                this.message_timer += deltaTime * 2;
+                if(this.message_timer > 1.5){
+                    this.message_in = false;
+                }
+            } else {
+                this.message_timer -= deltaTime;
+                if(this.message_timer < 0) {
+                    this.message     = "";
+                    this.message_timer = 0;
+                    this.message_in  = true;
+                }
+            }
+
+            if(!size){
+                size = 30;
+                x   = global.canvas.width/2;
+                y   = global.canvas.height - 70;
+            }
+            global.c2d.save();
+            global.c2d.font = `${size}px "Roboto Light", sans-serif`;
+            global.c2d.fillStyle = 'rgba(255, 255, 255, ' + this.message_timer + ')';
+            global.c2d.fillText(this.message, x,  y);
+            global.c2d.restore();
+        }
+
+    },
+
     changeMenu : function(menu) {
         this.current = menu;
     },
 }
 
 hud_manager.title.createFlickerTxt("! ようこそ !",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
-
-
-
-
-
-
+hud_manager.home.createFlickerTxt("ステージを選択しましょう",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
 
 let _LEFTCTRL = false;
 // Handle button click
