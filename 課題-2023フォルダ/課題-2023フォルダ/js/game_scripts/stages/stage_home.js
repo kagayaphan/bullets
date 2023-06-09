@@ -6,20 +6,19 @@
 class StageHome extends Stage {
     constructor() {
         super();
-        this.infoArray = stageDescription.stageHome;
+        this._infoArray = stageDescription.stageHome;
         this.background = GameImages.world_map;
-        this.isNewGame = true;
-        this.locatorAngleIncrement = 1;
         this.selectStage = null;
         this.mapPointList = [];
         this.mapLocatorButtons = [];
-        this.maxEnableStage = 3;
+        this.maxEnableStage = 0;
         this.startButton = null;
+
     }
 
     init(){
-        hud_manager.changeMenu(hud_manager.home);       
-
+        hud_manager.changeMenu(hud_manager.home);
+        this.maxEnableStage = player.completedQuest + 1;
         // parse home use hud data into separate container to manage easier
         for(const button of hud_manager.current.buttons){
             // do nothing with back button
@@ -43,8 +42,6 @@ class StageHome extends Stage {
             // push locator pointList map to draw
             this.mapPointList.push(new Point(button.x,button.y));
         }
-
-        
     }
 
     deInit() {
@@ -73,7 +70,7 @@ class StageHome extends Stage {
         if(this.selectStage) {
             this.selectStage.drawInfo();
         } else {
-            drawTextArray(730,50,this.infoArray, 13);
+            drawTextArray(730,50,this._infoArray, 13);
         }
 
 
@@ -82,9 +79,9 @@ class StageHome extends Stage {
             button._angle += 0.1;
         }
 
-        for(let i = 0; i < this.mapPointList.length - 1; i++){
-            const point = this.mapPointList[i];
-            drawLaneMarkings(point, this.mapPointList[i+1]);
+        for(let i = 1; i < this.mapPointList.length; i++){
+            const point = this.mapPointList[i-1];
+            drawLaneMarkings(point, this.mapPointList[i]);
             
         }
     }

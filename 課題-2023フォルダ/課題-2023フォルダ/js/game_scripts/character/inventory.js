@@ -6,26 +6,25 @@
 const g_weapon_max_level = 10;
 
 class Weapon{
-    constructor() {
+    constructor(owner) {
+        this._owner = owner;
         this._bullet = null;
-        this._cdTimer = 0;
-        this._cdMax = 0;
         this._image = null;
         this._icon  = null;
         this._imageScale = 1;
         this._durability = 100; // percentage of used status
         // data parameters
         this._maxAmmo = 0;
-        this.level = 1;
+        this.level = 0;
         this.type = "";
 
-        this._upgradeCost = 100; // use to calculate upgrade money
+        this._upgradeCost = 500; // use to calculate upgrade money
         this._speed = 0;
         this._range = 0;
         // TODO make a data table for each type of weapon
         this._speedAdd = 1.5;
         this._rangeAdd = 0.2;
-        this._ammoAdd = 0.4;
+        this._ammoAdd = 0.2;
     }
 
     countUsedAmmo(){
@@ -34,11 +33,11 @@ class Weapon{
 
         let counter = 0;
         for(const bullet of player._bulletPrototypes){
-            if(bullet.type == this.type){
+            if(bullet.type === this.type){
                 counter++;
             }
         }
-        console.log(this.type + ": " + counter);
+        // console.log(this.type + ": " + counter);
         return counter;
         
     }
@@ -49,7 +48,6 @@ class Weapon{
             hud_manager.message = "弾切れ"
             return;
         }
-        // console.log("initshot: " + this.type);
         // Instantiate and add a new bullet to the game prototype manager
         const newBullet = new this._bullet(this._image, this._imageScale, this._speed,this._range);
         newBullet.initShot(target);
@@ -58,12 +56,20 @@ class Weapon{
 
     levelUp(){
         this.level++;
-        this._speed += this.level * this._speedAdd;
-        this._range += this.level * this._rangeAdd;
-        this._maxAmmo += this.level * this._ammoAdd;
+        this._speed   += this.level * this._speedAdd;
+        this._range   += this.level * this._rangeAdd;
+        this._maxAmmo += Math.floor(this.level * this._ammoAdd);
+        console.log(this._maxAmmo);
+        this._owner.saveState();
     }
 
     upgrade(){
+
+        if(this.level === 0) {
+            hud_manager.message = "レストランをアップグレードしてロックを解除する。"
+            return ;
+        }
+
         if(this.level >= g_weapon_max_level) {
             hud_manager.message = "最高レベルです。"
             return ;
@@ -111,12 +117,11 @@ class Weapon{
 }
 
 class WeaponNet extends Weapon{
-    constructor() {
-        super();
+    constructor(owner) {
+        super(owner);
         this.type = "net";
+        this.level = 1;
         this._bullet = NetBullet;
-        this._cdTimer = 0;
-        this._cdMax = 0.5;
         this._image = GameImages.player_net;
         this._imageScale = 0.3;
         this._icon  = GameImages.icon_net;
@@ -125,7 +130,7 @@ class WeaponNet extends Weapon{
         this._maxAmmo = 2;
         this._speedAdd = 1.2;
         this._rangeAdd = 0.16;
-        this._ammoAdd = 0.4;
+        this._ammoAdd = 0.2;
     }
 
     upgrade() {
@@ -134,12 +139,10 @@ class WeaponNet extends Weapon{
 }
 
 class WeaponHarpoon extends Weapon{
-    constructor() {
-        super();
+    constructor(owner) {
+        super(owner);
         this.type = "harpoon";
         this._bullet = HarpoonBullet;
-        this._cdTimer = 0;
-        this._cdMax = 0.5;
         this._image = GameImages.player_harpoon;
         this._imageScale = 1;
         this._icon  = GameImages.icon_harpoon;
@@ -148,19 +151,17 @@ class WeaponHarpoon extends Weapon{
         this._maxAmmo = 3;
         this._speedAdd = 3.5;
         this._rangeAdd = 0.05;
-        this._ammoAdd = 0.4;
+        this._ammoAdd = 0.25;
 
     }
 
 }
 
 class WeaponBomb extends Weapon{
-    constructor() {
-        super();
+    constructor(owner) {
+        super(owner);
         this.type = "bomb";
         this._bullet = BombBullet;
-        this._cdTimer = 0;
-        this._cdMax = 0.5;
         this._image = GameImages.player_bomb;
         this._imageScale = 1;
         this._icon  = GameImages.icon_bomb;
@@ -180,9 +181,9 @@ class Inventory {
         this._owner = owner;
         this.boardWidthTimer = 0;
         this._onOpen = false;
-        this.net        = new WeaponNet();
-        this.harpoon    = new WeaponHarpoon();
-        this.bomb       = new WeaponBomb();
+        this.net        = new WeaponNet(owner);
+        this.harpoon    = new WeaponHarpoon(owner);
+        this.bomb       = new WeaponBomb(owner);
         // storage of weapons
         this._armory = new Map([
             ["net",     this.net],
@@ -205,12 +206,12 @@ class Inventory {
         this._onOpen = false;
     }
 
+    upgradeUnlock(restaurantCurLevel){
+        if(restaurantCurLevel === 2) this.harpoon.levelUp();
+        else if(restaurantCurLevel === 3) this.bomb.levelUp();
+    }
+
     selectWeapon(weapon){
-        // TODO maybe can limit user to rapidly change weapon based on gameplay
-        // if(this._owner._bulletPrototypes.length) {
-        //     hud_manager.message = "待ってください";
-        //     return;
-        // }
         this._owner.assignWeapon(this._armory.get(weapon));
     }
 
@@ -221,9 +222,7 @@ class Inventory {
 
     }
 
-    update(){
-
-    }
+    update(){}
 
     draw(){
         if(!this._onOpen) return;
@@ -243,22 +242,16 @@ class Inventory {
             const xStep = this._boardW/ this._armory.size;
 
             // first draw title
-            global.c2d.save();
-            global.c2d.font = `22px "Roboto Light", sans-serif`;
-            global.c2d.fillStyle = 'white';
-            global.c2d.fillText("INVENTORY", this._boardPosX - this._boardW + 90, y += 25);
-            global.c2d.restore();
-            // draw restaurant income
-            global.c2d.save();
-            global.c2d.font = `15px "Roboto Light", sans-serif`;
-            global.c2d.fillStyle = 'white';
-            global.c2d.fillText(player.restaurant.income +" 円", this._boardPosX - 60, y);
-            global.c2d.restore();
+            drawText("INVENTORY", this._boardPosX - this._boardW + 90, y += 25, 22);
 
+            // draw restaurant income
+            drawText(player.restaurant.income +" 円", this._boardPosX - 60, y, 15)
+
+            // draw weapon info
             y += yStep;
             for (const [id, weapon] of this._armory) {
-                weapon.draw(x, y);
-
+                if(weapon.level) weapon.draw(x, y);
+                else drawStringInSpace("Upgrade Restaurant Required", x, y, 50,150)
                 x += xStep;
             }
         }

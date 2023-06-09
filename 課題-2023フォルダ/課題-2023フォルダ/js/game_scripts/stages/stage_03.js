@@ -5,9 +5,9 @@
 class Stage03 extends Stage {
     constructor() {
         super();
-        this.enable = false;
+        if(player.completedQuest < 2)  this.enable = false;
         this.stageNavHandler = gotoStage03;
-        this.infoArray = stageDescription.stage03;
+        this._infoArray = stageDescription.stage03;
         this.background = GameImages.stage03_bg;
         this.mapScale = 0.4;
         this.playerInitInfo = {
@@ -88,7 +88,7 @@ class Stage03 extends Stage {
             this.squidSpawnTimer = 0;
 
             let scaleRandom = randomNumber(3,5) * 0.1;
-            this.monsterList.push(new Squid( new Point(-50,300), scaleRandom));
+            this._monsterList.push(new Squid( new Point(-50,300), scaleRandom));
         }
     }
 
@@ -100,7 +100,7 @@ class Stage03 extends Stage {
             this.octSpawnTimer = 0;
 
             let scaleRandom = randomNumber(3,5) * 0.1;
-            this.monsterList.push(new Octopus( new Point(-50,300), scaleRandom));
+            this._monsterList.push(new Octopus( new Point(-50,300), scaleRandom));
         }
     }
 
@@ -112,7 +112,7 @@ class Stage03 extends Stage {
             this.crabNextSpawnTime = randomNumber(30,50);
             this.crabSpawnTimer = 0;
             let scaleRandom = randomNumber(2,3) * 0.1;
-            this.monsterList.push(new Crab( new Point(-50,480), scaleRandom));
+            this._monsterList.push(new Crab( new Point(-50,480), scaleRandom));
         }
 
     }
@@ -124,19 +124,9 @@ class Stage03 extends Stage {
     }
 
     createMonsters (){
-        this.monsterList = [];
-        // for (let i = 0; i < 30; i++) {
-        //     const monster = new Crab( new Point(-50,480), 0.3);
-        //     monster._nextDeployTime = randomNumber(6,25) * this.monsterList.length;
-        //     this.monsterList.push(monster);
-        // }
+        this._monsterList = [];
     }
-
-
-
 }
-
-// let stage01 = new Stage01();
 
 
 

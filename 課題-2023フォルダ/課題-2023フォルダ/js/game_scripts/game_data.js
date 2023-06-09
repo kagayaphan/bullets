@@ -22,7 +22,8 @@ const home_buttons_data =
 	{"x":398,"y":156,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo02","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
 	{"x":558,"y":245,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo03","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
     {"x":851,"y":449,"width":80,"height":50,"content":"出発",           "fontFamily":"Roboto Light","fontSize":18,"red":28,"green":184,"blue":0,"opacity":0.78,"clickHandler":"navigateStage","cornerRadius":5,"foregroundOri":"black","foregroundOver":"white","scale":1},
-    {"x":15, "y":469,"width":18,"height":18,"content":"icon_toTitle",   "fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0,           "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+    {"x":15, "y":469,"width":18,"height":18,"content":"icon_toTitle",   "fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0, "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+    {"x":117,"y":449,"width":80,"height":20,"content":"アップグレード", "fontFamily":"Roboto Light","fontSize":10,"red":0,"green":0,"blue":0,"opacity":0.8,"clickHandler":"upgradeRestaurant","cornerRadius":1, "scale":1,"foregroundOver":"orange","foregroundOri":"white","foreground":"black"},
 
 
 ]
@@ -75,7 +76,7 @@ const GameImages = {
     icon_bomb       : new LoadImage(global.c2d, "image/icon_bomb.png"),
 }
 
-const restLevelUpChart = [0,500,1100,2300,5000,12000,15000];
+const restLevelUpChart = [0,3000,10000,15000,25000,12000,15000];
 
 const stageDescription = {
     stageHome : [

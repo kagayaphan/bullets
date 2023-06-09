@@ -4,8 +4,8 @@
 
 class Stage {
     constructor() {
-        this.monsterList = [];
-        this.infoArray = [];
+        this._monsterList = [];
+        this._infoArray = [];
         this.background = null;
         this.wave = null;
         this.effect_timer = 0;
@@ -25,12 +25,12 @@ class Stage {
             // Cancel the animation frame request
             cancelAnimationFrame(waveAnimationID);
         }
-        this.monsterList = [];
+        this._monsterList = [];
         player.restaurant.closeInfoBoard();
     }
 
     drawInfo(){
-        drawBlackBoard(740,50,200,220,this.infoArray);
+        drawBlackBoard(740,50,200,220,this._infoArray);
     }
 
     draw(){
@@ -47,7 +47,7 @@ class Stage {
 
     countMonster(type) {
         let counter = 0;
-        for(const monster of this.monsterList){
+        for(const monster of this._monsterList){
             if(monster.type === type) counter++;
         }
         return counter;
@@ -83,7 +83,7 @@ class Stage {
     updateMonsters(){
         let deadMobs = [];
 
-        for (const monster of this.monsterList) {
+        for (const monster of this._monsterList) {
             monster.update();
             if(monster._state === "dead") {
                 deadMobs.push(monster);
@@ -92,17 +92,17 @@ class Stage {
 
         // remove no longer active monster
         for (const dead of deadMobs) {
-            const index = this.monsterList.indexOf(dead);
+            const index = this._monsterList.indexOf(dead);
             if (index !== -1) {
                 // console.log("REMOVED");
-                this.monsterList.splice(index, 1);
+                this._monsterList.splice(index, 1);
             }
         }
 
     }
 
     drawMonster(){
-        for (const monster of this.monsterList) {
+        for (const monster of this._monsterList) {
             // only draw monster is on the move
             if(monster._state !== "stop")  monster.draw();
         }

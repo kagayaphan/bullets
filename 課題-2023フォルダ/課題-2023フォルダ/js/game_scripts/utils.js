@@ -4,7 +4,7 @@
 
 
 
-
+// all listed icon use by button
 const icon_images = new Map([
     ["icon_nabe",       GameImages.icon_nabe],
     ["icon_crab",       GameImages.icon_crab],
@@ -16,6 +16,7 @@ const icon_images = new Map([
     ["icon_mapLocator", GameImages.icon_mapLocator],
 ]);
 
+// draw a simple line
 function drawLine(from, to, size, color){
     // Draw Line
     const ctx = global.c2d;
@@ -32,6 +33,7 @@ function drawLine(from, to, size, color){
     ctx.stroke();
 }
 
+// draw a simple circle centered
 function drawCircle(pos, radius){
     const ctx = global.c2d;
     // Draw the circle
@@ -40,34 +42,131 @@ function drawCircle(pos, radius){
     ctx.stroke();
 }
 
-function animateArrow(pointA, pointB) {
-    const ctx = global.c2d;
-    const arrow = new Point(pointA.x, pointA.y);
-  
-    function drawArrow() {
-      ctx.clearRect(arrow.x - 15, arrow.y - 15, 30, 30); // Clear the area around the previous arrow
-      ctx.beginPath();
-      ctx.moveTo(arrow.x, arrow.y);
-      ctx.lineTo(arrow.x + 10, arrow.y + 10);
-      ctx.lineTo(arrow.x - 10, arrow.y + 10);
-      ctx.closePath();
-      ctx.fillStyle = 'red';
-      ctx.fill();
+// draw a string inside a box and auto step down
+function drawStringInSpace(text, x, y, width, height) {
+    // Save the current context state
+    global.c2d.save();
+
+    // Set the font and fill style
+    global.c2d.font = `15px "Roboto Light", sans-serif`;
+    global.c2d.fillStyle = 'white';
+
+    // Calculate the maximum number of lines that can fit within the height
+    // const lineHeight = global.c2d.measureText("M").width;
+    const lineHeight = 22;
+    const maxLines = Math.floor(height / lineHeight);
+
+    // Split the text into multiple lines if needed
+    const lines = splitTextIntoLines(text, width, maxLines);
+
+    // Calculate the vertical position for the text
+    const textY = y + (height - lineHeight * lines.length) / 2;
+
+    // Draw each line of the text
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const textX = x + (width - global.c2d.measureText(line).width) / 2;
+        // global.c2d.textAlign = "center";
+        global.c2d.fillText(line, textX, textY + i * lineHeight);
     }
-  
-    function animate() {
-      drawArrow();
-      arrow.x += (pointB.x - pointA.x) / 100;
-      arrow.y += (pointB.y - pointA.y) / 100;
-  
-      if (arrow.x < pointB.x || arrow.y < pointB.y) {
-        requestAnimationFrame(animate);
-      }
-    }
-  
-    animate();
+
+    // Restore the previous context state
+    global.c2d.restore();
 }
 
+// support function for draw lane marking
+function splitTextIntoLines(text, maxWidth, maxLines) {
+    const words = text.split(' ');
+    let currentLine = '';
+    const lines = [];
+
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const testLine = currentLine.length === 0 ? word : currentLine + ' ' + word;
+        const testWidth = global.c2d.measureText(testLine).width;
+
+        if (testWidth > maxWidth && lines.length < maxLines) {
+            lines.push(currentLine);
+            currentLine = word;
+        } else {
+            currentLine = testLine;
+        }
+    }
+
+    lines.push(currentLine);
+
+    return lines;
+}
+
+function drawText(text, x, y, fontSize) {
+    // Assuming global.c2d represents the 2D context of a canvas element
+
+    // Save the current context state
+    global.c2d.save();
+
+    // Set the font and fill style
+    global.c2d.font = `${fontSize}px "Roboto Light", sans-serif`;
+    global.c2d.fillStyle = 'white';
+
+    // Draw the text at the specified position
+    global.c2d.fillText(text, x, y);
+
+    // Restore the previous context state
+    global.c2d.restore();
+}
+
+// Display a text then disappear after time
+function drawQuestInstruct(text, x, y, size, displayTime) {
+    // Assuming global.c2d represents the 2D context of a canvas element
+
+    const fadeInDuration = 500; // Duration of the fade-in animation in milliseconds
+    const fadeOutDuration = 500; // Duration of the fade-out animation in milliseconds
+    const fadeOutDelay = displayTime - fadeOutDuration; // Delay before starting the fade-out animation
+
+    // Start with full transparency
+    let opacity = 0;
+
+    // Save the current context state
+    global.c2d.save();
+
+    // Start the animation loop
+    const startTimestamp = Date.now();
+    requestAnimationFrame(animate);
+
+    function animate() {
+        const currentTimestamp = Date.now();
+        const elapsed = currentTimestamp - startTimestamp;
+
+        if (elapsed < fadeInDuration) {
+            // Fade-in animation
+            opacity = elapsed / fadeInDuration;
+        } else if (elapsed < fadeOutDelay) {
+            // Fully opaque display
+            opacity = 1;
+        } else if (elapsed < displayTime) {
+            // Fade-out animation
+            opacity = 1 - (elapsed - fadeOutDelay) / fadeOutDuration;
+        } else {
+            // Animation complete, exit the function
+            global.c2d.restore();
+            return;
+        }
+
+        // Set the font and fill style for the text
+        global.c2d.font = `${size}px "Roboto Light", sans-serif`;
+        global.c2d.fillStyle = `rgba(55, 55, 150, ${opacity})`;
+        global.c2d.textAlign = 'center';
+
+        // Draw the text at the specified position
+        global.c2d.fillText(text, x, y);
+
+        // Continue the animation loop
+        requestAnimationFrame(animate);
+    }
+}
+
+
+// draw a line with empty space step
 function drawLaneMarkings(pointA, pointB) {   
     const ctx = global.c2d;
     // Set the line style
@@ -75,28 +174,28 @@ function drawLaneMarkings(pointA, pointB) {
     ctx.lineWidth = 2;
 
     // Define the spacing stop interval
-    var spacingStopInterval = 10; // Adjust this value as needed
-    var spacingStopLength = 10; // Adjust this value as needed
+    let spacingStopInterval = 10; // Adjust this value as needed
+    let spacingStopLength = 10; // Adjust this value as needed
 
     // Calculate the distance between point A and B
-    var distance = Math.sqrt(
+    let distance = Math.sqrt(
       Math.pow(pointB.x - pointA.x, 2) + Math.pow(pointB.y - pointA.y, 2)
     );
 
     // Calculate the unit vector for the line
-    var dx = (pointB.x - pointA.x) / distance;
-    var dy = (pointB.y - pointA.y) / distance;
+    let dx = (pointB.x - pointA.x) / distance;
+    let dy = (pointB.y - pointA.y) / distance;
 
     // Start drawing the lane marking
     ctx.beginPath();
     ctx.moveTo(pointA.x, pointA.y);
 
     // Loop through spacing stops and draw the lane marking
-    var currDistance = 0;
+    let currDistance = 0;
     while (currDistance < distance) {
       // Calculate the next spacing stop position
-      var x = pointA.x + dx * currDistance;
-      var y = pointA.y + dy * currDistance;
+        let x = pointA.x + dx * currDistance;
+        let y = pointA.y + dy * currDistance;
 
       // Move to the spacing stop position
       ctx.moveTo(x, y);
@@ -104,8 +203,8 @@ function drawLaneMarkings(pointA, pointB) {
       // Check if the spacing stop should be empty
       if (currDistance % (spacingStopInterval + spacingStopLength) >= spacingStopInterval) {
         // Calculate the end point for the spacing stop
-        var stopEndX = x + dx * spacingStopLength;
-        var stopEndY = y + dy * spacingStopLength;
+          let stopEndX = x + dx * spacingStopLength;
+          let stopEndY = y + dy * spacingStopLength;
 
         // Draw the line segment
         ctx.lineTo(stopEndX, stopEndY);
@@ -118,6 +217,8 @@ function drawLaneMarkings(pointA, pointB) {
     ctx.stroke();
 }
 
+
+// Draw a rectangle shape with soft corner
 function drawRoundedRectangle(x, y, width, height, cornerRadius, backgroundColor, borderColor) {
     global.c2d.beginPath();
     global.c2d.moveTo(x + cornerRadius, y);
@@ -139,6 +240,7 @@ function drawRoundedRectangle(x, y, width, height, cornerRadius, backgroundColor
     global.c2d.stroke();
 }
 
+// Draw a black board only
 function drawBoard(x, y, width, height, opacity) {
     // Calculate the actual width and height based on the maximum limits
     const actualWidth = width;
@@ -156,14 +258,13 @@ function drawBoard(x, y, width, height, opacity) {
     global.c2d.strokeRect(x, y, actualWidth, actualHeight);
 }
 
+// Draw simple black board with text on it
 function drawBlackBoard(x, y, width, height, textArray) {
     // Create a temporary canvas element dynamically
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = global.canvas.width;
     tempCanvas.height = global.canvas.height;
 
-    // Get the 2D rendering context
-    const ctx = tempCanvas.getContext('2d');
     // Draw the black board
     global.c2d.fillStyle = 'black';
     global.c2d.fillRect(x, y, width, height);
@@ -202,6 +303,7 @@ function drawBlackBoard(x, y, width, height, textArray) {
     }
 }
 
+// Draw black board with grid inside
 function drawGridBoard(x, y, width, height, col, row, opacity) {
     const borderRadius = 8;
     const columnCount = col;
@@ -244,7 +346,7 @@ function drawGridBoard(x, y, width, height, col, row, opacity) {
     }
 }
 
-
+// Draw multi line of texts
 function drawTextArray(x, y, textArray, fontSize) {
     global.c2d.font = `${fontSize}px "Roboto Light", sans-serif`;
     global.c2d.fillStyle = "white";
@@ -294,45 +396,6 @@ function drawClockCircle(x, y, radius, percent) {
     global.c2d.textAlign = "center";
     global.c2d.fillText(text, x, y);
 }
-
-
-function animateBoardExpansion(x, y, targetWidth, targetHeight) {
-    const maxWidth = 200;
-    const maxHeight = 100;
-
-    let currentWidth = 0;
-    let currentHeight = 0;
-
-    function updateBoard() {
-        // Calculate the increment for width and height
-        const widthIncrement = Math.ceil(targetWidth / 30);  // Adjust the increment as desired
-        const heightIncrement = Math.ceil(targetHeight / 30); // Adjust the increment as desired
-
-        // Update the current dimensions
-        currentWidth = Math.min(currentWidth + widthIncrement, targetWidth, maxWidth);
-        currentHeight = Math.min(currentHeight + heightIncrement, targetHeight, maxHeight);
-
-        // Draw the board rectangle
-        global.c2d.fillStyle = "black";
-        global.c2d.fillRect(x, y, currentWidth, currentHeight);
-
-        // Add any additional drawing or customization here
-
-        // Example: Draw a border
-        global.c2d.strokeStyle = "white";
-        global.c2d.lineWidth = 2;
-        global.c2d.strokeRect(x, y, currentWidth, currentHeight);
-
-        // Request the next animation frame
-        if (currentWidth < targetWidth || currentHeight < targetHeight) {
-            requestAnimationFrame(updateBoard);
-        }
-    }
-
-    // Start the animation
-    updateBoard();
-}
-
 
 // object debug parameter array
 let editorDragBars = [];

@@ -28,7 +28,9 @@
 	<div>
 			<label for="toggleBox">Debug Mode:</label>
 			<input type="checkbox" id="toggleBox" onchange="toggleDebugMode()" />
-
+		<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
+		<button class="myButton hidden" onclick="exportObject()">Export Title's Buttons</button>
+		<button class="myButton hidden" onclick="clearSave()">Clear Saved Data</button>
 			<div id="textBoxContainer" class="hidden">
 				<label for="myTextBox">Hooking up value:</label>
 				<input type="text" id="myTextBox" oninput="updateDebugValue()" value="1" />
@@ -41,8 +43,7 @@
 
 			<div id="mouseOut" class="hidden"></div>
 
-		<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
-		<button class="myButton hidden" onclick="exportObject()">Export Title's Buttons</button>
+
 	</div>
 	
 </body>
@@ -62,6 +63,7 @@
 <script type="text/javascript" src="js/game_scripts/character/crab.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/octopus.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/squid.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/quest.js"></script>
 <script type="text/javascript" src="js/game_scripts/stages/stage.js"></script>
 <script type="text/javascript" src="js/game_scripts/stages/stage_title.js"></script>
 <script type="text/javascript" src="js/game_scripts/stages/stage_home.js"></script>

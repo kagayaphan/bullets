@@ -5,8 +5,9 @@
 class Stage01 extends Stage {
     constructor() {
         super();
+
         this.stageNavHandler = gotoStage01;
-        this.infoArray = stageDescription.stage01;
+        this._infoArray = stageDescription.stage01;
         this.background = GameImages.stage01_bg;
         this.playerInitInfo = {
             pos : new Point(100,140),
@@ -71,7 +72,7 @@ class Stage01 extends Stage {
             this.octSpawnTimer = 0;
 
             let scaleRandom = randomNumber(2,4) * 0.1;
-            this.monsterList.push(new Octopus( new Point(-50,300), scaleRandom));
+            this._monsterList.push(new Octopus( new Point(-50,300), scaleRandom));
         }
     }
 
@@ -86,7 +87,7 @@ class Stage01 extends Stage {
             this.crabNextSpawnTime = randomNumber(1, maxRand);
             this.crabSpawnTimer = 0;
             let scaleRandom = randomNumber(2,3) * 0.1;
-            this.monsterList.push(new Crab( new Point(-50,480), scaleRandom));
+            this._monsterList.push(new Crab( new Point(-50,480), scaleRandom));
         }
     }
 
@@ -96,7 +97,7 @@ class Stage01 extends Stage {
     }
 
     createMonsters (){
-        this.monsterList = [];
+        this._monsterList = [];
     }
 
 }

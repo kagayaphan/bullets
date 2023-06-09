@@ -9,17 +9,17 @@ class StageTitle extends Stage {
     }
 
     createMonsters (){
-        this.monsterList = [];
+        this._monsterList = [];
         for (let i = 0; i <= 10; i++) {
             const monster = new Crab( new Point(-50,420), 0.3);
-            monster._nextDeployTime = randomNumber(1,6) * this.monsterList.length;
-            this.monsterList.push(monster);
+            monster._nextDeployTime = randomNumber(1,6) * this._monsterList.length;
+            this._monsterList.push(monster);
         }
     }
 
     drawMonster(){
         let _reset = true;
-        for (const monster of this.monsterList) {
+        for (const monster of this._monsterList) {
             const a = deltaTime;
             monster.update();
             // only draw monster is on the move

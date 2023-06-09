@@ -16,7 +16,6 @@ let stage_manager = {
 
     pause   : false
 
-
 };
 
 
@@ -29,6 +28,8 @@ class App {
         this.nextSequence = title_seq;
         this.sequence_step = 0;
         this.scaleBase = 1.0;
+
+        initQuest();
         fadeOut();
     }
 }

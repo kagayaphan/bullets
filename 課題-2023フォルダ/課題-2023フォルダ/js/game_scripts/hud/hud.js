@@ -114,9 +114,13 @@ hud_manager = {
                 x   = global.canvas.width/2;
                 y   = global.canvas.height - 70;
             }
+            const boardW = size*this.message.length +30;
+            const boardH = size* 2;
+            drawBoard(x - boardW/2,y-boardH / 1.5, boardW,boardH,0.8);
+
             global.c2d.save();
             global.c2d.font = `${size}px "Roboto Light", sans-serif`;
-            global.c2d.fillStyle = 'rgba(255, 255, 255, ' + this.message_timer + ')';
+            global.c2d.fillStyle = 'rgba(200, 150, 60, ' + this.message_timer + ')';
             global.c2d.fillText(this.message, x,  y);
             global.c2d.restore();
         }

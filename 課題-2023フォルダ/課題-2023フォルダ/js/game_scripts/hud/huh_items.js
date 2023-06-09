@@ -74,8 +74,9 @@ class Button {
         }
     }
 
+
     draw(ctx) {
-        // global.c2d.save();
+        global.c2d.save();
         const centerX = this.x;
         const centerY = this.y;
         const scaledWidth = this.width * this._scale;
@@ -141,7 +142,7 @@ class Button {
             // if not just draw text content
             ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
         }
-        // global.c2d.restore(); // Restore font after render
+        global.c2d.restore(); // Restore font after render
 
 
     }

@@ -31,7 +31,7 @@ Player's Restaurant Properties
             this._octNotifyEffectTimer = 1;
             this._squidNotifyEffectTimer = 1;
 
-            // TODO remove this
+            // TODO set starting money to 0
             this.income  =  9999;
             this._incomeNotifyEffectTimer = 0;
 
@@ -57,10 +57,11 @@ Player's Restaurant Properties
                 this. _octNotifyEffectTimer = 0;
                 this.octStock++;
             }
-            else if(type === "quid")     {
+            else if(type === "squid")     {
                 this. _squidNotifyEffectTimer = 0;
                 this.squidStock++;
             }
+            this.owner.saveState();
         }
 
     // update selling state
@@ -82,16 +83,21 @@ Player's Restaurant Properties
         addIncome(income){
             this.income += income;
             this._incomeNotifyEffectTimer = 2;
+            this.owner.saveState();
         }
 
     // upgrade restaurant
         upgrade(){
             if(this.level > restLevelUpChart.length) return false;
-            const requireMoney = restLevelUpChart[this.level];
-            if(this.income < requireMoney) return  false;
-
-            this.income -= requireMoney;
+            let requireMoney = restLevelUpChart[this.level];
+            if(_DEBUG) requireMoney = 10; // debug cheat
+            if(this.income < requireMoney) {
+                hud_manager.message = "お金足りない"
+                return false;
+            }
+            this.addIncome(-requireMoney);
             this.level++;
+            this.owner.inventory.upgradeUnlock(this.level);
             return  true;
         }
 
@@ -100,8 +106,7 @@ Player's Restaurant Properties
             if(this.crabStock <= 0) return;
             if(this._crabSellTimer < 0){
                 // TODO working with algorithm to random next sale time with restaurant lv
-                let nextSaleTime = randomNumber(5, 10);
-                this._crabSellTimer = nextSaleTime;
+                this._crabSellTimer = randomNumber(5, 10);
                 this.addIncome(monsterValue.crab * this.level * 1.1);
                 this.crabStock--;
                 this.crabSales++;
@@ -114,8 +119,7 @@ Player's Restaurant Properties
         sellOctopus(){
             if(this.octStock <= 0) return;
             if(this._octSellTimer < 0){
-                let nextSaleTime = randomNumber(20, 30);
-                this._octSellTimer = nextSaleTime;
+                this._octSellTimer = randomNumber(20, 30);
                 this.addIncome(monsterValue.octopus * this.level * 1.2) ;
                 this.octStock--;
                 this.octSales++;
@@ -129,8 +133,7 @@ Player's Restaurant Properties
         sellSquid(){
             if(this.squidStock <= 0) return;
             if(this._squidSellTimer < 0){
-                let nextSaleTime = randomNumber(10,50);
-                this._squidSellTimer = nextSaleTime;
+                this._squidSellTimer = randomNumber(10, 50);
                 this.addIncome(monsterValue.squid * this.level * 1.5) ;
                 this.squidStock--;
                 this.squidSales++;

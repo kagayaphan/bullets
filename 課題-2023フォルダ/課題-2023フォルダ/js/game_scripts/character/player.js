@@ -1,17 +1,72 @@
 /*
-Player Class & Bullets
+ Player Class & Bullets
  */
 
 class Player extends Object2D {
     constructor(sprite, scale) {
         super(sprite, scale);
-        this._reward    = 0;
-        this._animTimer = 0;
+        // -- Restaurant
         this.restaurant = new Restaurant(this);
         // -- Weaponry
         this.inventory = new Inventory(this);
+        // -- Current main quest indexed
+        this.completedQuest = 0;
+
         this._weapon = null;
         this._bulletPrototypes = [];
+        this._save = false;
+
+
+        this.loadFromDisk();
+    }
+
+    saveState(){
+        this._save = true;
+        console.log("ACTIVE SAVE");
+
+    }
+
+    saveToDisk(){
+        const saveObj = {
+            restaurant : {
+                level : this.restaurant.level,
+                income : this.restaurant.income,
+                crabStock :     this.restaurant.crabStock,
+                octStock :      this.restaurant.octStock,
+                squidStock :    this.restaurant.squidStock,
+            },
+            inventory : {
+                netLv :       this.inventory.net.level,
+                harpoonLv :   this.inventory.harpoon.level,
+                bombLv :      this.inventory.bomb.level
+            },
+            quest: this.completedQuest,
+
+        }
+
+        localStorage.setItem('kaninabePlayer', JSON.stringify(saveObj));
+
+        this._save = false;
+
+        console.log("SAVED TO DISK");
+    }
+
+    loadFromDisk(){
+        // Load save from localStorage
+        const saveData = localStorage.getItem('kaninabePlayer');
+        if(saveData === null) return;
+        const saveObj =   JSON.parse(saveData);
+        this.restaurant.level = saveObj.restaurant.level;
+        this.restaurant.income = saveObj.restaurant.income;
+        this.restaurant.crabStock = saveObj.restaurant.crabStock;
+        this.restaurant.octStock = saveObj.restaurant.octStock;
+        this.restaurant.squidStock = saveObj.restaurant.squidStock;
+
+        this.inventory.net.level        = saveObj.inventory.netLv
+        this.inventory.harpoon.level    = saveObj.inventory.harpoonLv
+        this.inventory.bomb.level       = saveObj.inventory.bombLv
+
+        this.completedQuest = saveObj.quest;
     }
 
     resetState(){
@@ -23,10 +78,15 @@ class Player extends Object2D {
         this._bulletPrototypes = [];
     }
 
+    moveToNextQuest(){
+        this.completedQuest++;
+        this.saveState();
+
+    }
+
     notifyRestaurant(caughtMonsters){
         for(const caughtObj of caughtMonsters){
             this.restaurant.updateStock(caughtObj);
-            // caughtObj.remove();
         }
     }
 
@@ -39,6 +99,9 @@ class Player extends Object2D {
         this.weaponUpdate();
         this.restaurant.update();
         this.inventory.update();
+        g_MainQuest[this.completedQuest].update();
+
+        if(this._save) this.saveToDisk();
         super.update();
     }
 
@@ -85,6 +148,8 @@ class Player extends Object2D {
 
     }
 }
+
+
 
 
 // --- Bullet Base Class
@@ -261,7 +326,7 @@ class NetBullet extends Bullet {
     checkCollide(){
         if(!this._collider) return;
 
-        for(const monster of stage_manager.current.monsterList){
+        for(const monster of stage_manager.current._monsterList){
             // skip monster that been caught
             if(monster._state !== "move") continue;
             const collider = monster._collider;
@@ -340,7 +405,7 @@ class HarpoonBullet extends Bullet {
     checkCollide(){
         if(!this._collider) return;
 
-        for(const monster of stage_manager.current.monsterList){
+        for(const monster of stage_manager.current._monsterList){
             // skip monster that been caught
             if(monster._state !== "move") continue;
             const collider = monster._collider;
@@ -398,7 +463,7 @@ class BombBullet extends Bullet {
     checkCollide(){
         if(!this._collider) return;
         let collided = false;
-        for(const monster of stage_manager.current.monsterList){
+        for(const monster of stage_manager.current._monsterList){
             // skip monster that been caught
             if(monster._state !== "move") continue;
             const collider = monster._collider;
@@ -422,7 +487,9 @@ class BombBullet extends Bullet {
     }
 }
 
-
+function clearSave(){
+    localStorage.clear();
+}
 
 
 

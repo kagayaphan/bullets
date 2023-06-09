@@ -23,6 +23,7 @@ const game_button_handlers = new Map([
     ["upgradeNet", upgradeNet],
     ["upgradeHarpoon", upgradeHarpoon],
     ["upgradeBomb", upgradeBomb],
+    ["upgradeRestaurant", upgradeRestaurant],
 ]);
 
 // On-off game pause switch
