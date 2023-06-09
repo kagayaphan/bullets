@@ -141,8 +141,8 @@ Player's Restaurant Properties
 
     // Show all the restaurant state's info on the black board
         showInfoBoard(x,y){
-            if(this._boardCurWidth < 225) this._boardCurWidth += 2;
-            if(this._boardCurHeight < 100) this._boardCurHeight += 2;
+            if(this._boardCurWidth < 225) this._boardCurWidth += 500 * deltaTime;
+            if(this._boardCurHeight < 100) this._boardCurHeight += 500 * deltaTime;
             if(this._boardOpacity < 1) this._boardOpacity += deltaTime;
             const boardX = x;
             let boardY = y;

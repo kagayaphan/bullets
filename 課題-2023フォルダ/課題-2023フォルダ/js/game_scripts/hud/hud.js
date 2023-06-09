@@ -34,9 +34,9 @@ class Menu {
     }
 
     update(){
-        this.buttons.forEach(function(button) {
+        for(const button of this.buttons){
             button.update();
-        });
+        }
     }
 
     draw(){    
@@ -71,9 +71,10 @@ class Menu {
 
     // Draw all the buttons in the list
     drawButtons() {
-        this.buttons.forEach(function(button) {
+        for(const button of this.buttons){
             button.draw(global.c2d);
-        });
+        }
+        
     }
 
 }

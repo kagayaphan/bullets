@@ -13,12 +13,13 @@ class Weapon{
         this._image = null;
         this._icon  = null;
         this._imageScale = 1;
-        this._curAmmoCount = 0;
         this._durability = 100; // percentage of used status
         // data parameters
         this._maxAmmo = 0;
         this.level = 1;
-        this.upgradeCost = 100; // use to calculate upgrade money
+        this.type = "";
+
+        this._upgradeCost = 100; // use to calculate upgrade money
         this._speed = 0;
         this._range = 0;
         // TODO make a data table for each type of weapon
@@ -27,13 +28,29 @@ class Weapon{
         this._ammoAdd = 0.4;
     }
 
+    countUsedAmmo(){
+        
+        if(_DEBUG) return 0;// Debug cheat
+
+        let counter = 0;
+        for(const bullet of player._bulletPrototypes){
+            if(bullet.type == this.type){
+                counter++;
+            }
+        }
+        console.log(this.type + ": " + counter);
+        return counter;
+        
+    }
+
     initShot(target){
-        if(_DEBUG) this._curAmmoCount = 0; // Debug cheat
-        if(this._curAmmoCount >= this._maxAmmo){
+        // Verify if the maximum ammunition limit has been reached
+        if(this.countUsedAmmo() >= this._maxAmmo){
             hud_manager.message = "弾切れ"
             return;
         }
-        this._curAmmoCount++;
+        // console.log("initshot: " + this.type);
+        // Instantiate and add a new bullet to the game prototype manager
         const newBullet = new this._bullet(this._image, this._imageScale, this._speed,this._range);
         newBullet.initShot(target);
         player._bulletPrototypes.push(newBullet);
@@ -51,7 +68,7 @@ class Weapon{
             hud_manager.message = "最高レベルです。"
             return ;
         }
-        const cost = this.level * this.upgradeCost;
+        const cost = this.level * this._upgradeCost;
         if(player.restaurant.requestMoney(cost)) {
             this.levelUp();
             return true;
@@ -96,6 +113,7 @@ class Weapon{
 class WeaponNet extends Weapon{
     constructor() {
         super();
+        this.type = "net";
         this._bullet = NetBullet;
         this._cdTimer = 0;
         this._cdMax = 0.5;
@@ -118,6 +136,7 @@ class WeaponNet extends Weapon{
 class WeaponHarpoon extends Weapon{
     constructor() {
         super();
+        this.type = "harpoon";
         this._bullet = HarpoonBullet;
         this._cdTimer = 0;
         this._cdMax = 0.5;
@@ -138,6 +157,7 @@ class WeaponHarpoon extends Weapon{
 class WeaponBomb extends Weapon{
     constructor() {
         super();
+        this.type = "bomb";
         this._bullet = BombBullet;
         this._cdTimer = 0;
         this._cdMax = 0.5;
@@ -172,7 +192,7 @@ class Inventory {
 
         this._boardPosX = 910;
         this._boardPosY = 60;
-        this._boardW = 450;
+        this._boardW = 510;
         this._boardH = 320;
     }
 
@@ -183,10 +203,6 @@ class Inventory {
     close(){
         this.boardWidthTimer = 0;
         this._onOpen = false;
-    }
-
-    bulletRetrieve(type){
-        this._armory.get(type)._curAmmoCount--;
     }
 
     selectWeapon(weapon){
@@ -200,7 +216,8 @@ class Inventory {
 
     drawBoard(){
         const w = this._boardW * this.boardWidthTimer;
-        drawGridBoard(this._boardPosX,this._boardPosY,w,this._boardH,3,0,this.boardWidthTimer);
+        const h = this._boardH;
+        drawGridBoard(this._boardPosX,this._boardPosY, w, h, 3, 0, this.boardWidthTimer);
 
     }
 
@@ -214,7 +231,7 @@ class Inventory {
         this.drawBoard();
         // fade in value update
         if(this.boardWidthTimer < 1) {
-            this.boardWidthTimer += deltaTime;
+            this.boardWidthTimer += deltaTime * 2;
             // hud_manager.current.
         }
         else {

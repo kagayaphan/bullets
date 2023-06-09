@@ -40,6 +40,84 @@ function drawCircle(pos, radius){
     ctx.stroke();
 }
 
+function animateArrow(pointA, pointB) {
+    const ctx = global.c2d;
+    const arrow = new Point(pointA.x, pointA.y);
+  
+    function drawArrow() {
+      ctx.clearRect(arrow.x - 15, arrow.y - 15, 30, 30); // Clear the area around the previous arrow
+      ctx.beginPath();
+      ctx.moveTo(arrow.x, arrow.y);
+      ctx.lineTo(arrow.x + 10, arrow.y + 10);
+      ctx.lineTo(arrow.x - 10, arrow.y + 10);
+      ctx.closePath();
+      ctx.fillStyle = 'red';
+      ctx.fill();
+    }
+  
+    function animate() {
+      drawArrow();
+      arrow.x += (pointB.x - pointA.x) / 100;
+      arrow.y += (pointB.y - pointA.y) / 100;
+  
+      if (arrow.x < pointB.x || arrow.y < pointB.y) {
+        requestAnimationFrame(animate);
+      }
+    }
+  
+    animate();
+}
+
+function drawLaneMarkings(pointA, pointB) {   
+    const ctx = global.c2d;
+    // Set the line style
+    ctx.strokeStyle = "gold";
+    ctx.lineWidth = 2;
+
+    // Define the spacing stop interval
+    var spacingStopInterval = 10; // Adjust this value as needed
+    var spacingStopLength = 10; // Adjust this value as needed
+
+    // Calculate the distance between point A and B
+    var distance = Math.sqrt(
+      Math.pow(pointB.x - pointA.x, 2) + Math.pow(pointB.y - pointA.y, 2)
+    );
+
+    // Calculate the unit vector for the line
+    var dx = (pointB.x - pointA.x) / distance;
+    var dy = (pointB.y - pointA.y) / distance;
+
+    // Start drawing the lane marking
+    ctx.beginPath();
+    ctx.moveTo(pointA.x, pointA.y);
+
+    // Loop through spacing stops and draw the lane marking
+    var currDistance = 0;
+    while (currDistance < distance) {
+      // Calculate the next spacing stop position
+      var x = pointA.x + dx * currDistance;
+      var y = pointA.y + dy * currDistance;
+
+      // Move to the spacing stop position
+      ctx.moveTo(x, y);
+
+      // Check if the spacing stop should be empty
+      if (currDistance % (spacingStopInterval + spacingStopLength) >= spacingStopInterval) {
+        // Calculate the end point for the spacing stop
+        var stopEndX = x + dx * spacingStopLength;
+        var stopEndY = y + dy * spacingStopLength;
+
+        // Draw the line segment
+        ctx.lineTo(stopEndX, stopEndY);
+      }
+
+      // Increment the current distance by the spacing stop interval
+      currDistance += spacingStopInterval;
+    }
+
+    ctx.stroke();
+}
+
 function drawRoundedRectangle(x, y, width, height, cornerRadius, backgroundColor, borderColor) {
     global.c2d.beginPath();
     global.c2d.moveTo(x + cornerRadius, y);
@@ -128,7 +206,6 @@ function drawGridBoard(x, y, width, height, col, row, opacity) {
     const borderRadius = 8;
     const columnCount = col;
     const columnLineWidth = 2;
-
 
     // Calculate the starting x-coordinate based on the width and x position
     const startX = x - width;

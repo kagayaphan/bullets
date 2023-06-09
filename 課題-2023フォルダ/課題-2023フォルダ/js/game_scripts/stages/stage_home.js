@@ -11,22 +11,37 @@ class StageHome extends Stage {
         this.isNewGame = true;
         this.locatorAngleIncrement = 1;
         this.selectStage = null;
+        this.mapPointList = [];
+        this.mapLocatorButtons = [];
+        this.maxEnableStage = 0;
     }
 
     init(){
-        hud_manager.changeMenu(hud_manager.home);
-        for(const button of hud_manager.current.buttons){
-            if(button.clickHandler === "gotoTitle") continue;
+        hud_manager.changeMenu(hud_manager.home);       
 
+        // parse home use hud data into separate container to manage easier
+        for(const button of hud_manager.current.buttons){
+            // do nothing with back button
+            if(button.clickHandler === "gotoTitle") continue;
+            
+            if(button.content.includes("map")) {
+                // push locator button
+                this.mapLocatorButtons.push(button);
+                // push locator pointList map to draw
+                this.mapPointList.push(new Point(button.x,button.y));
+            }
             button._angle = randomNumber(0,360);
-            // button._angle += this.locatorAngleIncrement;
-            // if(button._angle === 25 || button._angle === -25) this.locatorAngleIncrement *= -1;
         }
+
+        
     }
 
     deInit() {
+        
         super.deInit();
         this.selectStage = null;
+        this.mapPointList = [];
+        this.mapLocatorButtons = [];
     }
     
     update(){
@@ -49,8 +64,12 @@ class StageHome extends Stage {
         for(const button of hudButtons){
             if(button.clickHandler === "gotoTitle") continue;
             button._angle += 0.1;
-            // button._angle += this.locatorAngleIncrement;
-            // if(button._angle === 25 || button._angle === -25) this.locatorAngleIncrement *= -1;
+        }
+
+        for(let i = 0; i < this.mapPointList.length - 1; i++){
+            const point = this.mapPointList[i];
+            drawLaneMarkings(point, this.mapPointList[i+1]);
+            
         }
     }
     

@@ -26,6 +26,7 @@ class Button {
         this._opacityOri = opacity;
         this._scale = scale;
         this._angle = 1;
+        this._enable = true;
     }
 
     createEditor() {
@@ -138,6 +139,7 @@ class Button {
 
     // when user click on button process
     handleClick(event) {
+        if(!this._enable) return;
 
         const rect = canvas.getBoundingClientRect();
         const drawX = this.x - this.width/2;

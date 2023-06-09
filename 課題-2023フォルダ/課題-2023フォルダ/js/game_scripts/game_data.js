@@ -30,9 +30,9 @@ const home_buttons_data =
 const inventory_buttons_data =
 [
 	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0,"clickHandler":"closeInventory","cornerRadius":0,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-    {"x":535,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeNet","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
-    {"x":690,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeHarpoon","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
-    {"x":840,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeBomb","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
+    {"x":485,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeNet","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
+    {"x":655,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeHarpoon","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
+    {"x":830,"y":350,"width":90,"height":30,"content":"UPGRADE","fontFamily":"Roboto Light","fontSize":14,"red":148,"green":174,"blue":125,"opacity":0.7,"clickHandler":"upgradeBomb","cornerRadius":4,"foregroundOri":"black","foregroundOver":"white","scale":1},
 
 ]
 

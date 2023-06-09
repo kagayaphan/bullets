@@ -91,7 +91,9 @@ class Player extends Object2D {
 class Bullet extends Object2D {
     constructor(sprite, scale, speed, range) {
         super(sprite, scale);
-        this._type = "";
+        
+        this.type = "";
+        // transient prop
         this._initPos = null;
         this._target = null; // mouse click on target
         this._headPos = new Point(0,0); // param to set caught monster at the right place
@@ -125,7 +127,7 @@ class Bullet extends Object2D {
 
     update(){
         const target = new Point(this._target.x, this._target.y); // copy pointer value;
-        if(this._type === "bomb") {
+        if(this.type === "bomb") {
             if(this._pos.Length(this._initPos) > 1000) {
                 this.remove();
                 return;
@@ -134,7 +136,7 @@ class Bullet extends Object2D {
         //***** CHECK IF REACH TARGET ******//
         if(target.Length(this._pos) < g_mob_move_destinationRadius * 2) {
             if(this._state === "shot") {
-                if(this._type === "bomb") {
+                if(this.type === "bomb") {
                     // keep moving forward if this is bomb
                     return;
                 }
@@ -156,14 +158,13 @@ class Bullet extends Object2D {
     }
 
     remove(){
-        // return ammo to weapon
-        player.inventory.bulletRetrieve(this._type);
 
         for(const obj of this._caughtObj){
-            obj.remove();
+            obj.remove(); // safe remove each monster obj
         }
-        this._caughtObj = [];
-        super.remove();
+        this._caughtObj = []; // clear monster list
+
+        super.remove(); // release base obj info
     }
 
 }
@@ -173,7 +174,7 @@ class Bullet extends Object2D {
 class NetBullet extends Bullet {
     constructor(sprite, scale, speed, range) {
         super(sprite, scale, speed, range);
-        this._type = "net";
+        this.type = "net";
         this._ropeColor = "rgb(204, 85, 0)";
     }
 
@@ -281,7 +282,7 @@ class NetBullet extends Bullet {
 class HarpoonBullet extends Bullet {
     constructor(sprite, scale, speed, range) {
         super(sprite, scale, speed, range);
-        this._type = "harpoon";
+        this.type = "harpoon";
         this._ropeColor = "rgb(255,50,50)";
     }
 
@@ -360,7 +361,7 @@ class HarpoonBullet extends Bullet {
 class BombBullet extends Bullet {
     constructor(sprite, scale, speed, range) {
         super(sprite, scale, speed, range);
-        this._type = "bomb";
+        this.type = "bomb";
         this._acceleration  = 5;
     }
 

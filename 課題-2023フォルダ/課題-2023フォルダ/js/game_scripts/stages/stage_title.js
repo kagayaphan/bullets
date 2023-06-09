@@ -29,6 +29,11 @@ class StageTitle extends Stage {
             }
         }
 
+
+
+        // animateArrow(new Point(0,0), new Point(500,500));
+        
+
         // forever loop because this is a relaxing animation
         if(_reset) this.createMonsters();
 
