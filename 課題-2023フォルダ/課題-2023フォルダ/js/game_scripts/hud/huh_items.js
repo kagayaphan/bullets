@@ -6,10 +6,14 @@ class Button {
                 content, fontFamily, fontSize, foregroundOri, foregroundOver,
                 red, green, blue, opacity, scale,
                 clickHandler, cornerRadius) {
+        // position & size
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        // callback
+        this.clickHandler = clickHandler;
+        // text content props
         this.content = content;
         this.fontFamily = fontFamily;
         this.fontSize = fontSize;
@@ -17,11 +21,12 @@ class Button {
         this.green = green;
         this.blue = blue;
         this.opacity = opacity;
-        this.clickHandler = clickHandler;
+        // design style
         this.cornerRadius = cornerRadius;
         this.foregroundOri = foregroundOri;
         this.foregroundOver = foregroundOver;
         this.scale = scale;
+        // dynamic props
         this._foreground = foregroundOri;
         this._opacityOri = opacity;
         this._scale = scale;
@@ -62,15 +67,14 @@ class Button {
             y >= drawY && y <= drawY + this.height) {
             // if mouse over
             if(this.opacity < 1) this.opacity += 0.01;
-            if(this._scale < 1.15) this._scale += 0.01;
+            if(this._scale < this.scale + this.scale*0.15) this._scale += 0.01;
             this._foreground = this.foregroundOver;
 
         } else {
             // if mouse leave
             if(this.opacity > this._opacityOri) this.opacity -= 0.01;
-            if(this._scale > 1.0) this._scale -= 0.01;
+            if(this._scale > this.scale) this._scale -= 0.01;
             this._foreground = this.foregroundOri;
-
         }
     }
 
@@ -122,10 +126,7 @@ class Button {
             ctx.stroke();
         }
 
-
-
-
-        // If this button content is icon i dont want it to be draw background
+        // verify if content is icon && do not draw bg background
         if (this.content.includes("icon")) {
             // if this is icon button draw icon image
             icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale),this._angle);
@@ -135,37 +136,37 @@ class Button {
             if(!this._enable) color = "gray";
             ctx.fillStyle = color;
             ctx.fill();
-            // Draw button text content
+            // draw button text content
             ctx.font = this.fontSize + "px " + this.fontFamily;
             ctx.fillStyle = this._foreground;
             ctx.textAlign = "center";
             // if not just draw text content
             ctx.fillText(this.content, centerX, centerY + this.fontSize / 2);
         }
-        global.c2d.restore(); // Restore font after render
-
-
+        global.c2d.restore(); // restore font after render
     }
 
-
-    // when user click on button process
-    handleClick(event) {
-        if(!this._enable) return;
-
+    // verify if mouse is moving over the button
+    checkOver(event){
         const rect = canvas.getBoundingClientRect();
         const drawX = this.x - this.width/2;
         const drawY = this.y - this.height/2;
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        if (x >= drawX && x <= drawX + this.width &&
-            y >= drawY && y <= drawY + this.height) {
-            if(_DEBUG && _LEFTCTRL) {this.createEditor(); return}
-            this._scale = 0.9;
-            const handler = game_button_handlers.get(this.clickHandler);
-            handler();
+        return x >= drawX && x <= drawX + this.width &&
+            y >= drawY && y <= drawY + this.height;
 
-        }
+    }
+
+    // when user click on button process
+    handleClick(event) {
+        if(!this._enable) return false; // verify button enable state
+        if(!this.checkOver(event)) return false; // verify mouse over
+        if(_DEBUG && _LEFTCTRL) {this.createEditor(); return false} // if debug create editor & do nothing
+        this._scale = this.scale - this.scale * 0.1; // do some click effect
+        game_button_handlers.get(this.clickHandler)(); // execute button handler
+        return true;
     }
 
 
@@ -190,9 +191,6 @@ class GameText {
         global.c2d.fillText(this.content, this.x, this.y);
     }
 
-    setFontFamily(font){
-        this.family = font;
-    }
 }
 
 // flicker effect text class

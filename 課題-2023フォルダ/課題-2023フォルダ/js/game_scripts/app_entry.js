@@ -14,8 +14,13 @@ let stage_manager = {
     stage02 : new Stage02(),
     stage03 : new Stage03(),
 
-    pause   : false
+    pause   : false,
 
+    updateCD : function (){
+        this.stage01.coolDown();
+        this.stage02.coolDown();
+        this.stage03.coolDown();
+    }
 };
 
 
@@ -71,16 +76,6 @@ function frameUpdate()
 }
 
 
-// double click handler to quick select stage navigate
-canvas.addEventListener('dblclick', function(event) {
-    if(stage_manager.current === stage_manager.home){
-        const selectedStage = stage_manager.current.selectStage;
-        if(selectedStage && selectedStage.enable){
-            selectedStage.stageNavHandler();
-        }
-    }
-});
-
 canvas.addEventListener('click', function(event) {
     if(stage_manager.current){
         if(stage_manager.current.harvest_time > 0 && !stage_manager.pause){
@@ -97,17 +92,15 @@ document.addEventListener('keydown', function(event) {
         if(stage_manager.current.harvest_time > 0 && !stage_manager.pause){
             if (event.key === '1') {
                 // Change weapon to NET
-                player.inventory.selectWeapon("net");
+                selectNet();
             }
             if (event.key === '2') {
                 // Change weapon to HARPOON
-                player.inventory.selectWeapon("harpoon");
-
+                selectHarpoon();
             }
             if (event.key === '3') {
                 // Change weapon to BOMB
-                player.inventory.selectWeapon("bomb");
-
+               selectBomb();
             }
         }
     }

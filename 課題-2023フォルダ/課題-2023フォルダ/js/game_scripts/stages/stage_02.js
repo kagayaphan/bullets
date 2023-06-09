@@ -45,8 +45,6 @@ class Stage02 extends Stage {
         makeWaveEffect(stage_manager.current.wave);
         // set all params to default value
         player.resetState();
-        // assign default weapon
-        player.inventory.selectWeapon("harpoon");
     }
 
     update() {
@@ -65,6 +63,8 @@ class Stage02 extends Stage {
         this.applyScreenEffect();
         // draw inventory layer
         player.inventory.draw();
+        // draw button highlight rectangle
+        hud_manager.drawHighLightWpButton();
     }
 
     spawnSquid(){

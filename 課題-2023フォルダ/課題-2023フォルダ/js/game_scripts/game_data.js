@@ -11,17 +11,22 @@ const title_buttons_data =
 
 const game_buttons_data =
 [
-	{"x":25,"y":20,"width":18,"height":18,"content":"icon_toTitle","fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoHome","cornerRadius":0,           "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory","fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0,"clickHandler":"openInventory","cornerRadius":0,     "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe","fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":1,"clickHandler":"toggleShowRestaurant","cornerRadius":0,   "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":25, "y":20,"width":18,"height":18,"content":"icon_toTitle",    "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0.5,"clickHandler":"gotoHome","cornerRadius":0,           "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+	{"x":350,"y":30,"width":36,"height":36,"content":"icon_nabe",       "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler":"toggleShowRestaurant","cornerRadius":0,   "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+    {"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory",  "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"openInventory","cornerRadius":0,     "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+    {"x":615,"y":22,"width":32,"height":32,"content":"icon_wp_net",        "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectNet","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5},
+    {"x":660,"y":22,"width":32,"height":32,"content":"icon_wp_harpoon",    "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectHarpoon","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5},
+    {"x":705,"y":22,"width":32,"height":32,"content":"icon_wp_bomb",       "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectBomb","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5}
+
+
 ]
 
 const home_buttons_data =
 [
-	{"x":437,"y":275,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light", "fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler":"getStageInfo01","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
-	{"x":398,"y":156,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo02","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
-	{"x":558,"y":245,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo03","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
-    {"x":851,"y":449,"width":80,"height":50,"content":"出発",           "fontFamily":"Roboto Light","fontSize":18,"red":28,"green":184,"blue":0,"opacity":0.78,"clickHandler":"navigateStage","cornerRadius":5,"foregroundOri":"black","foregroundOver":"white","scale":1},
+	{"x":437,"y":275,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler":"getStageInfo01","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
+	{"x":398,"y":156,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler":"getStageInfo02","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
+	{"x":558,"y":245,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler":"getStageInfo03","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
+    {"x":851,"y":449,"width":90,"height":45,"content":"出発",           "fontFamily":"Roboto Light","fontSize":18,"red":28,"green":184,"blue":0,"opacity":0.78,"clickHandler":"navigateStage","cornerRadius":5,"foregroundOri":"black","foregroundOver":"white","scale":1},
     {"x":15, "y":469,"width":18,"height":18,"content":"icon_toTitle",   "fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0, "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
     {"x":117,"y":449,"width":80,"height":20,"content":"アップグレード", "fontFamily":"Roboto Light","fontSize":10,"red":0,"green":0,"blue":0,"opacity":0.8,"clickHandler":"upgradeRestaurant","cornerRadius":1, "scale":1,"foregroundOver":"orange","foregroundOri":"white","foreground":"black"},
 
@@ -71,9 +76,9 @@ const GameImages = {
     icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
     icon_mapLocator : new LoadImage(global.c2d, "image/icon_mapLocator.png"),
     // weapon
-    icon_net        : new LoadImage(global.c2d, "image/icon_net.png"),
-    icon_harpoon    : new LoadImage(global.c2d, "image/icon_harpoon.png"),
-    icon_bomb       : new LoadImage(global.c2d, "image/icon_bomb.png"),
+    icon_wp_net        : new LoadImage(global.c2d, "image/icon_wp_net.png"),
+    icon_wp_harpoon    : new LoadImage(global.c2d, "image/icon_wp_harpoon.png"),
+    icon_wp_bomb       : new LoadImage(global.c2d, "image/icon_wp_bomb.png"),
 }
 
 const restLevelUpChart = [0,3000,10000,15000,25000,12000,15000];
@@ -112,6 +117,7 @@ const stageDescription = {
         ["イカ：５％"],
         ["。。。"],
     ],
+
     stage03 : [
         ["東京湾"],
         ["作業時間:１２０秒"],

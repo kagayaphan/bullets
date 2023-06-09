@@ -35,23 +35,6 @@ class Stage03 extends Stage {
 
     }
 
-    toJSON() {
-        return {
-            background: this.background,
-            playerInitInfo: this.playerInitInfo,
-            wave: this.wave,
-            crabSpawnTimer: this.crabSpawnTimer,
-            crabNextSpawnTime: this.crabNextSpawnTime,
-            octSpawnTimer: this.octSpawnTimer,
-            octNextSpawnTime: this.octNextSpawnTime
-        };
-    }
-
-    ExportJson(){
-        const stageJson = JSON.stringify(this.toJSON());
-        console.log(stageJson);
-    }
-
     init(){
         // change to game menu
         hud_manager.changeMenu(hud_manager.game);
@@ -59,8 +42,6 @@ class Stage03 extends Stage {
         makeWaveEffect(stage_manager.current.wave);
         // set all params to default value
         player.resetState();
-        // assign default weapon
-        player.inventory.selectWeapon("net");
     }
 
     update() {
@@ -78,6 +59,8 @@ class Stage03 extends Stage {
         this.applyScreenEffect();
         // draw inventory layer
         player.inventory.draw();
+        // draw button highlight rectangle
+        hud_manager.drawHighLightWpButton();
     }
 
     spawnSquid(){

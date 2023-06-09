@@ -52,7 +52,7 @@ class Squid extends Monster{
         if(randomNumber(1,10) > 5){
             points.reverse();
         } else {
-            console.log("KO REVERSE");
+            // console.log("KO REVERSE");
 
         }
         return points;

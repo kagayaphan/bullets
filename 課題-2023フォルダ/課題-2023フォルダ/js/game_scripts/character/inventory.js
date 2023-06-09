@@ -45,7 +45,7 @@ class Weapon{
     initShot(target){
         // Verify if the maximum ammunition limit has been reached
         if(this.countUsedAmmo() >= this._maxAmmo){
-            hud_manager.message = "弾切れ"
+            hud_manager.setMessage("弾切れ")
             return;
         }
         // Instantiate and add a new bullet to the game prototype manager
@@ -66,22 +66,24 @@ class Weapon{
     upgrade(){
 
         if(this.level === 0) {
-            hud_manager.message = "レストランをアップグレードしてロックを解除する。"
-            return ;
+            hud_manager.setMessage("レストランをアップグレードしてロックを解除する。");
+            return false;
         }
 
         if(this.level >= g_weapon_max_level) {
-            hud_manager.message = "最高レベルです。"
-            return ;
-        }
-        const cost = this.level * this._upgradeCost;
-        if(player.restaurant.requestMoney(cost)) {
-            this.levelUp();
-            return true;
-        } else {
-            hud_manager.message = "お金が足りない"
+            hud_manager.message.setMessage("最高レベルです。");
             return false;
         }
+        const cost = this.level * this._upgradeCost;
+        if(!player.restaurant.requestMoney(cost)) {
+            hud_manager.setMessage("お金が足りない");
+            return false;
+        }
+
+        this.levelUp();
+        hud_manager.setMessage("アップグレードの成功");
+        return true;
+
     }
 
     draw(x,y){
@@ -124,7 +126,7 @@ class WeaponNet extends Weapon{
         this._bullet = NetBullet;
         this._image = GameImages.player_net;
         this._imageScale = 0.3;
-        this._icon  = GameImages.icon_net;
+        this._icon  = GameImages.icon_wp_net;
         this._speed = 100;
         this._range = 50;
         this._maxAmmo = 2;
@@ -145,7 +147,7 @@ class WeaponHarpoon extends Weapon{
         this._bullet = HarpoonBullet;
         this._image = GameImages.player_harpoon;
         this._imageScale = 1;
-        this._icon  = GameImages.icon_harpoon;
+        this._icon  = GameImages.icon_wp_harpoon;
         this._speed = 180;
         this._range = 5;
         this._maxAmmo = 3;
@@ -164,7 +166,7 @@ class WeaponBomb extends Weapon{
         this._bullet = BombBullet;
         this._image = GameImages.player_bomb;
         this._imageScale = 1;
-        this._icon  = GameImages.icon_bomb;
+        this._icon  = GameImages.icon_wp_bomb;
         this._speed = 0.5;
         this._range = 20;
         this._maxAmmo = 5;
@@ -239,7 +241,7 @@ class Inventory {
             let x = this._boardPosX - this._boardW + 75;
 
             let yStep = 50;
-            const xStep = this._boardW/ this._armory.size;
+            const xStep = this._boardW / this._armory.size;
 
             // first draw title
             drawText("INVENTORY", this._boardPosX - this._boardW + 90, y += 25, 22);

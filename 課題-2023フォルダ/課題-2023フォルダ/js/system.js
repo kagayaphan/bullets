@@ -5,6 +5,14 @@
 let _DEBUG = false;
 
 
+function clearSave(){
+    localStorage.clear();
+}
+
+function cheatMoney(){
+    player.restaurant.addIncome(5000);
+}
+
 function toggleDebugMode(){
   _DEBUG = !_DEBUG;
   const textBoxContainer = document.getElementById("textBoxContainer");

@@ -31,8 +31,7 @@ Player's Restaurant Properties
             this._octNotifyEffectTimer = 1;
             this._squidNotifyEffectTimer = 1;
 
-            // TODO set starting money to 0
-            this.income  =  9999;
+            this.income  =  0;
             this._incomeNotifyEffectTimer = 0;
 
             this._displayFullInfo = false;
@@ -88,16 +87,21 @@ Player's Restaurant Properties
 
     // upgrade restaurant
         upgrade(){
-            if(this.level > restLevelUpChart.length) return false;
+            if(this.level > restLevelUpChart.length) {
+                hud_manager.setMessage("MAXIMUM LEVEL");
+                return false;
+            }
             let requireMoney = restLevelUpChart[this.level];
             if(_DEBUG) requireMoney = 10; // debug cheat
             if(this.income < requireMoney) {
-                hud_manager.message = "お金足りない"
+                hud_manager.setMessage("お金足りない");
                 return false;
             }
             this.addIncome(-requireMoney);
             this.level++;
             this.owner.inventory.upgradeUnlock(this.level);
+            hud_manager.setMessage("アップグレードの成功");
+            this.owner.saveState();
             return  true;
         }
 

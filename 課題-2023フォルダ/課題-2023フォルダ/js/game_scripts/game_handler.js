@@ -4,6 +4,7 @@
 
 
 
+
 // Function Pointer Map
 const game_button_handlers = new Map([
     ["gotoTitle", gotoTitle],
@@ -24,7 +25,22 @@ const game_button_handlers = new Map([
     ["upgradeHarpoon", upgradeHarpoon],
     ["upgradeBomb", upgradeBomb],
     ["upgradeRestaurant", upgradeRestaurant],
+    ["selectNet", selectNet],
+    ["selectHarpoon", selectHarpoon],
+    ["selectBomb", selectBomb],
 ]);
+
+function selectNet() {
+    player.inventory.selectWeapon("net");
+}
+
+function selectHarpoon() {
+    player.inventory.selectWeapon("harpoon");
+}
+
+function selectBomb() {
+    player.inventory.selectWeapon("bomb");
+}
 
 // On-off game pause switch
     function togglePause(){
@@ -126,7 +142,7 @@ const game_button_handlers = new Map([
 
 // Play some fun intro at title screen
     function playIntro(){
-        hud_manager.message = "Welcome To My Restaurant";
+        hud_manager.setMessage("Welcome To My Restaurant");
         hud_manager.showMessage();
         createExplosion(randomNumber(50,800),randomNumber(50,450),200);
     }

@@ -10,6 +10,7 @@ class Stage {
         this.wave = null;
         this.effect_timer = 0;
         this.stage_timer = 0;
+        this.cd_timer = 0;
         this.harvest_time = 0;
         this.mapScale = 1;
         this.stageNavHandler = null;
@@ -27,10 +28,13 @@ class Stage {
         }
         this._monsterList = [];
         player.restaurant.closeInfoBoard();
+        this.cd_timer = 20;
     }
 
     drawInfo(){
         drawBlackBoard(740,50,200,220,this._infoArray);
+        const s = Math.round(this.cd_timer);
+        if(this.cd_timer > 0) drawText("後 "+s+" 秒",851, 400,20);
     }
 
     draw(){
@@ -62,12 +66,13 @@ class Stage {
         return str;
     }
 
-
     update(){
 
         // update stage monster behaviors
         stage_manager.current.spawnMonsters();
         stage_manager.current.updateMonsters();
+        // update cool down all stages;
+        stage_manager.updateCD();
         // update user's player behavior
         player.update();
 
@@ -80,6 +85,12 @@ class Stage {
             gotoHome();
         }
     }
+    coolDown() {
+        if(this.cd_timer > 0){
+            this.cd_timer -= deltaTime;
+        }
+    }
+
     updateMonsters(){
         let deadMobs = [];
 
@@ -98,7 +109,6 @@ class Stage {
                 this._monsterList.splice(index, 1);
             }
         }
-
     }
 
     drawMonster(){

@@ -6,14 +6,16 @@
 
 // all listed icon use by button
 const icon_images = new Map([
-    ["icon_nabe",       GameImages.icon_nabe],
-    ["icon_crab",       GameImages.icon_crab],
-    ["icon_octopus",    GameImages.icon_octopus],
-    ["icon_squid",      GameImages.icon_squid],
-    ["icon_net",        GameImages.icon_net],
-    ["icon_toTitle",    GameImages.icon_toTitle],
-    ["icon_inventory",  GameImages.icon_inventory],
-    ["icon_mapLocator", GameImages.icon_mapLocator],
+    ["icon_nabe",           GameImages.icon_nabe],
+    ["icon_crab",           GameImages.icon_crab],
+    ["icon_octopus",        GameImages.icon_octopus],
+    ["icon_squid",          GameImages.icon_squid],
+    ["icon_wp_net",         GameImages.icon_wp_net],
+    ["icon_wp_harpoon",     GameImages.icon_wp_harpoon],
+    ["icon_wp_bomb",        GameImages.icon_wp_bomb],
+    ["icon_toTitle",        GameImages.icon_toTitle],
+    ["icon_inventory",      GameImages.icon_inventory],
+    ["icon_mapLocator",     GameImages.icon_mapLocator],
 ]);
 
 // draw a simple line
@@ -40,6 +42,19 @@ function drawCircle(pos, radius){
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, radius, 0, 2 * Math.PI);
     ctx.stroke();
+}
+
+// draw a text in side a board
+function drawNotifyText(text, txtSize, x, y, opacity = 1){
+    const boardW = txtSize * text.length +30;
+    const boardH = txtSize* 2;
+    drawBoard(x - boardW/2,y-boardH / 1.5, boardW,boardH,0.75);
+
+    global.c2d.save();
+    global.c2d.font = `${txtSize}px "Roboto Light", sans-serif`;
+    global.c2d.fillStyle = 'rgba(200, 150, 60, ' + opacity + ')';
+    global.c2d.fillText(text, x,  y);
+    global.c2d.restore();
 }
 
 // draw a string inside a box and auto step down
@@ -241,7 +256,13 @@ function drawRoundedRectangle(x, y, width, height, cornerRadius, backgroundColor
 }
 
 // Draw a black board only
-function drawBoard(x, y, width, height, opacity) {
+function drawBoard(x, y, width, height, opacity, center = false) {
+    if(center){
+        x = x - width/2;
+        y = y - height/2;
+    }
+
+
     // Calculate the actual width and height based on the maximum limits
     const actualWidth = width;
     const actualHeight = height;
@@ -258,7 +279,7 @@ function drawBoard(x, y, width, height, opacity) {
     global.c2d.strokeRect(x, y, actualWidth, actualHeight);
 }
 
-// Draw simple black board with text on it
+// Draw simple black board with text array on it
 function drawBlackBoard(x, y, width, height, textArray) {
     // Create a temporary canvas element dynamically
     const tempCanvas = document.createElement('canvas');

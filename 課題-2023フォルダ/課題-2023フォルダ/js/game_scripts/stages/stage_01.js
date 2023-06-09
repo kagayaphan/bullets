@@ -36,7 +36,6 @@ class Stage01 extends Stage {
     }
 
     draw(){
-        // this.stage_timer += deltaTime * 200;
         // render layer 1
         super.draw();
         // render layer 2
@@ -46,6 +45,8 @@ class Stage01 extends Stage {
         this.applyScreenEffect();
         // draw inventory layer
         player.inventory.draw();
+        // draw button highlight rectangle
+        hud_manager.drawHighLightWpButton();
 
     }
 
@@ -57,8 +58,6 @@ class Stage01 extends Stage {
         makeWaveEffect(stage_manager.current.wave);
         // set all params to default value
         player.resetState();
-        // assign default weapon
-        player.inventory.selectWeapon("harpoon");
     }
 
     spawnOctopus(){
@@ -82,7 +81,7 @@ class Stage01 extends Stage {
         if(this.crabSpawnTimer > this.crabNextSpawnTime){
             // console.log("Crab Spawned")
             const minRand = 1;
-            let maxRand = 3 - player.restaurant.level * 0.5;
+            let maxRand = 3 - player.restaurant.level * 0.2;
             maxRand = Math.max(minRand,maxRand);
             this.crabNextSpawnTime = randomNumber(1, maxRand);
             this.crabSpawnTimer = 0;

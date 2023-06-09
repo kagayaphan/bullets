@@ -10,7 +10,6 @@ class StageHome extends Stage {
         this.background = GameImages.world_map;
         this.selectStage = null;
         this.mapPointList = [];
-        this.mapLocatorButtons = [];
         this.maxEnableStage = 0;
         this.startButton = null;
 
@@ -23,11 +22,7 @@ class StageHome extends Stage {
         for(const button of hud_manager.current.buttons){
             // do nothing with back button
             if(button.clickHandler === "gotoTitle") continue;
-            
-            if(button.content.includes("map")) {
-                // push locator button
-                this.mapLocatorButtons.push(button);
-            }
+
             if(button.content.includes("出発")){
                 this.startButton = button;
                 this.startButton.disable();
@@ -36,36 +31,34 @@ class StageHome extends Stage {
         }
 
         // draw road lane based on the map locator button position
-        // max enable stage never be larger mapLocatorButtons length
+        // max enable stage never be larger map locator buttons length
         for(let i = 0 ; i < this.maxEnableStage; i++){
-            const button = this.mapLocatorButtons[i];
+            const button = hud_manager.set_btn_locators[i];
             // push locator pointList map to draw
             this.mapPointList.push(new Point(button.x,button.y));
         }
     }
 
     deInit() {
-        
         super.deInit();
         this.selectStage = null;
         this.startButton = null;
         this.mapPointList = [];
-        this.mapLocatorButtons = [];
     }
     
     update(){
-        player.restaurant.update();
-
+        super.update();
         if(this.selectStage) {
-            if(this.selectStage.enable) this.startButton.enable();
+            if(this.selectStage.enable
+                && this.selectStage.cd_timer <=0) this.startButton.enable();
             else this.startButton.disable();
         }
+
     }
 
     draw(){
         super.draw();
         player.restaurant.drawHomepage();
-        const hudButtons = hud_manager.current.buttons;
 
         if(this.selectStage) {
             this.selectStage.drawInfo();
@@ -74,15 +67,13 @@ class StageHome extends Stage {
         }
 
 
-        for(const button of hudButtons){
-            if(button.clickHandler === "gotoTitle") continue;
+        for(const button of hud_manager.set_btn_locators){
             button._angle += 0.1;
         }
 
         for(let i = 1; i < this.mapPointList.length; i++){
             const point = this.mapPointList[i-1];
             drawLaneMarkings(point, this.mapPointList[i]);
-            
         }
     }
     

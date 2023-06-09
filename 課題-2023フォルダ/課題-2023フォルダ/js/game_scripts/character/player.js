@@ -12,7 +12,7 @@ class Player extends Object2D {
         // -- Current main quest indexed
         this.completedQuest = 0;
 
-        this._weapon = null;
+        this._weapon = this.inventory.net;
         this._bulletPrototypes = [];
         this._save = false;
 
@@ -29,16 +29,16 @@ class Player extends Object2D {
     saveToDisk(){
         const saveObj = {
             restaurant : {
-                level : this.restaurant.level,
-                income : this.restaurant.income,
-                crabStock :     this.restaurant.crabStock,
-                octStock :      this.restaurant.octStock,
-                squidStock :    this.restaurant.squidStock,
+                level       : this.restaurant.level,
+                income      : this.restaurant.income,
+                crabStock   : this.restaurant.crabStock,
+                octStock    : this.restaurant.octStock,
+                squidStock  : this.restaurant.squidStock,
             },
             inventory : {
-                netLv :       this.inventory.net.level,
-                harpoonLv :   this.inventory.harpoon.level,
-                bombLv :      this.inventory.bomb.level
+                netLv       : this.inventory.net.level,
+                harpoonLv   : this.inventory.harpoon.level,
+                bombLv      : this.inventory.bomb.level
             },
             quest: this.completedQuest,
 
@@ -56,11 +56,11 @@ class Player extends Object2D {
         const saveData = localStorage.getItem('kaninabePlayer');
         if(saveData === null) return;
         const saveObj =   JSON.parse(saveData);
-        this.restaurant.level = saveObj.restaurant.level;
-        this.restaurant.income = saveObj.restaurant.income;
-        this.restaurant.crabStock = saveObj.restaurant.crabStock;
-        this.restaurant.octStock = saveObj.restaurant.octStock;
-        this.restaurant.squidStock = saveObj.restaurant.squidStock;
+        this.restaurant.level       = saveObj.restaurant.level;
+        this.restaurant.income      = saveObj.restaurant.income;
+        this.restaurant.crabStock   = saveObj.restaurant.crabStock;
+        this.restaurant.octStock    = saveObj.restaurant.octStock;
+        this.restaurant.squidStock  = saveObj.restaurant.squidStock;
 
         this.inventory.net.level        = saveObj.inventory.netLv
         this.inventory.harpoon.level    = saveObj.inventory.harpoonLv
@@ -91,7 +91,14 @@ class Player extends Object2D {
     }
 
     assignWeapon(selectedWeapon){
+        if(this._weapon === selectedWeapon) return;
+        if(selectedWeapon.level === 0) {
+            hud_manager.setMessage("利用不可");
+            return;
+        }
         this._weapon = selectedWeapon;
+        hud_manager.setMessage("武器変更成功");
+        hud_manager.setHighlightWpButton(selectedWeapon.type);
     }
 
     update() {
@@ -487,9 +494,7 @@ class BombBullet extends Bullet {
     }
 }
 
-function clearSave(){
-    localStorage.clear();
-}
+
 
 
 
