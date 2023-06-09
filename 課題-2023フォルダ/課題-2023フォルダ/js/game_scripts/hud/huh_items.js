@@ -29,6 +29,14 @@ class Button {
         this._enable = true;
     }
 
+    enable(){
+        this._enable = true;
+    }
+
+    disable(){
+        this._enable = false;
+    }
+
     createEditor() {
         editorDragBars.forEach(function(bar) {
             bar.destructor();
@@ -122,7 +130,9 @@ class Button {
             icon_images.get(this.content).Draw(centerX, centerY, true, new Point(this._scale,this._scale),this._angle);
         } else {
             // fill button background
-            ctx.fillStyle = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
+            let color = `rgba(${this.red}, ${this.green}, ${this.blue}, ${this.opacity})`;
+            if(!this._enable) color = "gray";
+            ctx.fillStyle = color;
             ctx.fill();
             // Draw button text content
             ctx.font = this.fontSize + "px " + this.fontFamily;

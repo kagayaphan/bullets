@@ -73,8 +73,9 @@ function frameUpdate()
 // double click handler to quick select stage navigate
 canvas.addEventListener('dblclick', function(event) {
     if(stage_manager.current === stage_manager.home){
-        if(stage_manager.current.selectStage){
-            stage_manager.current.selectStage.stageNavHandler();
+        const selectedStage = stage_manager.current.selectStage;
+        if(selectedStage && selectedStage.enable){
+            selectedStage.stageNavHandler();
         }
     }
 });

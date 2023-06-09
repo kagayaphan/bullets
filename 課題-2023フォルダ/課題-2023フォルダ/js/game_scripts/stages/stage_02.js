@@ -9,6 +9,7 @@
 class Stage02 extends Stage {
     constructor() {
         super();
+        this.enable = false;
         this.stageNavHandler = gotoStage02;
         this.infoArray = stageDescription.stage02;
         this.background = GameImages.stage02_bg;

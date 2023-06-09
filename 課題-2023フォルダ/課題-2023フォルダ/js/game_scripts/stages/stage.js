@@ -13,6 +13,7 @@ class Stage {
         this.harvest_time = 0;
         this.mapScale = 1;
         this.stageNavHandler = null;
+        this.enable = true;
     }
 
     init(){

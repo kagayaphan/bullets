@@ -22,7 +22,7 @@ const home_buttons_data =
 	{"x":398,"y":156,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo02","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
 	{"x":558,"y":245,"width":80,"height":80,"content":"icon_mapLocator","fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":1,"clickHandler": "getStageInfo03","cornerRadius":0,"scale":1,"foregroundOri":"black","foregroundOver":"white"},
     {"x":851,"y":449,"width":80,"height":50,"content":"出発",           "fontFamily":"Roboto Light","fontSize":18,"red":28,"green":184,"blue":0,"opacity":0.78,"clickHandler":"navigateStage","cornerRadius":5,"foregroundOri":"black","foregroundOver":"white","scale":1},
-    {"x":15, "y":469,"width":18,"height":18,"content":"icon_toTitle",    "fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0,           "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
+    {"x":15, "y":469,"width":18,"height":18,"content":"icon_toTitle",   "fontFamily":"Roboto Light","fontSize":18,"red":1,"green":1,"blue":1,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":0,           "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 
 
 ]

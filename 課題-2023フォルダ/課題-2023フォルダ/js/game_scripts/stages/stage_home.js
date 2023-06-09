@@ -13,7 +13,8 @@ class StageHome extends Stage {
         this.selectStage = null;
         this.mapPointList = [];
         this.mapLocatorButtons = [];
-        this.maxEnableStage = 0;
+        this.maxEnableStage = 3;
+        this.startButton = null;
     }
 
     init(){
@@ -27,10 +28,20 @@ class StageHome extends Stage {
             if(button.content.includes("map")) {
                 // push locator button
                 this.mapLocatorButtons.push(button);
-                // push locator pointList map to draw
-                this.mapPointList.push(new Point(button.x,button.y));
+            }
+            if(button.content.includes("出発")){
+                this.startButton = button;
+                this.startButton.disable();
             }
             button._angle = randomNumber(0,360);
+        }
+
+        // draw road lane based on the map locator button position
+        // max enable stage never be larger mapLocatorButtons length
+        for(let i = 0 ; i < this.maxEnableStage; i++){
+            const button = this.mapLocatorButtons[i];
+            // push locator pointList map to draw
+            this.mapPointList.push(new Point(button.x,button.y));
         }
 
         
@@ -40,6 +51,7 @@ class StageHome extends Stage {
         
         super.deInit();
         this.selectStage = null;
+        this.startButton = null;
         this.mapPointList = [];
         this.mapLocatorButtons = [];
     }
@@ -47,6 +59,10 @@ class StageHome extends Stage {
     update(){
         player.restaurant.update();
 
+        if(this.selectStage) {
+            if(this.selectStage.enable) this.startButton.enable();
+            else this.startButton.disable();
+        }
     }
 
     draw(){
