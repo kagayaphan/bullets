@@ -176,11 +176,11 @@ hud_manager = {
 }
 
 
-hud_manager.title.createFlickerTxt("! ようこそ !",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
-hud_manager.home.createFlickerTxt("ダブルクリックしてステージを開始します",15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
+hud_manager.title.createFlickerTxt(localize.title_welcome,15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
+hud_manager.home.createFlickerTxt(localize.remind_home,15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
 
-let _LEFTCTRL = false;
-// Handle button click
+let _LEFT_CTRL = false;
+// dandle button click
 function handleClickOnButtons(event) {
     if(hud_manager.current){
         let clickOnBtn = false;
@@ -191,12 +191,13 @@ function handleClickOnButtons(event) {
     }    
 }
 
+// handle button double click when at home stage
 function handleHomeNavigatorDb(event){
     if(stage_manager.current === stage_manager.home){
         for(const button of hud_manager.set_btn_locators) {
-            if(!button.checkOver(event)) continue; // if not click on any button do nothing
+            if(!button.checkOver(event)) continue; // do nothing when mouse not over the button
             const selectedStage = stage_manager.current.selectStage;
-            if(selectedStage && selectedStage.enable){
+            if(selectedStage && selectedStage.enable && selectedStage.cd_timer <= 0){
                 selectedStage.stageNavHandler();
             }
         }
@@ -214,7 +215,7 @@ document.addEventListener('keydown', function(event) {
     if (event.key === 'Control' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
       console.log('Left Control key pressed');
       // Perform some action
-      _LEFTCTRL = true;
+      _LEFT_CTRL = true;
     }
 });
 

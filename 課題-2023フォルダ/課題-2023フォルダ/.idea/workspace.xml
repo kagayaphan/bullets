@@ -5,25 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20b162d5-1969-4f31-a04e-363f7107c06e" name="Changes" comment="Created Editor bar/ button">
+      <change afterPath="$PROJECT_DIR$/js/sound.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/challenge_01.html" beforeDir="false" afterPath="$PROJECT_DIR$/challenge_01.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/icon_bomb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/icon_harpoon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/icon_net.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/Asset Infos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/image/Asset Infos.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/HarpoonW.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/boat.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/bomb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/harpoon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/homepageDesign.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/icon_nabe.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/icon_sale.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/japan_map.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/net_head - Copy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/net_head.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/stage_03.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/weapon_net_with_robe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/world_map.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/app_entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/app_entry.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/character/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/character/inventory.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/character/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/character/player.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/character/restaurant.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/character/restaurant.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/game_scripts/character/squid.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/character/squid.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/game_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/game_data.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/game_handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/game_handler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/hud/hud.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/hud/hud.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/hud/huh_items.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/hud/huh_items.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/game_scripts/scene_title.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/scene_title.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_01.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_01.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_02.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_02.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_03.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_03.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_home.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/game_scripts/stages/stage_title.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/stages/stage_title.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game_scripts/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game_scripts/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/system.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/system.js" afterDir="false" />
     </list>
@@ -97,7 +110,9 @@
       <workItem from="1686101462390" duration="51807000" />
       <workItem from="1686187091544" duration="23864000" />
       <workItem from="1686245517568" duration="5932000" />
-      <workItem from="1686283330583" duration="44829000" />
+      <workItem from="1686283330583" duration="45121000" />
+      <workItem from="1686336778446" duration="41000" />
+      <workItem from="1686368085824" duration="33415000" />
     </task>
     <task id="LOCAL-00001" summary="Created Canvas">
       <created>1685474983511</created>

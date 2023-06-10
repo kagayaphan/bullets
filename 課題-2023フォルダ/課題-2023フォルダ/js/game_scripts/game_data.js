@@ -5,7 +5,9 @@ const title_buttons_data =
 [
 	{"x":700,"y":274,"width":120,"height":50,"content":"Start Game","fontFamily":"Roboto Light","fontSize":18,"red":255,"green":89,"blue":65,"opacity":0.5,"clickHandler":"gotoMainScene","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
 	{"x":700,"y":345,"width":120,"height":50,"content":"Play Intro","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":135,"blue":255,"opacity":0.9,"clickHandler":"playIntro","cornerRadius":15,"scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
-	{"x":700,"y":415,"width":120,"height":50,"content":"Credits","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"}
+	{"x":700,"y":415,"width":120,"height":50,"content":"Credits","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"gotoTitle","cornerRadius":15,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"},
+	{"x":845,"y":26,"width":48,"height":48,"content":"icon_sound","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"toggleSound","cornerRadius":0,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"},
+	{"x":900,"y":26,"width":48,"height":48,"content":"icon_bgm","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"toggleBgm","cornerRadius":0,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"},
 ]
 
 
@@ -16,7 +18,9 @@ const game_buttons_data =
     {"x":930,"y":25,"width":36,"height":36,"content":"icon_inventory",  "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"openInventory","cornerRadius":0,     "scale":1,"foregroundOver":"white","foregroundOri":"black","foreground":"black"},
     {"x":615,"y":22,"width":32,"height":32,"content":"icon_wp_net",        "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectNet","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5},
     {"x":660,"y":22,"width":32,"height":32,"content":"icon_wp_harpoon",    "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectHarpoon","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5},
-    {"x":705,"y":22,"width":32,"height":32,"content":"icon_wp_bomb",       "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectBomb","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5}
+    {"x":705,"y":22,"width":32,"height":32,"content":"icon_wp_bomb",       "fontFamily":"Roboto Light","fontSize":18,"red":0,"green":0,"blue":0,"opacity":0,"clickHandler":"selectBomb","cornerRadius":0,"foregroundOri":"black","foregroundOver":"white","scale":0.5},
+    {"x":66, "y":22,"width":28,"height":28,"content":"icon_sound","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"toggleSound","cornerRadius":0,"scale":0.6,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"},
+    {"x":98, "y":22,"width":28,"height":28,"content":"icon_bgm24","fontFamily":"Roboto Light","fontSize":18,"red":135,"green":255,"blue":255,"opacity":0.5,"clickHandler":"toggleBgm","cornerRadius":0,"scale":1,"foregroundOver":"purple","foregroundOri":"black","foreground":"black"},
 
 
 ]
@@ -51,7 +55,6 @@ const GameImages = {
     octopus     : new LoadImage(global.c2d, "image/octopus.png"),
     squid       : new LoadImage(global.c2d, "image/squid.png"),
     boat        : new LoadImage(global.c2d, "image/boat.png"),
-    // world_map   : new LoadImage(global.c2d, "image/world_map.png"),
     world_map   : new LoadImage(global.c2d, "image/japan_map.jpg"),
     title_bg    : new LoadImage(global.c2d, "image/title_bg.png"),
     stage01_bg  : new LoadImage(global.c2d, "image/stage_01.png"),
@@ -62,8 +65,8 @@ const GameImages = {
 
     // Player weapon
     player_net      : new LoadImage(global.c2d, "image/weapon_net.png"),
-    player_harpoon  : new LoadImage(global.c2d, "image/harpoon.png"),
-    player_bomb     : new LoadImage(global.c2d, "image/bomb.png"),
+    player_harpoon  : new LoadImage(global.c2d, "image/weapon_harpoon.png"),
+    player_bomb     : new LoadImage(global.c2d, "image/weapon_bomb.png"),
 
     // --- icon ---
     // restaurant icons
@@ -75,6 +78,9 @@ const GameImages = {
     icon_toTitle    : new LoadImage(global.c2d, "image/icon_toTitle.png"),
     icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
     icon_mapLocator : new LoadImage(global.c2d, "image/icon_mapLocator.png"),
+    icon_sound      : new LoadImage(global.c2d, "image/icon_sound.png"),
+    icon_bgm        : new LoadImage(global.c2d, "image/icon_bgm.png"),
+    icon_bgm24        : new LoadImage(global.c2d, "image/icon_bgm24.png"),
     // weapon
     icon_wp_net        : new LoadImage(global.c2d, "image/icon_wp_net.png"),
     icon_wp_harpoon    : new LoadImage(global.c2d, "image/icon_wp_harpoon.png"),
@@ -82,6 +88,24 @@ const GameImages = {
 }
 
 const restLevelUpChart = [0,3000,10000,15000,25000,12000,15000];
+
+let localize = null;
+
+const localize_jp = {
+    title_welcome : "! ようこそ !",
+    error_insufficient_funds : "残高不足",
+    remind_home : "ダブルクリックしてステージを開始します",
+    remind_unlock_weapon: "Upgrade Restaurant Required",
+    error_unlock_weapon : "レストランをアップグレードしてロックを解除する。",
+    error_max_upgrade : "最高レベルです。",
+    error_not_available : "利用不可",
+    success_upgrade : "アップグレードの成功",
+    success_weapon_changed : "武器変更成功",
+
+
+}
+
+localize = localize_jp;
 
 const stageDescription = {
     stageHome : [

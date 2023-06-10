@@ -1,0 +1,14 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open challenge_01.html",
+            "file": "c:\\Users\\2210187\\Documents\\GitHub\\bullets\\課題-2023フォルダ\\課題-2023フォルダ\\challenge_01.html"
+        }
+    ]
+}

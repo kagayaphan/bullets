@@ -163,9 +163,10 @@ class Button {
     handleClick(event) {
         if(!this._enable) return false; // verify button enable state
         if(!this.checkOver(event)) return false; // verify mouse over
-        if(_DEBUG && _LEFTCTRL) {this.createEditor(); return false} // if debug create editor & do nothing
+        if(_DEBUG && _LEFT_CTRL) {this.createEditor(); return false} // if debug create editor & do nothing
         this._scale = this.scale - this.scale * 0.1; // do some click effect
         game_button_handlers.get(this.clickHandler)(); // execute button handler
+        sound_manager.playSfx(sfx_sound.btn_nav);
         return true;
     }
 

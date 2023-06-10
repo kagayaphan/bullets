@@ -15,11 +15,14 @@ class Stage {
         this.mapScale = 1;
         this.stageNavHandler = null;
         this.enable = true;
+        this.bgm = "";
     }
 
-    init(){
-        this.createMonsters();
+    playBGM(){
+        sound_manager.playBgm(this.bgm);
     }
+
+    init(){}
 
     deInit(){
         if(waveAnimationID !== undefined){
@@ -85,10 +88,12 @@ class Stage {
             gotoHome();
         }
     }
+
     coolDown() {
         if(this.cd_timer > 0){
             this.cd_timer -= deltaTime;
         }
+
     }
 
     updateMonsters(){

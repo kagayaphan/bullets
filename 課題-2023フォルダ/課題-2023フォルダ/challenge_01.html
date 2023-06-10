@@ -29,7 +29,7 @@
 			<label for="toggleBox">Debug Mode:</label>
 			<input type="checkbox" id="toggleBox" onchange="toggleDebugMode()" />
 		<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
-		<button class="myButton hidden" onclick="exportObject()">Export Title's Buttons</button>
+		<button class="myButton hidden" onclick="exportObject()">Export Current Scene Buttons</button>
 		<button class="myButton hidden" onclick="clearSave()">Clear Saved Data</button>
 		<button class="myButton hidden" onclick="cheatMoney()">Cheat Money</button>
 			<div id="textBoxContainer" class="hidden">
@@ -56,6 +56,7 @@
 <script type="text/javascript" src="js/system.js"></script>
 <script type="text/javascript" src="js/game_scripts/math.js"></script>
 <script type="text/javascript" src="js/game_scripts/game_data.js"></script>
+<script type="text/javascript" src="js/sound.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/collider.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/object2D.js"></script>
 <script type="text/javascript" src="js/game_scripts/character/restaurant.js"></script>

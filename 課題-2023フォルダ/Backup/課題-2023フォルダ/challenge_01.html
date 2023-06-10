@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title></title>
+	<meta name="author" content="ファンタイフィ">
+	<meta name="パレット課題" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<!--[if lt IE 7]>
+		<p class="ie_fack">お使いのブラウザは<strong>古い</strong>ため、表示が崩れることがあります。
+		<a href="http://browsehappy.com/">他のブラウザ</a>を使うか、<a href="http://www.google.com/chromeframe/?redirect=true">Google Chrome Frame</a>をインストールすることで正しく表示することができます。</p>
+	<![endif]-->
+	<!-- page content -->
+	<div id="appScreen">
+		<canvas id="canvas" width="960" height="493"></canvas>
+		
+		
+	</div>
+	<div>
+			<label for="toggleBox">Debug Mode:</label>
+			<input type="checkbox" id="toggleBox" onchange="toggleDebugMode()" />
+		<!-- export object to json file to change the configuration manually there no way to interact with saved data directly through browser -->
+		<button class="myButton hidden" onclick="exportObject()">Export Title's Buttons</button>
+		<button class="myButton hidden" onclick="clearSave()">Clear Saved Data</button>
+		<button class="myButton hidden" onclick="cheatMoney()">Cheat Money</button>
+			<div id="textBoxContainer" class="hidden">
+				<label for="myTextBox">Hooking up value:</label>
+				<input type="text" id="myTextBox" oninput="updateDebugValue()" value="1" />
+			</div>
+
+			<p id="checkingValue"></p>
+
+			<div id="monsterList" class="hidden"></div>
+
+
+			<div id="mouseOut" class="hidden"></div>
+
+
+	</div>
+	
+</body>
+
+<!--Adding Script-->
+
+<script type="text/javascript" src="js/list.js"></script>
+<script type="text/javascript" src="js/tlib.js"></script>
+<script type="text/javascript" src="js/system.js"></script>
+<script type="text/javascript" src="js/game_scripts/math.js"></script>
+<script type="text/javascript" src="js/game_scripts/game_data.js"></script>
+<script type="text/javascript" src="js/sound.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/collider.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/object2D.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/restaurant.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/inventory.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/player.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/crab.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/octopus.js"></script>
+<script type="text/javascript" src="js/game_scripts/character/squid.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/quest.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage_title.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage_home.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage_01.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage_02.js"></script>
+<script type="text/javascript" src="js/game_scripts/stages/stage_03.js"></script>
+<script type="text/javascript" src="js/game_scripts/effects/particles.js"></script>
+<script type="text/javascript" src="js/game_scripts/effects/scene_effect.js"></script>
+<script type="text/javascript" src="js/game_scripts/scene_title.js"></script>
+<script type="text/javascript" src="js/game_scripts/scene_main.js"></script>
+<script type="text/javascript" src="js/game_scripts/utils.js"></script>
+<script type="text/javascript" src="js/game_scripts/hud/huh_items.js"></script>
+<script type="text/javascript" src="js/game_scripts/hud/hud.js"></script>
+<script type="text/javascript" src="js/game_scripts/game_handler.js"></script>
+<script type="text/javascript" src="js/game_scripts/app_entry.js"></script>
+
+</html>
+
