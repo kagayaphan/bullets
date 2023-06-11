@@ -44,19 +44,6 @@ const sound_manager = {
     bgmVolume : 0,
     sfxVolume : 1,
 
-    // playSfx : function(sfx) {
-    //     if(sfx === null) {
-    //         return;
-    //     }
-    //     // Check if the sound has loaded before playing
-    //     if (sfx.readyState >= 2) {
-    //         sfx.currentTime = 0; // SFX always needs to start over
-    //         sfx.volume = this.sfxVolume;
-    //         sfx.play();
-    //         sfx.loop = false;
-    //     }
-    // },
-
     playSfx: function(sfx) {
         if (sfx === null || !userFirstClick) {
             return;

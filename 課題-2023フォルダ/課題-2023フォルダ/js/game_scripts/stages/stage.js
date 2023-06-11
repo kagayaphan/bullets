@@ -21,6 +21,7 @@ class Stage {
     // play BGM
     playBGM(){
         sound_manager.playBgm(this.bgm);
+
     }
 
     initGameStage(){

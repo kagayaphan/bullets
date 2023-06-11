@@ -186,7 +186,10 @@ let  userFirstClick = false;
 
 // handle button click
 function handleClickOnButtons(event) {
-    userFirstClick = true;
+    if(userFirstClick === false){
+        userFirstClick = true;
+        toggleBgm();
+    }
     if(hud_manager.current){
         let clickOnBtn = false;
         hud_manager.current.buttons.forEach(function(button) {
