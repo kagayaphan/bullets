@@ -121,7 +121,7 @@ class Monster extends Object2D{
         // get next target vector
         nextTarget.Sub(this._pos);
         if(this.type === "squid"){
-            // this._angle = (nextTarget.Angle() * 180) / Math.PI;
+            // turning to the target direction
             let targetAngle = (nextTarget.Angle() * 180) / Math.PI;
 
             let angleDiff = targetAngle - this._angle;

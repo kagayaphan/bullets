@@ -1,19 +1,19 @@
 // Sound effect source paths
 const sfx_source = {
-    btn_nav: "sound/sfx/ui_btn_navigate.mp3",
-    btn_back: "sound/sfx/ui_btn_navigate.mp3",
-    btn_enter: "sound/sfx/ui_btn_navigate.mp3",
-    wp_net_init_shot: "sound/sfx/wp_net_init_shot.mp3",
-    wp_harpoon_init_shot: "sound/sfx/wp_harpoon_init_shot.mp3",
-    wp_bomb_init_shot: "sound/sfx/wp_bomb_init_shot.mp3",
-    wp_bomb_hit: "sound/sfx/wp_bomb_hit.mp3",
+    btn_nav             : "assets/sound/sfx/ui_btn_navigate.mp3",
+    // btn_back            : "assets/sound/sfx/ui_btn_over.mp3",
+    btn_over           : "assets/sound/sfx/ui_btn_over.mp3",
+    wp_net_init_shot    : "assets/sound/sfx/wp_net_init_shot.mp3",
+    wp_harpoon_init_shot: "assets/sound/sfx/wp_harpoon_init_shot.mp3",
+    wp_bomb_init_shot   : "assets/sound/sfx/wp_bomb_init_shot.mp3",
+    wp_bomb_hit         : "assets/sound/sfx/wp_bomb_hit.mp3",
 };
 
 // Initialize sound effects
 const sfx_sound = {
     btn_nav: null,
-    btn_back: null,
-    btn_enter: null,
+    // btn_back: null,
+    btn_over: null,
     wp_net_init_shot : null,
     wp_harpoon_init_shot : null,
     wp_bomb_init_shot : null,
@@ -21,11 +21,11 @@ const sfx_sound = {
 };
 
 const bgm_source = {
-    title           : "sound/bgm/Lonesome Cowboy by Jeremy Sherman.mp3",
-    home            : "sound/bgm/Fishing 1_2.mp3",
-    stage_01        : "sound/bgm/Gentle ocean waves birdsong and gull.mp3",
-    stage_02        : "sound/bgm/Ocean Sea Soft Waves.mp3",
-    stage_03        : "sound/bgm/Underwater Whale And Diving Sound Ambient.mp3",
+    title           : "assets/sound/bgm/Lonesome Cowboy by Jeremy Sherman.mp3",
+    home            : "assets/sound/bgm/Fishing 1_2.mp3",
+    stage_01        : "assets/sound/bgm/Gentle ocean waves birdsong and gull.mp3",
+    stage_02        : "assets/sound/bgm/Ocean Sea Soft Waves.mp3",
+    stage_03        : "assets/sound/bgm/Underwater Whale And Diving Sound Ambient.mp3",
 };
 
 const bgm_sound_data = {
@@ -58,7 +58,7 @@ const sound_manager = {
     // },
 
     playSfx: function(sfx) {
-        if (sfx === null) {
+        if (sfx === null || !userFirstClick) {
             return;
         }
 
@@ -83,6 +83,7 @@ const sound_manager = {
     },
 
     playBgm : function(bgm){
+        // if(!userInteract) return;
         const bgm_audio = bgm_sound.get(bgm);
         if (bgm_audio === null) {
             console.log("FAILED TO LOAD SOUND");
@@ -137,6 +138,8 @@ function fadeInBGM(currentBGM, duration) {
 
     currentBGM.volume = 0;
     currentBGM.currentTime = 0;
+    if(!userFirstClick) return;
+
     currentBGM.play();
 
     sound_manager.nextBGM = null;
@@ -208,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ["stage_03" , bgm_sound_data.stage_03   ] ,
     ]);
 });
+
 
 
 function toggleSound(){

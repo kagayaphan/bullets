@@ -11,7 +11,7 @@ class StageTitle extends Stage {
 
     init() {
         this.createMonsters();
-        this.playBGM();
+        super.init();
     }
 
     createMonsters (){

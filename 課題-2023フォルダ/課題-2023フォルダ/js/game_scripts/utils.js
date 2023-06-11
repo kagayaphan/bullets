@@ -144,9 +144,6 @@ function drawQuestInstruct(text, x, y, size, displayTime) {
     // Start with full transparency
     let opacity = 0;
 
-    // Save the current context state
-    global.c2d.save();
-
     // Start the animation loop
     const startTimestamp = Date.now();
     requestAnimationFrame(animate);
@@ -166,18 +163,19 @@ function drawQuestInstruct(text, x, y, size, displayTime) {
             opacity = 1 - (elapsed - fadeOutDelay) / fadeOutDuration;
         } else {
             // Animation complete, exit the function
-            global.c2d.restore();
+
             return;
         }
-
+        // Save the current context state
+        global.c2d.save();
         // Set the font and fill style for the text
         global.c2d.font = `${size}px "Roboto Light", sans-serif`;
-        global.c2d.fillStyle = `rgba(55, 55, 150, ${opacity})`;
+        global.c2d.fillStyle = `rgba(0, 0, 128, ${opacity})`;
         global.c2d.textAlign = 'center';
 
         // Draw the text at the specified position
         global.c2d.fillText(text, x, y);
-
+        global.c2d.restore();
         // Continue the animation loop
         requestAnimationFrame(animate);
     }

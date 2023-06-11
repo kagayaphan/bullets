@@ -76,6 +76,8 @@ function frameUpdate()
 }
 
 
+
+
 canvas.addEventListener('click', function(event) {
     if(stage_manager.current){
         if(stage_manager.current.harvest_time > 0 && !stage_manager.pause){
@@ -104,8 +106,4 @@ document.addEventListener('keydown', function(event) {
             }
         }
     }
-    if(event.key === 'm'){
-        toggleAllSound();
-    }
-
 });

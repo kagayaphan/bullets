@@ -32,6 +32,7 @@ class Button {
         this._scale = scale;
         this._angle = 1;
         this._enable = true;
+        this._entered = false;
     }
 
     enable(){
@@ -69,12 +70,17 @@ class Button {
             if(this.opacity < 1) this.opacity += 0.01;
             if(this._scale < this.scale + this.scale*0.15) this._scale += 0.01;
             this._foreground = this.foregroundOver;
+            if(!this._entered){
+                this._entered = true;
+                sound_manager.playSfx(sfx_sound.btn_over);
+            }
 
         } else {
             // if mouse leave
             if(this.opacity > this._opacityOri) this.opacity -= 0.01;
             if(this._scale > this.scale) this._scale -= 0.01;
             this._foreground = this.foregroundOri;
+            this._entered = false;
         }
     }
 
@@ -166,7 +172,7 @@ class Button {
         if(_DEBUG && _LEFT_CTRL) {this.createEditor(); return false} // if debug create editor & do nothing
         this._scale = this.scale - this.scale * 0.1; // do some click effect
         game_button_handlers.get(this.clickHandler)(); // execute button handler
-        sound_manager.playSfx(sfx_sound.btn_nav);
+        sound_manager.playSfx(sfx_sound.btn_nav); // play sound
         return true;
     }
 

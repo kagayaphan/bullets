@@ -180,8 +180,13 @@ hud_manager.title.createFlickerTxt(localize.title_welcome,15, Screen.centerW, gl
 hud_manager.home.createFlickerTxt(localize.remind_home,15, Screen.centerW, global.canvas.height - 15, "255, 255, 255", 9999, 1000);
 
 let _LEFT_CTRL = false;
-// dandle button click
+
+// check first interact of user on browser
+let  userFirstClick = false;
+
+// handle button click
 function handleClickOnButtons(event) {
+    userFirstClick = true;
     if(hud_manager.current){
         let clickOnBtn = false;
         hud_manager.current.buttons.forEach(function(button) {

@@ -49,42 +49,41 @@ const inventory_buttons_data =
 
 
 const GameImages = {
-    nabe        : new LoadImage(global.c2d, "image/nabe.png"),
-    nabefuta    : new LoadImage(global.c2d, "image/nabefuta.png"),
-    crab        : new LoadImage(global.c2d, "image/crab.png"),
-    octopus     : new LoadImage(global.c2d, "image/octopus.png"),
-    squid       : new LoadImage(global.c2d, "image/squid.png"),
-    boat        : new LoadImage(global.c2d, "image/boat.png"),
-    world_map   : new LoadImage(global.c2d, "image/japan_map.jpg"),
-    title_bg    : new LoadImage(global.c2d, "image/title_bg.png"),
-    stage01_bg  : new LoadImage(global.c2d, "image/stage_01.png"),
-    stage02_bg  : new LoadImage(global.c2d, "image/stage_02.png"),
-    stage03_bg  : new LoadImage(global.c2d, "image/stage_03.png"),
-    title_logo  : new LoadImage(global.c2d, "image/title_logo.png"),
-    restaurant   : new LoadImage(global.c2d, "image/restaurant.png"),
+    nabe        : new LoadImage(global.c2d, "assets/image/nabe.png"),
+    nabefuta    : new LoadImage(global.c2d, "assets/image/nabefuta.png"),
+    crab        : new LoadImage(global.c2d, "assets/image/crab.png"),
+    octopus     : new LoadImage(global.c2d, "assets/image/octopus.png"),
+    squid       : new LoadImage(global.c2d, "assets/image/squid.png"),
+    boat        : new LoadImage(global.c2d, "assets/image/boat.png"),
+    world_map   : new LoadImage(global.c2d, "assets/image/japan_map.jpg"),
+    title_bg    : new LoadImage(global.c2d, "assets/image/title_bg.png"),
+    stage01_bg  : new LoadImage(global.c2d, "assets/image/stage_01.png"),
+    stage02_bg  : new LoadImage(global.c2d, "assets/image/stage_02.png"),
+    stage03_bg  : new LoadImage(global.c2d, "assets/image/stage_03.png"),
+    title_logo  : new LoadImage(global.c2d, "assets/image/title_logo.png"),
+    restaurant   : new LoadImage(global.c2d, "assets/image/restaurant.png"),
 
     // Player weapon
-    player_net      : new LoadImage(global.c2d, "image/weapon_net.png"),
-    player_harpoon  : new LoadImage(global.c2d, "image/weapon_harpoon.png"),
-    player_bomb     : new LoadImage(global.c2d, "image/weapon_bomb.png"),
-
-    // --- icon ---
-    // restaurant icons
-    icon_nabe       : new LoadImage(global.c2d, "image/icon_nabe.png"),
-    icon_crab       : new LoadImage(global.c2d, "image/icon_crab.png"),
-    icon_octopus    : new LoadImage(global.c2d, "image/icon_octopus.png"),
-    icon_squid      : new LoadImage(global.c2d, "image/icon_squid.png"),
-    // button
-    icon_toTitle    : new LoadImage(global.c2d, "image/icon_toTitle.png"),
-    icon_inventory  : new LoadImage(global.c2d, "image/icon_inventory.png"),
-    icon_mapLocator : new LoadImage(global.c2d, "image/icon_mapLocator.png"),
-    icon_sound      : new LoadImage(global.c2d, "image/icon_sound.png"),
-    icon_bgm        : new LoadImage(global.c2d, "image/icon_bgm.png"),
-    icon_bgm24        : new LoadImage(global.c2d, "image/icon_bgm24.png"),
+    player_net      : new LoadImage(global.c2d, "assets/image/weapon_net.png"),
+    player_harpoon  : new LoadImage(global.c2d, "assets/image/weapon_harpoon.png"),
+    player_bomb     : new LoadImage(global.c2d, "assets/image/weapon_bomb.png"),
+    // --- icon ---/
+    // restaurant icons/
+    icon_nabe       : new LoadImage(global.c2d, "assets/image/icon_nabe.png"),
+    icon_crab       : new LoadImage(global.c2d, "assets/image/icon_crab.png"),
+    icon_octopus    : new LoadImage(global.c2d, "assets/image/icon_octopus.png"),
+    icon_squid      : new LoadImage(global.c2d, "assets/image/icon_squid.png"),
+    // buttons/
+    icon_toTitle    : new LoadImage(global.c2d, "assets/image/icon_toTitle.png"),
+    icon_inventory  : new LoadImage(global.c2d, "assets/image/icon_inventory.png"),
+    icon_mapLocator : new LoadImage(global.c2d, "assets/image/icon_mapLocator.png"),
+    icon_sound      : new LoadImage(global.c2d, "assets/image/icon_sound.png"),
+    icon_bgm        : new LoadImage(global.c2d, "assets/image/icon_bgm.png"),
+    icon_bgm24        : new LoadImage(global.c2d, "assets/image/icon_bgm24.png"),
     // weapon
-    icon_wp_net        : new LoadImage(global.c2d, "image/icon_wp_net.png"),
-    icon_wp_harpoon    : new LoadImage(global.c2d, "image/icon_wp_harpoon.png"),
-    icon_wp_bomb       : new LoadImage(global.c2d, "image/icon_wp_bomb.png"),
+    icon_wp_net        : new LoadImage(global.c2d, "assets/image/icon_wp_net.png"),
+    icon_wp_harpoon    : new LoadImage(global.c2d, "assets/image/icon_wp_harpoon.png"),
+    icon_wp_bomb       : new LoadImage(global.c2d, "assets/image/icon_wp_bomb.png"),
 }
 
 const restLevelUpChart = [0,3000,10000,15000,25000,12000,15000];
@@ -101,6 +100,9 @@ const localize_jp = {
     error_not_available : "利用不可",
     success_upgrade : "アップグレードの成功",
     success_weapon_changed : "武器変更成功",
+    quest_desc_01 : "釣りの時間内にカニを25匹捕まえる",
+    quest_desc_02 : "釣りの時間にタコを20匹捕まえる",
+    quest_desc_03 : "釣り時間内にイカを100匹釣る",
 
 
 }

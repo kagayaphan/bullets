@@ -4,25 +4,42 @@
 
 class Stage {
     constructor() {
-        this._monsterList = [];
-        this._infoArray = [];
-        this.background = null;
-        this.wave = null;
-        this.effect_timer = 0;
-        this.stage_timer = 0;
-        this.cd_timer = 0;
-        this.harvest_time = 0;
-        this.mapScale = 1;
-        this.stageNavHandler = null;
-        this.enable = true;
+        this._monsterList = []; // current spawned monsters
+        this._infoArray = []; // home's display information
+        this.background = null; // stage main background
+        this.wave = null; // wave information to draw
+        this.effect_timer = 0; // under some special effect that will pause the stage
+        this.stage_timer = 0; // stage running timer
+        this.cd_timer = 0; // stage cool down timer
+        this.harvest_time = 0; // stage limit time after this time turn into cool down
+        this.mapScale = 1; // override object scale
+        this.stageNavHandler = null; // move to function pointer
+        this.enable = true; // unlock state
         this.bgm = "";
     }
 
+    // play BGM
     playBGM(){
         sound_manager.playBgm(this.bgm);
     }
 
-    init(){}
+    initGameStage(){
+        this.stage_timer = 0;
+        // change to game menu
+        hud_manager.changeMenu(hud_manager.game);
+        // display wave animation
+        makeWaveEffect(stage_manager.current.wave);
+        // set all params to default value
+        player.resetState();
+        // check quest and display info
+        if(g_MainQuest[player.completedQuest]._handleStage === this){
+            drawQuestInstruct(g_MainQuest[player.completedQuest]._info, Screen.centerW, Screen.centerH, 30, 5000);
+        }
+    }
+
+    init(){
+        this.playBGM();
+    }
 
     deInit(){
         if(waveAnimationID !== undefined){
@@ -37,6 +54,10 @@ class Stage {
     drawInfo(){
         drawBlackBoard(740,50,200,220,this._infoArray);
         const s = Math.round(this.cd_timer);
+        if(!this.enable){
+
+        }
+
         if(this.cd_timer > 0) drawText("後 "+s+" 秒",851, 400,20);
     }
 

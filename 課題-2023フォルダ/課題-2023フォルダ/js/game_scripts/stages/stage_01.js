@@ -52,14 +52,8 @@ class Stage01 extends Stage {
     }
 
     init(){
-        this.playBGM();
-        this.stage_timer = 0;
-        // change to game menu
-        hud_manager.changeMenu(hud_manager.game);
-        // display wave animation
-        makeWaveEffect(stage_manager.current.wave);
-        // set all params to default value
-        player.resetState();
+        super.initGameStage();
+        super.init();
     }
 
     spawnOctopus(){

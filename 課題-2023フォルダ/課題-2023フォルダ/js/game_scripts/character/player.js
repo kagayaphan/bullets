@@ -22,7 +22,7 @@ class Player extends Object2D {
 
     saveState(){
         this._save = true;
-        console.log("ACTIVE SAVE");
+        // console.log("ACTIVE SAVE");
 
     }
 
@@ -41,6 +41,7 @@ class Player extends Object2D {
                 bombLv      : this.inventory.bomb.level
             },
             quest: this.completedQuest,
+            // TODO save stage cool down to prevent cheat
 
         }
 
@@ -48,7 +49,7 @@ class Player extends Object2D {
 
         this._save = false;
 
-        console.log("SAVED TO DISK");
+        // console.log("SAVED TO DISK");
     }
 
     loadFromDisk(){
@@ -71,6 +72,8 @@ class Player extends Object2D {
         this.inventory.net.loadFromSave();
         this.inventory.harpoon.loadFromSave();
         this.inventory.bomb.loadFromSave();
+
+        // TODO load stage cool down to prevent cheat
 
     }
 
@@ -366,7 +369,7 @@ class HarpoonBullet extends Bullet {
     constructor(sprite, scale, speed, range) {
         super(sprite, scale, speed, range);
         this.type = "harpoon";
-        this._ropeColor = "rgb(255,50,50)";
+        this._ropeColor = "rgb(204, 85, 0)";
         this._sfx_init = sfx_sound.wp_harpoon_init_shot;
     }
 
@@ -413,7 +416,7 @@ class HarpoonBullet extends Bullet {
         super.draw();
         this._movingVec.Neg()
         this._movingVec.Add(this._pos);
-        drawLine(this._initPos, this._movingVec, 2, this._ropeColor);
+        drawLine(this._initPos, this._movingVec, 1, this._ropeColor);
 
         if(_DEBUG) {
             if(this._collider) this._collider.draw();
@@ -465,6 +468,7 @@ class BombBullet extends Bullet {
         const directionY = Math.sin(angle + angleChange);
         this._pos.x += directionX * this._speed;
         this._pos.y += directionY * this._speed;
+
 
         // always update collider pos;
         this._collider._pos = this._pos;

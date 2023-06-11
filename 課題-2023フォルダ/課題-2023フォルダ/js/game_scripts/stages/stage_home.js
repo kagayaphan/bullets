@@ -17,7 +17,6 @@ class StageHome extends Stage {
     }
 
     init(){
-        this.playBGM();
         hud_manager.changeMenu(hud_manager.home);
         this.maxEnableStage = player.completedQuest + 1;
         // parse home use hud data into separate container to manage easier
@@ -39,7 +38,7 @@ class StageHome extends Stage {
             // push locator pointList map to draw
             this.mapPointList.push(new Point(button.x,button.y));
         }
-
+        super.init();
     }
 
     deInit() {
